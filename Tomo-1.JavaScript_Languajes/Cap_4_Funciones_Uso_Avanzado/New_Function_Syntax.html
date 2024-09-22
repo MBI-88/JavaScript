@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva sinctaxis de funciones</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Nueva sintaxis de funciones')
+       // let func = new Function([arg1,arg2,...argN],functionBody)
+       let sum = new Function('a','b','return a + b')
+       alert(sum(1,2))//3
+       let sayHi = new Function('alert("Hello")')
+       sayHi()// Hello
+       // Reciviendo una funcion como parametro
+       let str = prompt('Give e funcion: ')
+       let func = new Function(str)
+       func()
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Clourse en funciones')
+        // la creacion de new Function() en una funcion solo tiene acceso a 
+        // las variables globales
+        function getFunc(){
+            let value = 'test'
+            let func = new Function('alert(value)')
+            return func
+        }
+        getFunc()()// error: value is not defined
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Estableciendo intervalos y tiempos')
+        // setTimeout
+        //let timerId = setTimeout(func|code,[delay],[arg1],[arg2],...)
+        
+        //func|code: funcion o string codigo para ejecutar. Usualmente es una funcion.
+        //un string de codigo puede ser pasado (no es recomendado).
+
+        //delay: Demora antes de correr la funcion en milisegundos (defualt 1000 ms = 1 se).
+        
+        //arg1,arg2: Argumentos para la funcion.
+        
+       function sayHi(phrase,who){
+           alert(phrase + ',' + who)
+       }
+       setTimeout(sayHi,1000,'Hello','John')// Hello, John
+       setTimeout("alert('Hello Maikel')",1000)
+       // uso recomedado***
+       setTimeout((valor) => alert(valor),1000,'Hello recomendado')
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Cancelando la llamada setTimeout')
+        let timerId = setTimeout(()=>alert('never  happens'),1000)
+        alert(timerId)
+        clearTimeout(timerId)
+        alert(timerId)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('SetInterval')
+        //let timerId = setInterval(func|code,[delay],[arg1],[arg2])
+        // los argumentos tienen el mismo significado que setTimeout
+        let timerId = setInterval(() => alert('tick'),2000)
+        setTimeout(()=>{clearInterval(timerId); alert('stop')},5000)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Recurcion en setTimeout')
+        let timerId = setTimeout(function tick(){
+            alert('tick')
+            timerId  = setTimeout(tick,2000)
+        },2000)
+        // la recurcion tiene siempre la misma demora para cada llamada
+        // esto no ocurre con setInterval porque se cuenta el tiempo de ejecucion
+        // de la funcion
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Zero demora en setTimeout')
+        //setTimeout(() => alert('Wold'))
+       // alert('Hello')
+       // la llamada tiene que esperar a la ejecucion del codigo actual
+        let start = Date.now()
+        let times = []
+        setTimeout(function run(){
+            times.push(Date.now() - start)
+            if (start + 100 < Date.now()) alert(times)
+            else setTimeout(run)
+        })
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 1')
+        // funciona igual con setInterval (mejor que el resultado del libro)
+        let from = +prompt('from: ')
+        let to = +prompt('to: ')
+        let timer = setTimeout(function printNumber(){
+            if (from <= to){
+                alert(from)
+                from += 1
+                timer = setTimeout(printNumber)
+            }
+            else clearTimeout(timer)
+        },1000,from,to)
+        */
+
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 1 continuacion')
+        // Rescribinedo el codigo con setInterval
+        function printNumber(from,to){
+            let current = from
+            function go(){
+                alert(current)
+                if (current == to) clearInterval(timer)
+                current++
+            }
+            go()
+            let timer = setInterval(go,1000)
+        }
+        printNumber(5,10)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 2')
+        let i = 0
+        let start = Date.now()
+        let timerId = setInterval(count)
+        function count(){
+            for (let j=0;j< 1000000;j++){
+                i++
+            }
+            if (i == 1000000000){
+                alert('Done in ' + (Date.now() - start)+ 'ms')
+                clearInterval(timerId)
+            }
+            
+        }
+        count() // se usa para acelerar el timepo de ejecucion
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Ejercicio 3')
+        let i = 0
+        setTimeout(() => alert(i),100)// 100000000
+        for(let j=0;j< 100000000;j++){
+            i++
+        }
+    </script>
+</body>
+</html>

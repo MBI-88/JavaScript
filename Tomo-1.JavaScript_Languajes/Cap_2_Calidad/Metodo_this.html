@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uso del metodos en objetos</title>
+</head>
+<body>
+<script>
+    /*
+    alert('Uso de metodos');
+    let user = {
+        name: 'John',
+        age: 30
+    };
+    user.sayHi = function(){
+        alert('Helllo!');
+    };
+    user.sayHi(); // Hello! */
+</script>
+<script>
+    /*
+    alert('Variante de declaracion');
+    let user =  {
+        sayHi: function(){
+            alert('Hello!');
+        },
+      name: 'John',
+      age: 30
+    };
+    user.sayHi(); */
+</script>
+<script>
+    /*
+    alert('Otra variante de declaracion mejor');
+    let user = {
+        sayHi(){
+            alert('Hello!');
+        },
+        name: 'John',
+        age: 30
+    };
+    user.sayHi(); */
+</script>
+<script>
+    /*
+    alert('Usod del metodo this');
+    let user = {
+        name: 'John',
+        age: 30,
+        sayHi(){
+            alert(`Hello ${this.name}`);
+        }
+    };
+    user.sayHi(); */
+</script>
+<script>
+    /*
+    alert('Usando el nomnbre el objeto en lugar de this (hace lo mismo)');
+    let user = {
+        name: 'John',
+        age: 30,
+        sayHi(){
+            alert(`Hello ${user.name}`);
+        }
+    };
+    user.sayHi();
+    alert('Error que ocurre cuando des usa el nombre de objeto en lugar de this');
+    let admin = user;
+    user = null;
+    admin.sayHi();// Salida vacia por perderse la referencia. */
+</script>
+<script>
+    /*
+    alert('Usando this en funciones');
+    // La palabra clave this hace referencia a un objeto, si no exite devuelve undefined
+    let user = {name: 'John'};
+    let admin = {name: 'Admin'};
+
+    function sayHi(){alert(this.name);}
+    user.f = sayHi;
+    admin.f = sayHi;
+    user.f();// John (this == usr)
+    admin.f(); // Admin (this == admin)
+
+    admin['f'](); // Variante para llamar al metodo. */
+</script>
+<script>
+    /*
+    alert('Uso de la funcion flecha');
+    let user = {
+        firstname: 'Ilya',
+        sayHi(){
+            let arrow = () => alert(this.firstname);
+            arrow();
+        }
+    };
+    user.sayHi(); */
+</script>
+<script>
+    /*
+    alert('Ejercicio 1');
+    // Resultado de salida del codigo.
+    let user = {
+        name: 'Pete',
+        go : function() {alert(this.name)}
+    }
+    (user.go)();// undefined, se pierde la informacion para this. */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 2');
+    let obj,method;
+    obj = {
+        go: function(){
+            alert(this);
+        }
+    };
+    obj.go(); // [object Object]
+    (obj.go)(); // [object Object]
+    (method = obj.go)(); // undefined
+    (obj.go || obj.stop)(); // undefined */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 3');
+    function makeUser(){
+        return {
+            name: 'John',
+            ref: this
+        };
+    };
+    let user = makeUser();
+    alert(user.ref);// Salida  vacia porque this hace referencia a la funcion no la objeto creado
+    */
+</script>
+<script>
+    /*
+    alert('Ejercico 4');
+    let calculador = {
+        operando1: 0,
+        operando2: 0,
+        read(){
+            this.operando1 = parseInt(prompt('Give me a value:',''));
+            this.operando2 = parseInt(prompt('Give me e second value:',''));
+        },
+        sum(){
+            suma =  this.operando1 + this.operando2;
+            return suma;
+        },
+        mul(){
+            mul = this.operando1 * this.operando2;
+            return mul
+        }
+    };
+    calculador.read();
+    alert(calculador.sum());
+    alert(calculador.mul());*/
+</script>
+<script>
+    'use strict';
+    alert('Ejercicio 5');
+    let ladder = {
+        step : 0,
+        up(){
+            this.step++;
+            return this
+            },
+        down(){
+            this.step--;
+            return this;
+            },
+
+        showStep: function(){
+            alert(this.step)
+        }
+    };
+    ladder.up().up().down().showStep();
+</script>
+</body>
+</html>

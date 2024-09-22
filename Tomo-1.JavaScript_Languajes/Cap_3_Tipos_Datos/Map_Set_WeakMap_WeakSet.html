@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Uso de metodos Map,Set,WeakMap y WeakSet</title>
+    </head>
+    <body>
+        <script>
+            /*
+            'use strict';
+            alert('Uso de Map');
+            let map = new Map();
+            map.set('1','str1');
+            map.set(1,'num1');
+            map.set(true,'bool1');
+            alert(map.get(1)); // str1
+            alert(map.get('1')); // num1
+            alert(map.size); // 3
+            /*
+            Metosdos principale:
+            new Map(): crea un map
+            map.set(key,value): almacena el valor por la clave
+            map.get(key): retorna el valor por la clave, indefinido si no existe
+            map.has(key): retorna true si la clave existe,falso de lo  contrario
+            map.delete(key): remueve el valor por la clave
+            map.clear(): limpia el map
+            map.size: retorna la cantidad de elementos actuales
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Remplazando Map por un objeto');
+            let john = {name:'John'};
+            let visitsCountObj = {};
+            visitsCountObj[john] = 123;
+            alert(visitsCountObj["[object Object]"]); // 123
+            // Antes de la creacion de Map se solia hacer esto
+            alert('Antes de Map');
+            let mary = {name:'Mary',id:1};
+            let visit = {};
+            visit[mary.id] = 120;
+            alert(visit[mary.id]);//120
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Map para objetos y arrays');
+            // Para array
+            let mapArray = new Map([
+                    ['1','str1'],
+                    [1,  'num1'],
+                    [true,'bool1']
+                 ]);
+            // para objetos
+            let mapObjet = new Map(
+                Object.entries({
+                    name:'John',
+                    age:30
+                }));
+                */        
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Uso de iteracion sobre mapas');
+            /*
+            map.keys(): retorna un iterador para claves
+            map.values(): retorna un iterador para valores
+            map.entries(): retorna un iterador para entradas [key, value], es usado pro default en for..of
+            */
+           /*
+           let recipeMap = new Map([
+               ['cucumber',500],
+               ['tomatoes',350],
+               ['onion',50]
+           ]);
+           for (let vegetable of recipeMap.keys()){
+               alert(vegetable);
+           };
+           for (let amount of recipeMap.values())alert(amount);
+           // iterar sobre [key, value] 
+           for (let entry of recipeMap)alert(entry);
+           // uso de forEach
+           recipeMap.forEach((value,key,map)=>{ // map devuelve la propiedad de objeto map
+               alert(`${key}: ${value}`);
+           }) 
+           */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Uso de Set');
+            /*
+            Metodos principales:
+            new Set(iterable) – creates the set, and if an iterable object is provided (usually an array), copies values from it into the 
+            set. set.add(value) – adds a value, returns the set itself. 
+            set.delete(value) – removes the value, returns true if value existed at the moment of the call, otherwise false . 
+            set.has(value) – returns true if the value exists in the set, otherwise false . 
+            set.clear() – removes everything from the set. 
+            set.size – is the elements count.
+            */
+           /*
+            let set = new Set();
+            let john = {name:'John'};
+            let pete = {name:'Pete'};
+            let mary = {name:'Mary'};
+
+            set.add(john);
+            set.add(pete);
+            set.add(mary);
+
+            alert(set.size);
+            for (let user of set){
+                alert(user.name );
+            }
+            alert('Iteracion sobre Set');
+            let sets = new Set(['orange','apples','bananas']);
+            // Uso de for..of
+            for (let value of sets) alert(value)
+            // Uso de forEach
+            sets.forEach((value,valueAgain,set)=>{
+                alert(value);
+            });
+            /*
+            Metodos secundarios:
+            set.keys() – returns an iterable object for values,
+            set.values() – same as set.keys , for compatibility with Map , 
+            set.entries() – returns an iterable object for entries [value, value] , exists for
+            compatibility with Map .
+            */
+            
+        </script>
+        <script>
+            /*
+            'use strict';
+            // WeakMap y WeakSet no soportan iteracion
+            alert('Uso de WeakMap y WeakSet');
+            let john = {name:'John'};
+            let map = new Map();
+            map.set(john,'...')
+            john = null;
+            // john sigue estando en memoria dentro de map
+            for (let valor of map.keys()) alert(valor.name)
+            alert('WeakMap');
+            let pete = {name:'Pete'};
+            let weakMap = new WeakMap();
+            weakMap.set(pete,'...');
+            pete = null;
+            // pete fue removido de la memoria.
+            alert(weakMap.get(pete));// undefined
+            /*
+            Metodos soportados por weakMap:
+            weakMap.get(key) 
+            weakMap.set(key, value) 
+            weakMap.delete(key) 
+            weakMap.has(key)
+            */
+           /*
+            // Ejemplo de uso practico de Map()
+            let mary = {name:'Mary'};
+            let visitsCountMap = new Map();
+            visitsCountMap.set(mary,123);
+            mary = null;
+            
+            // El objeto sigue en Map()
+            alert(visitsCountMap.size);// 1
+            // Ejemplo de uso practico de WeakMap()
+            let pablo = {name:'Pablo'};
+            let visitsCountWeakMap = new WeakMap();
+            visitsCountWeakMap.set(pablo,123);
+            pablo = null;
+            // El objeto fue eliminado de WeakMap()
+            alert(visitsCountWeakMap.size);// undefined
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('WeakSet');
+            /*
+            Metodos soportados por WeakSet;
+            weakSet.add()
+            weakSet.has()
+            weakSet.delete()
+            */
+           /*
+            let message = [
+                {text:'Hello',from:'John'},
+                {text:'How goes?',from:'John'},
+                {text:'See you soon',from:'Alice'}
+            ];
+            // Llenando el weakSet()
+            let unreadSet = new WeakSet(message);
+            // Validando mensajes no leidos
+            alert(unreadSet.has(message[1])); // true
+            // Removerlo del set despuedes de leerlo
+            alert(unreadSet.delete(message[1]));// true
+            // Despues del uso de shift() el set es limpiado automaticamente
+            message.shift();
+            alert(unreadSet.has(message[1]));//true. No se sabe en que momento JavaScript lo limpiara.
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 1');
+
+            function unique(arr){
+                return Array.from(new Set(arr));
+            }
+            let value = ['Hare','Krishna','Hare','Krishna','Krishna','Krishna','Hare','Hare',':-o']
+
+            alert(unique(value)); */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 2');
+            let arr = ['nap','teachers','cheaters','PAN','ear','era','hectares']
+
+            function aclean(arr){
+                let map = new Map();
+                for (let word of arr){
+                    let sorted = word.toLowerCase().split('').sort().join('');
+                    map.set(sorted,word);
+                }
+                
+                return Array.from(map.values());
+            };
+            alert(aclean(arr))
+            // Variante con objec
+            function aClean(arr){
+                let object = {};
+                for (let word of arr){
+                    let sorted  = word.toLowerCase().split('').sort().join('');
+                    object[sorted] = word;
+                }
+                return Object.values(object)
+            };
+            alert(aClean(arr)); */
+
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 3');
+            let map = new Map();
+            map.set('name','John');
+            let keys = Array.from(map.keys())
+            keys.push('more');
+            alert(keys);
+            */
+
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 4');
+            let messages = [
+                {text:'Hello',from:'John'},
+                {text:'How goes?',from:'John'},
+                {text:'See you soon',from:'Alice'}
+            ];
+            // Usar WeakSet()
+            let readMessages = new WeakSet();
+            readMessages.add(messages[0]);
+            readMessages.add(messages[1]);
+            readMessages.add(messages[0]);
+
+            alert('Read message 0: '+ readMessages.has(messages[0]));
+            messages.shift();
+            */
+
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 5');
+            // Usar weakMap();
+            let messages = [
+                {text:'Hello',from:'John'},
+                {text:'How goes?',from:'John'},
+                {text:'See you soon',from:'Alice'}
+            ];
+            let messagesSored = new WeakMap();
+            messagesSored.set(messages[0],new Date('1/01/21 10:05:10'));
+            messagesSored.set(messages[1],new Date('7/22/21 12:10:05'));
+            messagesSored.set(messages[2],new Date('9/10/21 14:15:25'));
+            // Una vez que se elimine un mensaje se elimina del WeakSet()
+            alert('Read message: '+ messagesSored.get(messages[0]));
+            messages.shift();
+            alert('Read message: '+ messagesSored.get(messages[0]));
+            */
+        </script>
+
+
+    </body>
+</html>

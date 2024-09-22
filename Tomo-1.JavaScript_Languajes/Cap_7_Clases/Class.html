@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases sintaxis basica</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo de uso de clases')
+        /*
+        Sintaxis
+        class MyClass{
+            constructor(){}
+            method1(){}
+            method2(){}
+            method3(){}
+        }
+        Caracteristicas de las Clases:
+        -> La fucion creada por class es etiquetada por una propiedad especial [[FunctionKind]]:"classConstructor"
+        -> Los metodos de clases no son enumerables. La definicion de clases pone enumerable=False
+        -> Las clases siempre usan el modo estircto. Todo codigo dentro de una clase esta en modo esticto.
+        */
+        /*
+        class User{
+            constructor(name){
+                this.name = name;
+            }
+            sayHi(){ alert(this.name);}
+        }
+        let user = new User('John')
+        user.sayHi()
+        alert(typeof(User)) // function
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Expresion de Clases')
+        let User = class{
+            sayHi(){alert('Hello')}
+        }  
+        new User().sayHi()
+        let user = class MyClass{
+            sayHi(){alert('Hello');}
+        }
+
+        new user().sayHi()
+
+        function makeClass(phrase){
+            return class{
+                sayHi(){alert(phrase)}
+            }
+        }
+
+        let usr = makeClass('Hello!')
+        new usr().sayHi()
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Getters/Setters')
+
+        class User{
+            constructor(name){
+                this.name = name
+            }
+            get name(){return this._name}
+            set name(value){
+                if (value.length  < 4){
+                    alert('Name is too short')
+                    return 
+                }
+                this._name = value
+            }
+        }
+        let user = new User('John')
+        alert(user.name)
+        user = new User('')
+
+        // Uso en el prototipo de objeto
+        Object.defineProperties(User.prototype,{
+            name:{
+                get(){return this._name},
+                set(name){}
+            }
+        })
+        
+        // Propiedades computadas
+        function f(){return 'sayHi'}
+
+        class Usr{
+            [f()](){alert('Hello')}
+        }
+        new Usr().sayHi()
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Ejercicio 1')
+        class Clock{
+            constructor({template}){
+                this.template = template
+            }
+            render(){
+                let date = new Date();
+                let hours = date.getHours()
+                if (hours < 10) hours = '0' + hours
+
+                let mins = date.getMinutes()
+                if (mins < 10)  mins = '0' + mins
+
+                let secs = date.getSeconds()
+                if (secs < 10) secs = '0' + secs
+
+                let output = this.template.replace('h',hours).replace('m',mins).replace('s',secs)
+                
+                console.log(output)
+            }
+
+            stop(){
+                clearInterval(this.timer)
+            }
+            start(){
+                this.render()
+                this.timer = setInterval(() => this.render(),1000)
+            }
+        }
+        let clock = new Clock({template:'h:m:s'})
+        clock.start()
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captura de errores</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Tray...catch')
+        // Tray/catch funciona sicronamente, un error en un hilo de ejecucion no sera capturado
+        try{
+            setTimeout(function(){
+                noSuchVariable
+            },1000)
+
+        } catch (e) {alert('won\'t work')}
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Tray...catch')
+
+        setTimeout(function(){
+            try{
+                noSuchVariable
+            }catch {alert('error is caught here!')}
+        },1000)
+        /*
+        Argumentos de catch:
+        -> name : propiedad que describe el nombre del error, default 'ReferenceError'
+        -> message : Mensaje que describe el error
+        -> stack : Actual llamada  a la pila, string con informaicon sobre la sequencia  de llamada
+        comprobadas que ayudan a entender el error.
+        */
+       /*
+        //Ejemplo de uso
+        try{
+            lalala
+        }catch(err){
+            alert(err.name) // ReferenceError
+            alert(err.message) // lalala is not defined
+            alert(err.stack) // ReferenceError: lalala is not defined at ...
+            alert(err) // Toda la salida 
+        }
+        */
+
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Uso de tray/catch en la practica')
+        let json = '{bad json}'
+        try{
+            let user = JSON.parse(json)
+            alert(user.name)
+        }catch(e){
+            alert(e.name)
+            alert('Our apologies, the has errors, we\'ll try to request it one more time')
+        }
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Uso del Operador Throw')
+        // Sintaxis: throw <error object>
+        let error = new Error('Things happen o_O');
+        alert(error.mame)
+        alert(error.message)
+
+        // Tipo de error que da Json
+        try{
+            JSON.parse("{bad json o_O}")
+        }catch(e) {
+            alert(e.name)
+            alert(e.message)
+        }
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Lanzando una excepcion')
+        let json = '{"age":30}'
+        try{
+            let user = JSON.parse(json)
+            if (!user.name){throw new SyntaxError('Incomplete data: no name')}
+            alert(user.name)
+        }catch(e){
+            alert('JSON Error: ' + e.message)
+        }
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Relanzando errores')
+        let json = '{"age":30}'
+        try{
+            let user = JSON.parse(json)
+            if (!user.name) throw new  SyntaxError('Incomplete data: no name')
+            blabla()
+            alert(user.name)
+        }catch(e) {
+            if (e.name === 'SyntaxError'){
+                alert('JSON Error ' + e.message)
+            }else{
+                throw e
+            }
+        }
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Uso de sentencia finally')
+        // La sentencia finally corre en todo momento si no huvo error
+
+        try{
+            alert('try')
+            if (confirm('Make an error')) BAD_CODE()    
+        }catch(e) {
+            alert('catch')
+        }finally {
+            alert('finally')
+        }
+        //Ejemplo de uso con fibonacci
+        
+        let num = +prompt('Enter apositive integer number?', 35)
+        let diff,result;
+
+        function Fib(n){
+            if (n < 0 || Math.trunc(n) != n){
+                throw new Error('Must not be negative, and also  en integer')
+            } 
+            return n <= 1 ? n: Fib(n - 1) + Fib(n - 2)
+        }
+
+        let start = Date.now()
+
+        try{
+            result = Fib(num)
+            alert(result)
+
+        }catch(e){
+            result = 0
+
+        }finally{
+            diff = Date.now() - start
+        }
+        alert(result || 'error ocurred')
+        alert(`execute took ${diff}ms`)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Capturando errores globales')
+        // En Node.js se usa  process.on('uncaughtException')
+        // En el navegador se usa window.onerror
+        /*
+            Sintaxis: window.onerror = function(message,url,line,col,error){...}
+            -> message: mensage de error
+            -> url: direccion del script donde ocurrio el error
+            -> line,col: numeros de linea y columna donde ocurrio el error
+            -> error: error de objeto
+
+            servicios web que proveen errores de login para tales casos:
+            https://errorception.com  or http://www.muscula.com
+        */
+       /*
+       window.onerror = function(message,url,line,col,error){
+           alert(`${message}\n At ${line}:${col} of ${url}`)
+       }
+       function readData(){
+           badfunc()
+       }
+       readData()
+       */
+       
+    </script>
+    
+</body>
+</html>

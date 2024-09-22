@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generadores uso avanzado</title>
+</head>
+<body>
+    <script>
+    /*   
+        'use strict'
+        alert("Uso de funciones generadoras")
+        /*
+        Sintaxis de la funcion generadora:
+        function* generateSequence(){
+            yield 1;
+            yield 2;
+            yield 3;
+        }
+        let generator = generateSequence()
+        // Nota: Puede ser persivida como la llamada a una funcion conjelada.
+        El resultado de next() es simepre un objeto:
+        -> value: valor de yielded 
+        -> done: falso si el codigo no ha finalizado o verdadero de lo contrario
+        */ 
+       /*
+        function* generateSequence(){
+            yield 1
+            yield 2
+            yield 3
+        }
+        let generator = generateSequence()
+        let one = generator.next()
+        let two = generator.next()
+        //let three = generator.next()
+        alert(JSON.stringify(one)) // {vaalue:1,done:false}
+        alert(JSON.stringify(two)) // {vaalue:2,done:false}
+        //alert(JSON.stringify(three)) // {vaalue:3,done:true}
+    */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Generadores iterables")
+        function* generateSequence(){
+            yield 1
+            yield 2
+            yield 3
+            yield 4
+        }
+        let generator = generateSequence()
+        for (let value of generator){
+
+            alert(value)// 1,2 3, 4
+        }
+        // Si se usa un return en el ultimo valor, este no se mostrara for of lo ignora.
+        alert("Ejemplo en uso de listas")
+        let sequence = [0,...generateSequence()]
+        alert(sequence)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Usando generadores en lugar de iterables")
+        function* generateSequence(start,end){
+            for (let i=start;i <= end;i++){
+                yield i
+            }
+        }
+        let sequence = [...generateSequence(1,10)]
+        alert(sequence)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Convirtiendo Symbol.iterator a un generador")
+        // Sacando lo mejor de las dos aproximacines
+        let range = {
+            from: 1,
+            to: 5,
+            *[Symbol.iterator](){
+                for (let value = this.from;value <= this.to; value++){
+                    yield value
+                }
+            }
+
+        }
+        alert([...range])
+        // Devuelve un objeto que es iterable
+        // Tiene el metodo next()
+        // Retorna valores de la forma {value:...,done:false/true}
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Composicion del Generador")
+        /*
+        -> digist (0...9) (character code 48...57)
+        -> letters (a...z) (character code 65...90)
+        -> uppercased letters (A...Z) (character code 97...122)
+        La sentencia yield* permite generar un campo a partir de uno ya generado
+        el siguiente codigo hace lo mismo que:
+        function* generateSequence(start, end) {
+            for (let i = start; i <= end; i++) yield i;
+        } f
+        unction* generateAlphaNum() {
+            // yield* generateSequence(48, 57);
+            for (let i = 48; i <= 57; i++) yield i;
+            // yield* generateSequence(65, 90);
+            for (let i = 65; i <= 90; i++) yield i;
+            // yield* generateSequence(97, 122);
+            for (let i = 97; i <= 122; i++) yield i;
+        }
+
+        */
+       /*
+       function* generateSequence(start,end){
+           for (let i = start;i <= end; i++) yield i
+       }
+       function* generatePassWordCode(){
+           // 0..9
+           yield* generateSequence(48,57)
+           // A..Z
+           yield* generateSequence(65,90)
+           // a..z
+           yield* generateSequence(97,122)
+       }
+       let str = ''
+       for (let code of generatePassWordCode()){
+           str += String.fromCharCode(code)
+       }
+       alert(str)
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Yield es una ruta de 2 vias")
+        function* gen(){
+            let result = yield "2 + 2?"
+            alert(result)
+        }
+        let generator = gen()
+        let question = generator.next().value
+        //generator.next(4)
+        /*
+        -> La primera llamada al generator.next() es siempre sin argumento. Comieza la ejecucion y retorna el resultado
+        del primer yield ("2 + 2?"). En este punto el generador pausa la ejecucion hasta estar sobre esa linea.
+        -> Entonces el resultado de yield obtiene la variable dentro de la incuesta en la llamada al codigo. 
+        -> En el generator.next(4), el generador resume y 4 entra como el resultado de result=4
+        *//*
+       // Variante 
+       setTimeout(() => generator.next(4),1000)
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Yield es una ruta de pasar argumentos tambien")
+        function* gen(){
+            let ask1 = yield "2 + 2?"
+            alert(ask1)
+            let ask2 = yield "3 * 3?"
+            alert(ask2)
+
+        }
+        let generator = gen()
+        alert(generator.next().value)
+        alert(generator.next(4).value)
+        alert(generator.next(9).done)
+        /*
+        -> El primer next() comienza la ejecucion... Busca el primer campo.
+        -> El resultado es devuelto del codigo externo.
+        -> El segundo next(4) pasa el resultado al generador como el resultado de yield, y resume la ejecuion. 
+        -> Busca el segundo yield, que se vuelve el resultado de la llamada al generador.
+        -> El tercer next(9) pasa la repuesta al generador como resultado del segundo yield, y resume la ejecucion que alcanza 
+        le final de la funcion, entonces done: true
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Generador.throw")
+        function* gen(){
+            try{
+                let result = yield "2 + 2?"
+                alert("The execution does not reach here, because the exception is thrown above")
+
+            }catch (e){
+                alert(e)
+            }
+        }
+        let generator = gen()
+        let question = generator.next().value
+        generator.throw(new Error("The answer is not found in my database"))
+        // Variante de capturar el error
+        /*
+        try{
+            generator.throw(new Error(...))
+        }catch (e){
+            alert(e)
+        }
+        Nota:
+        -> Un generador es creado por una funcion generadora. 
+        -> Dentro de un generador solo existe un operador yield
+        -> El codigo externo y el generador talvez cambien el resultado llamando a next()
+        */
+    </script>
+    <script>
+        'use strict'
+        alert("Ejercicio 1")
+        function* pseudoRandom(seed){
+            // next = previous * 16807 % 2147483647
+            for (let val = seed; val <= Infinity;val++){
+                val = val * 16807 % 2147483647
+                yield val
+                
+            }
+            
+        }
+        let generator = pseudoRandom(1)
+        alert(generator.next().value)
+        alert(generator.next().value)
+        alert(generator.next().value)
+        /*
+        function* pseudoRandom(seed) {
+            let value = seed;
+            while(true) {
+                value = value * 16807 % 2147483647
+                yield value;
+            }
+        };
+        */
+    </script>
+</body>
+</html>

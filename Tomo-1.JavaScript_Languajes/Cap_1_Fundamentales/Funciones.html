@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uso de funciones</title>
+</head>
+<body>
+<script>
+    /*
+    function ShowMessage(){
+        let message = 'Hello, Im JavaScript!';
+        alert(message);
+    }
+    ShowMessage();
+     */
+</script>
+<script>
+    /*
+    alert('Ejemplo de el acceso de funciones a variables fuera de su alcance');
+    let userName = 'John';
+    function ShowMessage(){
+        let userName = 'Bob'
+        let message = 'Hello '+ userName;
+        alert(message);
+        }
+    ShowMessage(); // Se usa una nueva variable con el mismo nombre de userName
+    alert(userName);
+     */
+</script>
+<script>
+    /*
+    alert('Uso de parametros');
+    function ShowMessage(from,text){
+        alert(from+ ': '+text);
+    }
+    ShowMessage('Ann','Hello');
+    ShowMessage('Ann','Whats up?'); // En caso de no tener un valor el argumento, el valor por defecto es undefined
+     */
+</script>
+<script>
+    /*
+    alert('Usando valor de retorno');
+    let valor_1 = prompt('Dame un numero: ','');
+    let valor_2 = prompt('Dame un numero: ','');
+    function suma(a,b){
+        return alert(parseFloat(a) + parseFloat(b));
+    }
+    suma(valor_1,valor_2);
+    // Una funcion que no tenga operaciones en su cuerpo es igual a undefined
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 1');
+    let age  = prompt('How old are you ?','');
+    function checkAge(age){
+        if (parseInt(age) > 18){return alert('Right!');}
+        else {return confirm('Did parents allo you ?');}
+    }
+    checkAge(age);
+    function checkAge_(age){
+        if (parseInt(age) > 18){return alert('Right!');}
+        return confirm('Did parents allo you ?');
+    }
+    checkAge_(age);
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 2');
+    let age = prompt('How old are you ?','');
+    function checkAge(age){
+        (parseInt(age) > 18) ? alert('Right!') : confirm('Do you have your parents permission to access this page ?');
+        
+    }
+    checkAge(age);
+    function checkAge_(age){
+        age = parseInt(age) > 18 || confirm('Do you have your parents permission to access this page ?');
+
+    }
+    checkAge_(age);
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 3');
+    let valor_1 = prompt('Valor 1: ','');
+    let valor_2 = prompt('Valor 2: ','');
+    function min(a,b) {
+        (parseInt(a) < parseInt(b)) ? alert(a): alert(b);
+    }
+    min(valor_1,valor_2);
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 4');
+    let x = prompt('Valor base ','');
+    let n = prompt('Valor exponente ','');
+    function pow(x,n){
+        c = parseInt(x)**parseInt(n);
+        return alert(c);
+    }
+    pow(x,n);
+     */
+</script>
+<script>
+    /*
+    alert('Flechas y expresion de funciones');
+    let sahyHi = function(){ // Muestra el codigo de la funcion
+        alert('Hello');
+    }
+    alert(sahyHi); // si se usa el parentisis muestra el contenido
+    function ask(question,yes,no){
+        if (confirm(question)) yes();
+        else no();
+    }
+    function showCancel(){
+        alert('You canceled the execution');
+    }
+    function showOK(){
+        alert('You agreed');
+    }
+    ask('Do you agree ?',showOK,showCancel);
+     */
+</script>
+<script>
+    /*
+    alert ('Vairante de declaracion')
+    function ask(question,yes,no) {
+        if (confirm(question)) yes()
+        else no();
+
+    }
+    ask('Do you agree?',function(){alert('You agreed');},function(){alert('You canceled the execution');});
+     */
+</script>
+<script>
+    /*
+    alert('Uso de flechas');
+    let sum = (a,b) => parseInt(a) + parseInt(b); // es igual al uso de la expresion de funciones.
+    alert(sum(1,3));
+    let age = prompt('what is your age ?','');
+    let welcome = (parseInt(age) < 18) ? () => alert('hello'): () => alert('Greetings');
+    welcome();
+     */
+</script>
+<script>
+    /*
+    alert('Uso de flechas mas complejo');
+    let sum = (a,b) => {
+        let result = parseInt(a) + parseInt(b);
+        return result;
+    };
+    alert(sum(1,5));
+     */
+</script>
+<script>
+    alert('Ejercicio 1');
+    let ask = (question,yes,no) => {
+        (confirm(question)) ? yes() : no()
+    };
+    ask('Do you agree ?',function(){alert('You agreed');},function(){alert('You canceled the execution');});
+</script>
+
+
+</body>
+</html>

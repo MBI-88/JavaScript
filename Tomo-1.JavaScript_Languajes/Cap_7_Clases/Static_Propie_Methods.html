@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodos y propiedades estaticas</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Metodos estaticos asignacion interna')
+        /*
+        Los metodos estaticos son usados para la funcionalidad que no 
+        relaciona una inatancia concreta de la clase, no requieren una instancia para existir,
+        mas bien pertenecen a la clase como un todo.
+        
+        La propiedades staticas son usadas cuando queremos almacenar datos etiquetados de clases,
+        tampoco necesitan de una instancia.
+        */
+        /*
+
+        class User{
+            static staticMethod(){alert(this === User)}
+        }
+        User.staticMethod() // true
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Metodos estaticos asignacion externa')
+
+        class User{}
+        User.staticMethod = function(){alert(this === User)}
+        User.staticMethod() // true
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo')
+        
+        class Article{
+            constructor(title,date){
+                this.title = title
+                this.date = date
+            }
+            static compare(articleA,articleB){ return articleA.date - articleB.date}
+        }
+        let articles = [
+            new Article('HTML',new Date(2019,1,1)),
+            new Article('CSS',new Date(2019,0,1)),
+            new Article('JavaScript', new Date(2019,11,1))
+        ]
+        articles.sort(Article.compare)
+        alert(articles[0].title) // CSS
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Uso del metodo factory')
+        // Metodo Factory
+        class Article{
+            constructor(title,date){
+                this.title = title
+                this.date = date
+            }
+            static createTodays(){
+                return new this('Today\'s digest',new Date())
+            }
+        }
+        let article = Article.createTodays()
+        alert(article.title) // Today digest
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Propiedades estaticas')
+        
+        class Article{
+            static publisher = 'Ilya Kantor'
+        }
+        alert(Article.publisher) // Ilya Kantor
+
+        // Article.publisher = 'Ilya Kantor' hace la misma asignacion
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Statico y herencia')
+
+        class Animal{
+            constructor(name,speed){
+                this.speed = speed
+                this.name = name
+            }
+            run(speed=0){
+                this.speed += speed
+                alert(`${this.name} run with speed ${this.speed}`)
+            }
+            static compare(animalA,animalB){
+                return animalA.speed - animalB.speed
+            }
+        }
+        class Rabbit extends Animal{
+            hide(){
+                alert(`${this.name} hides`)
+            }
+        }
+
+        let rabbit = [
+            new Rabbit('White Rabbit',10),
+            new Rabbit('Black Rabbit',5)
+        ]
+        rabbit.sort(Rabbit.compare)
+        rabbit[0].run() // Black Rabbit runs with speed 5
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro Tareas</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Uso en micro servicios')
+        let promise = Promise.resolve()
+        promise.then(() => alert("Promise done"))
+        alert("code finished")
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Colas de micro tareas")
+        // Ejemplo para mantener el orden de ejecucion
+        Promise.resolve().then(() => alert("promise done!")).then(() => alert("code finished"))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Sin manipuacion de reinyeccion")
+        // La no reinyeccion ocurre cuando el error de una promesa no es capturado en el final de la
+        // cola de microtask.
+        // Para garantizar que una piesa de codigo se ejecute despues de los manipuladores, hay que 
+        // agrearla a un .then()
+
+        let promise = Promise.reject(new Error("Promise Failed!"))
+        promise.catch(err => alert('Caught'))
+        window.addEventListener('unhandledrejection',event => alert(event.reason))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Async/await")
+        // Ejemplo de uso de async (async function())
+        // Usando la senctencia async hace que la funcion devuelva una promesa aun si la funcion no esta 
+        // definida para esto. Js directamente crea un wrap que pasa el valor a resolve promise
+
+        async function f(){ return 1} // esto es igual a return Promise.resolve(1)
+
+        f().then(alert)
+        */
+
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Await')
+        // La senctencia await hace que js espere hasta que se establesca la promesa y retorne el resultado.
+        // Definicion let value = await promise
+        // Await solo funciona dentro de async
+
+        async function f(){
+            let promise = new Promise((resolve,reject) => {
+                setTimeout(() => resolve('done'),1000)
+            })
+            let result = await promise
+            alert(result)
+        }
+        f()
+        */
+
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo de remplazo del uso de then por await')
+
+        async function showAvatar(){
+            let response = await fetch('/article/promise-chaining/user.json')
+            let user = await response.json()
+
+            let githubRespone = await fetch(`https://api.github.com/users/${user.name}`)
+            let githubUser = await githubRespone.json()
+
+            let img = document.createElement('img')
+            img.src = githubUser.avatar_url
+            img.className = "promise-avatar-example"
+            document.body.append(img)
+            
+            await new Promise((resolve,reject) => setTimeout(resolve,3000))
+            img.remove()
+            return githubUser
+            }
+            showAvatar()
+
+            Ejemplo con funcion flecha:
+            (async () => {
+                    let response = await fetch('/article/promise-chaining/user.json');
+                    let user = await response.json();
+                    ...
+                    
+            })();
+
+            Ejemplo con clases thenable:
+            class Thenable {
+                constructor(num) {
+                    this.num = num;
+                } 
+                then(resolve, reject) {
+                        alert(resolve);
+                        // resolve with this.num*2 after 1000ms
+                    setTimeout(() => resolve(this.num * 2), 1000); // (*)
+                }
+            };
+            async function f() {
+                // waits for 1 second, then result becomes 2
+                let result = await new Thenable(1);
+                alert(result);
+            } 
+            f();
+
+            Ejemplo de metodo asincronico en clases:
+            class Waiter {
+                async wait() {
+                    return await Promise.resolve(1);
+                }
+            } 
+            new Waiter().wait().then(alert); // 1
+
+            */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Manipulacion de errores")
+
+        // Las 2 funciones siguientes son iguales
+        async function f() {
+            await Promise.reject(new Error("Whoops"));
+        }
+        async function H(){
+            throw new Error("Whoop")
+        }
+
+        // Ejemplo de uso de try...catch
+
+        async function TrayCatch(){
+            try {
+                let response = await fetch('http://no-such-url')
+
+            }catch (err){
+                alert(err)
+            }
+        }
+        TrayCatch()
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Sin el uso de try...catch")
+        async function f(){
+            let response = await fetch('http://no-such-url')
+
+        }
+        // La promesa se reinyecta
+        f().catch(alert)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 1")
+
+        async function loadJson(url){
+            let response = await fetch(url)
+            if (response.status == 200) {
+                let json = await response.json()
+                return json
+            }
+            throw new Error(response.status)
+        }
+        loadJson('no-such-user.json').catch(alert)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 2")
+
+        class HttpError extends Error{
+            constructor(response){
+                super(`${response.status} for ${response.url}`)
+                this.name = 'HttpError'
+                this.response = response
+            }
+        }
+
+        async function loadJson(url){
+            let response = await fetch(url)
+            if (response.status == 200) return response.json()
+            else throw new HttpError(response)
+        }
+
+        async function demoGithubUser(){
+            let response;
+             do{
+                let name = prompt("Enter a name:" ,"iliakan")
+                try{
+                    response = await loadJson(`https://api.github.com/users/${name}`)
+                    break
+                }catch (err){
+                    if (err instanceof HttpError && err.response.status == 404){
+                        alert("No such user, please reenter")
+                    }
+                    else {
+                        throw err
+                    }
+
+                 }
+             }while(true)
+
+             alert(`Full name: ${response.name}`)
+             return response
+            
+           
+        }
+        demoGithubUser()
+        */
+    </script>
+    <script>
+        'use strict'
+        alert("Ejercicio 3")
+
+        async function wait(){
+            await new Promise(resolve => setTimeout(resolve,1000))
+            return 10
+        }
+
+        function f(){
+            return (async () => {
+                let promise = await wait()
+                return alert(promise)
+            })()
+        }
+        function h(){
+            wait().then(result => alert(result))
+        }
+        f()
+    </script>
+</body>
+</html>

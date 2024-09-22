@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chequeo de instancia de clases</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Uso del operador instanceof')
+        class Rabbit{}
+        let rabbit = new Rabbit()
+        alert(rabbit instanceof Rabbit)
+
+        // Uso con funcion constructora
+        function Rabbits(){}
+        alert(new Rabbits() instanceof Rabbits)
+
+        // Uso con arrays
+        let arr = [1,2,3,4]
+        
+        alert(arr instanceof Array)
+        alert(arr instanceof Object)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Forma de trabajo del metodo')
+        class Animal{
+            static [Symbol.hasInstance](obj){
+                if (obj.canEat) return true
+            }
+        }
+        let obj = {canEat:true}
+        alert(obj instanceof Animal) // true: Animal[Symbol.hasInstance](obj) fue llamado
+
+        // Ejemplo con herencia
+        class Animals {}
+        class Rabbit extends Animals{}
+
+        let rabbit = new Rabbit()
+        alert(rabbit instanceof Animals)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Object.prototype.toString')
+
+        let objectToString = Object.prototype.toString
+        let arr = []
+        alert(objectToString.call(arr)) // [object Array]
+        alert(objectToString.call(123))
+        alert(objectToString.call(null))
+        alert(objectToString.call(undefined))
+        alert(objectToString.call(alert))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Symbol.toStringTag (Personalizando un objeto con propiedades epeciales)');
+        let user = {
+            [Symbol.toStringTag]: 'User'
+        }
+        alert({}.toString.call(user))// [object User]
+        alert(window[Symbol.toStringTag])
+        alert(XMLHttpRequest.prototype[Symbol.toStringTag])
+        alert({}.toString.call(window))
+        alert({}.toString.call(new XMLHttpRequest()))
+        // Symbol.toStringTag es como un typeof con esteroides
+        // Puede ser usado en lugar de instanceof para la creacion de objetos
+        // cuando se quiere objtener el tipo como un string mas que como un chequeo
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 1')
+
+        function A(){}
+        function B(){}
+
+        A.prototype = B.prototype = {}
+        let a = new A()
+        alert(a instanceof B) // true porque  instanceof no toma en cuenta la funcion si el prototipo
+        // el cual  a.prototype == B.prototype 
+        */
+    </script>
+    <script>
+        {  /*
+            // Ejemplo de uso del  objeto Mixin para herencia multiple
+            'use strict'
+            alert('Mixins')
+            // En Js solo se puede heredar de un solo objeto. Solo es posible un prototype para un objeto.
+            
+            // Variante para vencer esta limitacion
+
+            let sayHiMixin = {
+                sayHi(){alert(`Hello ${this.name}`)},
+                sayBye(){alert(`Bye ${this.name}`)}
+            }
+
+            class Person {}
+            class User extends Person{
+                constructor(name){
+                    super(name)
+                    this.name = name;
+                }
+
+            }
+
+            // Copiando los metodos
+            Object.assign(User.prototype,sayHiMixin)
+            new User('Dude').sayHi() // Hello Dude
+            */
+        }
+        {
+            /*
+            // Herencia en el propio Mixin
+            'use strict'
+            alert('Herencia en el propio Mixin')
+            let sayMixin = {
+                say(phrase){alert(phrase)}
+            }
+            let sayHiMixin = {
+                __proto__: sayMixin,
+                sayHi(){super.say(`Hello ${this.name}`)},
+                sayBye(){super.say(`Bye ${this.name}`)}
+            }
+
+            class User {
+                constructor(name){
+                    this.name = name
+                }
+            }
+            
+            Object.assign(User.prototype,sayHiMixin)
+            new User('Maikel').sayHi()
+            */
+        }
+        {
+            // Ejemplo real de un Event Mixin
+            'use strict'
+            alert('Ejemplo de captura de eventos')
+
+            let eventMixin = {
+                on(eventName,handler){
+                    if (!this._evetHandlers) this._evetHandlers = {}
+                    if (!this._evetHandlers[eventName]) this._evetHandlers[eventName] = []
+                    this._evetHandlers[eventName].push(handler)
+                },
+                off(eventName,handler){
+                    let handlers = this._evetHandlers && this._evetHandlers[eventName]
+                    if (!handlers) return
+                    for (let i=0; i < handlers.length; i++){
+                        if (handlers[i] === handler){handlers.splice(i--,1)}
+                    }
+                },
+                trigger(eventName,...args){
+
+                    if (!this._evetHandlers || !this._evetHandlers[eventName]){
+                        return
+                    }
+                    this._evetHandlers[eventName].forEach(handler => handler.apply(this,args))
+                }
+            }
+
+            class Menu {
+                choose(value){
+                    this.trigger('select',value)
+                }
+            }
+            Object.assign(Menu.prototype,eventMixin)
+
+            let menu = new Menu()
+            
+            menu.on('select',value => alert(`Value selected: ${value}`))
+
+            menu.choose('123')
+
+
+
+        }
+    </script>
+    
+</body>
+</html>

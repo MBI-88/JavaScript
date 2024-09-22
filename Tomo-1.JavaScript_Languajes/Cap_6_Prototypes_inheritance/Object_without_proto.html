@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetos sin prototipos</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Uso de la forma moderna de __proto__')
+        /*
+        La forma moderna de uso de __proto__:
+        Object.create(proto[, descriptors])  – creates an empty object with given proto as
+        [[Prototype]] and optional property descriptors.
+        Object.getPrototypeOf(obj)   – returns the [[Prototype]] of obj .
+        Object.setPrototypeOf(obj, proto)  – sets the [[Prototype]] of obj to proto .
+        */
+        /*
+        let animal = {eats:true}
+        let rabbit = Object.create(animal) // crear un nuevo objeto con animal como prototipo
+        alert(rabbit.eats)
+        alert(Object.getPrototypeOf(rabbit) == animal)
+        Object.setPrototypeOf(rabbit,{})
+
+        let dog = Object.create(animal,{
+            jumps:{value:true}
+        })
+        alert(dog.jumps) // true
+        */
+
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Objetos sencillos ')
+        let key = prompt("What's the key","__proto__")
+        let obj = {}
+        obj[key] = "some value"
+        alert(obj[key]) // [obj obj] , not "some value"
+
+        // Solucion el bug
+        let objs = Object.create(null) // se crea un objeto sin prototipo
+        let keys = prompt("What's the key?", '__proto__')
+        objs[keys] = 'some value'
+        alert(objs[keys]) // some value
+        */
+    
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 1')
+        let dictionary = Object.create(null,{
+            toString: {
+                value(){return Object.keys(this).join()}
+            }
+        }) // creando un diccionario
+
+       
+
+        dictionary.apple = 'Apple'
+        dictionary.__proto__ = 'test'
+
+        for (let key in dictionary){
+            alert(key)
+        }
+        alert(dictionary)
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Ejercicio 2')
+
+        function Rabbit(name){
+            this.name = name
+        }
+        Rabbit.prototype.sayHi = function(){alert(this.name)}
+        let rabbit = new Rabbit('Rabbit')
+        
+        rabbit.sayHi()
+        Rabbit.prototype.sayHi()
+        Object.getPrototypeOf(rabbit).sayHi()
+        rabbit.__proto__.sayHi()
+    </script>
+</body>
+</html>

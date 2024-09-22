@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captura de errores en Promesas</title>
+</head>
+<body>
+    <script>
+        /*
+        Ejemplo de falla de busqueda en un sitio:
+        fetch('http://no-such-server.blabla') // rejejct
+        .then(response => response.json())
+        .catch(err => alert(err)) // TypeError: failed to fetch
+
+        La forma facil de capturar todos los errores es agregar .catch()  en el final del intercambio
+        fetch('/article/promise-chaining/user.json')
+        .then(response => response.json())
+        .then(user => fetch(`https://api.github.com/users/${user.name}`))
+        .then(response => response.json())
+        .then(githubUser => new Promise((resolve, reject) => {
+            let img = document.createElement('img');
+            img.src = githubUser.avatar_url;
+            img.className = "promise-avatar-example";
+            document.body.append(img);
+
+            setTimeout(() => {
+                img.remove();
+                resolve(githubUser);
+            }, 3000);
+        }))
+        .catch(error => alert(error.message));
+        */
+    </script>
+    <script>
+        //'use strict'
+        {   /*
+            alert("Implicit try...catch")
+            new Promise((resolve,reject) =>{
+                throw new Error("Whoops!")
+            }).catch(alert) // Error: Whoops
+            */
+        }
+        // Los dos fragmentos de codigo hacen lo mismo
+        {  /*
+            new Promise((resolve,reject) =>{
+                reject(new Error("Whoops"))
+            }).catch(alert) // Error: Whoops
+            */
+        }
+        // Ejemplo de captura en el manejador
+        {  /*
+            new Promise((resolve,reject) =>{
+                resolve("OK")
+            }).then((result) =>{
+                throw new Error("Whoops")
+            }).catch(alert)
+            */
+        }
+        // Ejemplo de un error de programacion:
+        {  /*
+            new Promise((resolve,reject) =>{
+                resolve("ok")
+            }).then((result) =>{
+                blabla()
+            }).catch(alert) // ReferenceError: blabla is not defined
+            */
+        }
+    </script>
+    <script>
+        //'use strict'
+       // alert("Errores dentro de catch")
+        // .catch() se comporta como try...catch
+        // Se puede tener tantos .then() como se quiera y usar un .catch()
+        // Si ocurre un error dentro de un catch entonces el error se pasa al proximo manejador 
+
+        // Ejemplo de error en .catch
+        {   /*
+            new Promise((resovle,reject) =>{
+                throw new Error("Whoops")
+            }).catch(function(error){ 
+                alert("The error is handled, continue normallly")
+            }).then(() => alert("Next successful handler runs"))
+            */
+        }
+        // Ejemplo el manejador no puede manipular el error
+        
+        {   /*
+            new Promise((resovle,reject) =>{
+                throw new Error("Whoops")
+            }).catch(function(error){
+                if (error instanceof URIError){
+                    //handle it
+                }
+                else {
+                    alert("Can\'t handle such error")
+                    throw error
+                }
+            }).then(() =>{})
+            .catch(error => {alert(`The unkown error has occured: ${error}`)})
+            */
+        }
+    </script>
+    <script>
+        //'use strict'
+        //alert("Errores en la busqueda (fetch)")
+        // Esta forma no da informacion del error
+        {   /*
+            fetch('no-such-user.json')
+            .then( response => response.json())
+            .then(user => fetch(`http://api.github.com/users/${user.name}`))
+            .then(response => response.json())
+            .catch(alert)
+            */
+        }
+        // Opteniendo informacion del error
+        {   /*
+            class HttpError extends Error {
+                constructor(response){
+                    super(`${response.status} for ${response.url}`)
+                    this.name = 'HttpError'
+                    this.response = response
+                }
+            }
+
+            function loadJson(url){
+                return fetch(url).then(response => {
+                    if (response.status == 200){
+                        return response.json()
+                    }
+                    else {
+                        throw new HttpError(response)
+                    }
+                })
+            }
+
+            loadJson('http://api.github.com/users/no-such-user.json').catch(alert)
+            */
+        }
+        // Ejemplo de peticion al usuario de confirmacion de peticion de url
+        {   /*
+            class HttpError extends Error {
+                constructor(response){
+                    super(`${response.status} for ${response.url}`)
+                    this.name = 'HttpError'
+                    this.response = response
+                }
+            }
+
+            function loadJson(url){
+                return fetch(url).then(response => {
+                    if (response.status == 200){
+                        return response.json()
+                    }
+                    else {
+                        throw new HttpError(response)
+                    }
+                })
+            }
+
+            function demoGithubUser(){
+                let name = prompt("Enter your name:","")
+                return loadJson(`http://api.github.com/users/${name}`)
+                .then(user => {
+                    alert(`Full name: ${user.name}`)
+                })
+                .catch(err => {
+                    if (err instanceof HttpError && err.response.status == 404){
+                        alert("No such user, please reenter")
+                        return demoGithubUser()
+                    }
+                    else {
+                        throw err
+                    }
+                })
+
+            }
+            demoGithubUser()
+            */
+        }
+    </script>
+    <script>
+        //'use strict'
+        //alert("Sin manejador de reinyecciones")
+        /*
+        En caso de que un error la promesa se reinyecta y su ejecucion
+        pasa al manejador mas cercano. En caso de no existir ningun manejador entonces
+        el error se conjela
+        */
+       {   /*
+            new Promise(function(){
+                noSuchfuncion()
+            }).then(() => {})
+            */
+        }
+        {  /*
+            window.addEventListener("unhandledrejection",function(event){
+                alert(event.promise)
+                alert(event.reason)
+            })
+
+            new Promise(function(){
+                throw new Error("Whoop!")
+            })
+            */
+        }
+        // Ejemplo uso de finally como manipulador 
+        {   /*
+
+            class HttpError extends Error {
+                constructor(response){
+                    super(`${response.status} for ${response.url}`)
+                    this.name = 'HttpError'
+                    this.response = response
+                }
+            }
+
+            function loadJson(url){
+                return fetch(url).then(response => {
+                    if (response.status == 200){
+                        return response.json()
+                    }
+                    else {
+                        throw new HttpError(response)
+                    }
+                })
+            }
+
+            function demoGithubUser(){
+                let name = prompt("Enter a name:","iliakan")
+                document.body.style.opacity = 0.3
+                return loadJson(`https://api.github.com/users/${name}`)
+                .finally(() => {
+                    document.body.style.opacity = ''
+                    return new Promise(resolve => setTimeout(resolve))
+                
+                }).then(user => {
+                    alert(`full name: ${user.name}`)
+                    return user
+                }).catch(err => {
+                    if (err instanceof HttpError && err.response.status == 404){
+                        alert("No such user, please reenter")
+                        return demoGithubUser()
+                    }
+                    else {
+                        throw err
+                    }
+                })
+            }
+
+            demoGithubUser()
+            */
+        }
+        
+    </script>
+    <script>
+        'use strict'
+        alert("Ejercicio 1")
+        new Promise(function(resovle,reject){
+            setTimeout(() => {
+                throw new Error("Whoop!")
+            },1000)
+        }).catch(alert) // El error no es capturado porque se surge despues de la corrida del ejecutor
+        /*
+        Nota: Existe un try...catch en la ejecucion de una promesa implicitamente, por lo que todos los errores
+        asincronicos son capturados, si el error es generado mientras la el ejecutor esta corriendo.
+        */
+    </script>
+    
+</body>
+</html>

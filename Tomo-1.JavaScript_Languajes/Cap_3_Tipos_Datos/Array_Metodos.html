@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Metodos en Arrays</title>
+</head>
+<body>
+<script>
+    /*
+    'use strict';
+    alert('Uso de add/rmove items');
+    let arr = ['I','go','home'];
+    delete arr[1];
+    alert(arr[1]);// undefined
+    alert(arr.length);// 3.Se elimina el elemento pero no se elimina la ubicacion
+    alert(arr); */
+</script>
+<script>
+    /*
+    'use stirct';
+    alert('Uso de splice');
+    let arr = ['I','study','JavaScript'];
+    arr.splice(1,1);// del indice 1 remueve un elemento splice(index,delete,....)
+    alert(arr);
+    let arr2 = ['I','study','JavaScript','right','now'];
+    arr2.splice(0,3,'Let\'s','dance'); // devuelve los elementos removidos del array
+    alert(arr2); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Insertando articulos en el array usando splice');
+    let  arr = ['I','study','JavaScript'];
+    arr.splice(2,0,'complex','language');
+    alert(arr);
+    let arr2 = [1,2,5];
+    arr2.splice(-1,0,3,4);
+    alert(arr2);
+    // splice modifica el array, no crea un nuevo array
+    */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso del metodo slice');
+    let str = 'test';
+    let arr = ['t','e','s','t'];
+    alert(str.slice(1,3));// es
+    alert(arr.slice(1,3));// e,s
+    alert(str.slice(-2));// st
+    alert(arr.slice(-2));// s,t
+    // slice crea un nueo array en el rango dado
+    */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de concat');
+    let arr = [1,2];
+    alert(arr.concat([3,4])); // 1,2,3,4
+    alert(arr.concat([3,4],[5,6]));// 1,2,3,4,5,6
+    alert(arr.concat([3,4],5,6));// 1,2,3,4,5,6
+    let arr2 = [1,2];
+    let arrayLike = {
+        0: 'Something',
+        length:1
+    };
+    alert(arr2.concat(arrayLike));// 1,2,[object,object]
+    let arr3 = [1,2];
+    let arrayLike2 = {
+        0: 'something',
+        1: 'else',
+        [Symbol.isConcatSpreadable]:true, // sirve para concatenar los elementos del objeto
+        length : 2
+    };
+    alert(arr3.concat(arrayLike2));//1,2,something,else */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso del iterador forEach');
+    ['Bilbo','Gandalf','Nazgul'].forEach(alert);
+    ['Bilbo','Gandalf','Nazgul'].forEach((item,index,array) => {
+        alert(`${item} is at index ${index} in ${array}`);
+    }); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Busqueda en array');
+    let arr = [1,0,false];
+    alert(arr.indexOf(0)); // 1
+    alert(arr.indexOf(false)); // 2
+    alert(arr.indexOf(null)); // -1
+    alert(arr.includes(1)); // true
+    const arr1 = [NaN];
+    alert(arr1.indexOf(NaN)); // -1 , no funciona con NaN
+    alert(arr1.includes(NaN)); // true */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de find y findindex');
+    let users = [
+        {id:1,name:'John'},
+        {id:2,name:'Peter'},
+        {id:3,name:'Mary'}
+    ];
+    let user = users.find(item => item.id == 1);
+    // arr.findindex() es igual a arr.find(), solo que devuelve el indice y si no  devuelve -1
+    alert(user.name);// John */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de filter');
+    let users = [
+        {id:1,name:'John'},
+        {id:2,name:'Peter'},
+        {id:3,name:'Mary'}
+    ];
+    let someUser = users.filter(item => item.id < 3);
+    alert(someUser.length); // 2
+    */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de map');
+    let lengths = ['Bilbo','Gandalf','Nazgul'].map(item => item.length)
+    alert(lengths);//5,7,6 */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de sort');
+    let arr = [1,2,15];
+    arr.sort(); // el ordenamiento falla porque los elementos son interpretados como stirngs
+    alert(arr);
+    // Solucion
+    function compare(a,b){
+        if (a > b) return 1;
+        if (a == b) return 0;
+        if (a < b) return -1;
+    };
+    let array = [15,10,5,2,7];
+    array.sort(compare);
+    alert(array);
+    [1,-2,15,0,8].sort(function(a,b){alert(a + " <> "+ b )});
+    let array1 = [1,2,15];
+    array1.sort((a,b) =>  a - b);
+    alert(array1);// 1,2,15
+     */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de reverse');
+    let arr = [1,2,3,4,,5,6];
+    arr.reverse();
+    alert(arr);
+    */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de split y join');
+    let name = 'Bilbo,Gandalf,Nazgul';
+    let arr  = name.split(',');
+    for (let name of arr){
+        alert(`A message to ${name}.`);
+    };
+    // str.split(argument1,argument2); agurment1 valor a separar , argument2 cantidad de veces que  lo hace
+    let name_join = ['Bilbo','Gandalf','Nuzgul'];
+    let str = name_join.join(';');
+    alert(str); */
+</script>
+<script>
+    /*
+    //Definicion
+    //arr.reduce(function(previosValue,item,index,array){
+        //operaciones,
+    //},initial)
+    'use strict';
+    alert('Uso de reduce/reduceRignt');
+    let arr = [1,2,3,4,5];
+    let result = arr.reduce((sum,current) => sum + current,0);
+    alert(result);// 15
+    // arr.reduceRight hace lo mismo pero empezando por la derecha */
+
+</script>
+<script>
+    /*
+    'use stirct';
+    alert('Uso de Array.isArray');
+    alert(Array.isArray({}));// false
+    alert(Array.isArray([])); // true */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de thisArg');
+    // arr.find(func,thisArg)
+    // arr.filter(func,thisArg)
+    // arr.map(func,thisArg)
+    let user = {
+        age: 18,
+        younger(otherUser){return otherUser.age < this.age}
+    };
+    let users = [
+        {age:12},
+        {age:15},
+        {age:25}
+    ];
+    let youngerUsers = users.filter(user.younger,user);
+    alert(youngerUsers.length); // 2
+    // arr.some(fn)/arr.every(fn): su uso es igual a map si uno o todos los resultados son true retorna true de otra
+    // manera false.
+    // arr.fill(value,start,end): llena el array con valores repetidos del start hasta el end.
+    // arr.copy(target,start,end): copia los elementos de la posicion start hasta la end hacia el mismo array en la
+    // posicion target.
+    */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 1');
+    function camelize(str){
+        let newStr = str.split('-').join('');
+        alert('New string is: '+newStr);
+    };
+    camelize("background-color");
+    camelize('list-style-image');
+    camelize('-vebkt-transition'); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 2');
+    function filterRange(arr,a,b){
+        return arr.filter(item => (a <= item &&  item <= b));
+    };
+    let arr = [5,3,8,1]
+    let filtered = filterRange(arr,1,4)
+    alert(filtered);
+    alert(arr); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 3');
+    let arr = [5,3,8,1];
+    alert(arr);
+    function filterRange(arr,a,b){
+        for (let i = 0;i < arr.length;i++){
+            if (!(a <= arr[i] && arr[i] <= b))arr.splice(i,1);
+
+        };
+    };
+    filterRange(arr,1,4);
+    alert(arr); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 4');
+    let arr  = [5,2,1,-10,8];
+    alert(arr);
+    arr.sort((a,b) => b - a);
+    alert(arr); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 5');
+    function copySorted(arr){
+        return arr.slice().sort();
+    };
+    let arr  = ['HTML','JavaScript','CSS'];
+    let copyArr = copySorted(arr);
+    alert(copyArr);
+    alert(arr);*/
+</script>
+<script>
+    /*
+    'use stirct';
+    alert('Ejercicio 6');
+function Calculator() {
+    let methods = {
+    "-": (a, b) => a - b,
+    "+": (a, b) => a + b
+    };
+    this.calculate = function(str) {
+        let split = str.split(' '),
+        a = +split[0],
+        op = split[1],
+        b = +split[2]
+        if (!methods[op] || isNaN(a) || isNaN(b)) { return NaN; }
+        return methods[op](a, b); }
+    this.addMethod = function(name, func) { methods[name] = func; };
+  }
+    let calc = new Calculator;
+     alert(calc.calculate('3 + 7'));
+    calc.addMethod('*',(a,b) => a * b);
+    calc.addMethod('/',(a,b) => a / b);
+    calc.addMethod('**',(a,b) => a ** b);
+    alert(calc.calculate('4 ** 8'));
+    */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 7');
+    let john = {name:'John',age: 25};
+    let pete = {name:'Pete',age:30};
+    let mary = {name:'Mary',age:28};
+    let users = [john,pete,mary]
+
+    let names = users.map(item => item.name);
+    alert(names); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 8');
+    let john = {name:'John',surname:'Smith',id:1};
+    let pete = {name:'Pete',surname: 'Hunt',id:2};
+    let mary = {name:'Mary',surname:'Key',id:3};
+    let users = [john,pete,mary]
+
+    let userMapped = users.map(item => ({
+        fullname: item.name + ' '+ item.surname,
+        id : item.id
+    }));
+    alert(userMapped[0].id);
+    alert(userMapped[0].fullname); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 9');
+    let john = {name:'John',age: 25};
+    let pete = {name:'Pete',age:30};
+    let mary = {name:'Mary',age:28};
+    let arr = [pete,john,mary];
+
+    function sortByAge(users){
+      users.sort((a,b) => a.age - b.age)
+    };
+    sortByAge(arr);
+    alert(arr[0].name);
+    alert(arr[1].name);
+    alert(arr[2].name);
+     */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 10);
+    let arr = [1,2,3];
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    for (let i=0;i<12;i++){
+        shuffle(arr);
+        alert(arr);
+    }; */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 11');
+    let john = {name:'John',age: 25};
+    let pete = {name:'Pete',age:30};
+    let mary = {name:'Mary',age:29};
+    let array = [john,pete,mary];
+
+    function getAverageAge(arr){
+        return arr.reduce((sum,current) => sum + current.age,0)/ arr.length;
+        // la variable suma es la acumulacion de resultados y current es el valor que se suma actual.
+
+    }
+    alert(getAverageAge(array));*/
+</script>
+<script>
+    'use strict';
+    alert('Ejercicio 12');
+    let strings = ['Hare','Krishna','Hare','Krishna','Krishna',"Krishna",'Hare','Hare',':-0'];
+    function unique(arr){
+        let result = [];
+        for (let str of arr){
+            if (!result.includes(str)) result.push(str);
+        }
+      return result;
+    };
+    alert(unique(strings));
+
+</script>
+</body>
+</html>

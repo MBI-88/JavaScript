@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Errores personalizados</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Uso de la herencia en extension de errores')
+
+        class Error{
+            constructor(message){
+                this.message = message
+                this.name = 'Error'
+                this.stack = 'Not implemented'
+                
+            }
+        }
+
+        class ValidationError extends Error{
+            constructor(message){
+                super(message)
+                this.name = 'ValidationError'
+            }
+        }
+
+        function test(){
+            throw new ValidationError('Whoops!')
+        }
+        try {
+            test()
+        }catch(err){
+            alert(err.message)
+            alert(err.name)
+            alert(err.stack)
+        }
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo con sentencias if/else')
+
+        class Error{
+            constructor(message){
+                this.message = message
+                this.name = 'Error'
+                this.stack = 'Not implemented'
+                
+            }
+        }
+
+        class ValidationError extends Error{
+            constructor(message){
+                super(message)
+                this.name = 'ValidationError'
+            }
+
+        }
+
+        function readUser(json){
+            let user = JSON.parse(json)
+            if (!user.age) throw new ValidationError('No filed: age')
+            if (!user.name) throw new ValidationError('No fileld: name')
+
+            return user
+        }
+
+        try{
+            let user = readUser('{age: 25}')
+        }catch (err){
+            if (err instanceof ValidationError){alert('Invalid data: ' + err.message)}
+
+            else if (err instanceof SyntaxError){
+                alert('Json Syntar Error: ' + err.message)
+            }
+            else{
+                throw err
+            }
+
+        }
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo de herencia completa')
+
+        class Error{
+            constructor(message){
+                this.message = message
+                this.name = 'Error'
+                this.stack = 'Not implemented'
+                
+            }
+        }
+        class ValidationError extends Error{
+            constructor(message){
+                super(message);
+                this.name = 'ValidationError'
+            }
+        }
+        class PropertyRequiredError extends ValidationError{
+            constructor(property){
+                super("No porperty: " + property)
+                this.name = "PropertyRequiredError"
+                this.property = property
+                
+            }
+        }
+
+        function readUser(json){
+            let user = JSON.parse(json)
+            if (!user.age) throw new PropertyRequiredError('age')
+            if (!user.name) throw new PropertyRequiredError('name')
+
+            return user
+        }
+
+        try {
+            let user = readUser('{"age": 25}')
+
+        }catch (err) {
+            if (err instanceof ValidationError) {
+                alert('Invalid data: ' + err.message)
+                alert(err.name)
+                alert(err.property)
+            } else if (err instanceof SyntaxError) {
+                alert('JSON Syntax Error: ' + err.message)
+            }else{
+                throw err
+            }
+        }
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Manipulador de exepciones')
+
+        class Error{
+            constructor(message){
+                this.message = message
+                this.name = 'Error'
+                this.stack = 'Not implemented'
+            }
+        }
+
+        class ReadError extends Error{
+            constructor(message,cause){
+                super(message)
+                this.cause = cause
+                this.name = 'ReadError'
+               
+            }
+        }
+
+        class ValidationError extends Error{
+            constructor(message){
+                super(message);
+                this.name = 'ValidationError'
+            }
+        }
+
+        class PropertyRequiredError extends ValidationError{
+            constructor(property){
+                super("No porperty: " + property)
+                this.name = "PropertyRequiredError"
+                this.property = property
+                
+            }
+        }
+
+        function validateUser(user){
+            
+            if (!user.age) {
+                throw new PropertyRequiredError('age')
+            }
+            if (!user.name) {
+                throw new PropertyRequiredError('name')
+            }
+
+        }
+
+        function readUser(json){
+            let user
+            try {
+                user = JSON.parse(json)
+                
+            } catch (err) {
+                if (err instanceof SyntaxError) {throw new ReadError('Syntax Error',err)
+               } else {throw err}
+            }  
+
+            
+        }
+
+        let user = {
+            //name : 'JSON',
+            age : 25
+        }
+
+        try {
+            validateUser(user)
+        } catch (err) {
+            if (err instanceof ValidationError) {
+                //alert(err.name)
+                //alert(err.message)
+                throw new ReadError('Validation Error',err)
+                
+
+            }else throw err
+        }
+
+        try {
+            readUser('{bad json}')
+
+        } catch (e) {
+            if (e instanceof ReadError) {
+                alert(e)
+                alert('Original error: ' + e.cause)
+
+            } else throw e
+        }
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Ejercicio 1')
+
+        class FormatError extends SyntaxError{
+            constructor(mess){
+                super(mess)
+                this.message = mess
+                this.name = 'FormatError'
+                this.stack = 'stack'
+
+            }
+        }
+        let err = new FormatError('formatting error')
+
+        alert(err.message)
+        alert(err.name)
+        alert(err.stack)
+
+        alert(err instanceof FormatError)
+        alert(err instanceof SyntaxError)
+
+    </script>
+</body>
+</html>

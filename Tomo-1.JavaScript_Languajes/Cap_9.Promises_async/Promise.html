@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objeto Promesa</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo de promise')
+        // resolve y reject son funciones predefinidad en js
+        // Resolve
+        let promise = new Promise(function(resolve,reject){
+            setTimeout(() => resolve('done'),1000)
+        })
+        // Reject
+        let promise1 = new Promise(function(resolve,reject){
+            setTimeout(() => reject(new Error('Whoops!')),1000)
+        })
+        // En caso de error usar reject con el objeto Error 
+        */
+    </script>
+    <script>
+        {   /*
+            'use strict'
+            alert('Metodos de Promise')
+
+            let promise = new Promise(function(resolve,reject){
+                setTimeout(() => resolve("Done"),2000)
+            })
+
+            // .then(...):
+
+            // -> el primer argumento es la funcion que corre cuando una promesa es resuelta
+            // -> es la funcion que recive el resultado
+            // -> el segundo argumento es la funcion que corre cuando una promesa es reinyectada
+            // -> recive el error
+
+            promise.then(
+                result => alert(result),
+                error => alert(error)
+            )
+            */
+        }
+        {   /*
+            'use strict'
+            let promise = new Promise(function(resolve,reject){
+                setTimeout(() => reject(new Error('Whoops!')),2000)
+            })
+            promise.then(
+                result => alert(result),
+                error => alert(error)
+            )
+            */
+        }
+    </script>
+    <script>
+        {   /*
+            'use strict'
+            // .catch(...)
+            // Para capturar solo los errores, then(null,errorHandlinFunction) o usar catch()
+
+            let promise = new Promise((resolve,reject) =>{
+                setTimeout(()=>reject(new Error('Whoops')),2000)
+            })
+            promise.catch(alert)
+            */
+        }
+        { /*
+            'use strict'
+            let promise = new Promise((resolve,reject)=>{
+                setTimeout(() => resolve('result'),2000)
+            }).finally(()=> alert('Promise ready')).then(result => alert(result))
+            */
+        }
+        {   /*
+            'use strict'
+            let promise = new Promise((resolve,reject)=>{
+                throw new Error('error')
+            }).finally(()=> alert('Promise ready')).catch(error => alert(error))
+            */
+        }
+
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejermplo usando la funcion loadScript')
+
+        function loadScript(src){
+            return new Promise((resolve,reject)=>{
+                let script = document.createElement('script')
+                script.src = src
+                script.onload = () => resolve(script)
+                script.onerror = () => reject(new Error(`Script load error for ${src}`))
+                document.head.append(script)
+            })
+        }
+
+        let promise = loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\myScript.js')
+
+        promise.then(
+            script => alert(`${script.src} isloaded`),
+            error => alert(`Error: ${error.message}`)
+        )
+        promise.then(script => alert('One more handler to do something else!'))
+        */
+    </script>
+    <script>
+        /*/
+        'use strict'
+        alert('Ejercicio 1')
+        let promise = new Promise((resolve,reject)=>{
+            resolve(1)
+            setTimeout(()=> resolve(2),1000)
+        })
+        promise.then(alert) // 1
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Ejercicio 2')
+
+        function delay(ms){
+            return new Promise(resolve => setTimeout(resolve,ms))
+        }
+        delay(3000).then(()=> alert('run after 3 seconds'))
+    </script>
+    
+</body>
+</html>

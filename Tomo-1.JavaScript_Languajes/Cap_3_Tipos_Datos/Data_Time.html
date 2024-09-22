@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <title>Data and Time</title>
+    </head>
+    <body>
+        <script>
+            /*
+            'use strict';
+            alert('Uso del modulo Date');
+            let now = new Date();// muestra el timepo actual
+            alert(now);
+            let Dec31_1969 = new Date(0); // 0 significa 31.12.1969 / el argumento es en milisegundos
+            alert(Dec31_1969);
+            Dec31_1969 = new Date(24 * 3600 * 1000); // adicionando 24 * 3600 s * 1000 milis 
+            alert(Dec31_1969); */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Uso de los metodos de Date');
+            let date = new Date("2017-01-26");
+            alert(date);
+            // new Date(year,month,date,hours,minutes,seconds,ms)
+            /* 
+            Solo los dos primeros argumentos son obligatorios:
+            .The year must have 4 digits: 2013 is okay, 98 is not. 
+            .The month count starts with 0 (Jan), up to 11 (Dec). 
+            .The date parameter is actually the day of month, if absent then 1 is assumed. 
+            .If hours/minutes/seconds/ms is absent, they are assumed to be equal 0 .
+
+            Acediendo a los componentes:
+            getFullYear(): obtiene los 4 digitios del año.
+            getMonth(): obtiene el mes de 0 a 11
+            getDate(): obtiene el dia del mes de 1 a 31
+            getHours(),getMinutes(),getSeconds() and getMilliseconds(): obtienen sus nombres corres-
+            pondientes.
+            getDay(): obtiene los dias de la semana 0 (Sunday) a 6 (Saturday).
+
+            Todos los metodos anteriores retornan los componentes relativos a la zona local.
+            Tambien se puede usar: e.g getUTCFullYear(),...
+
+            Metodos especiales: (Estos metodos no tienen variante UTC)
+            getTime(): retorna el tiempo pasado para la fecha new Date(0) hasta la actual en milisegundos
+            getTimezoneOffset(): retorna la diferencia entre el timepo en la zona local y UTC en 
+            minutos.
+            */
+           /*
+            alert('Comparacion entre metodos con UTC y sin UTC');
+            let fecha = new Date();
+            alert(fecha.getHours());
+            alert(fecha.getUTCHours());
+
+            alert(`Uso de TimezoneOffset ${new Date().getTimezoneOffset()}`);
+            alert(`Uso de getTime ${new Date().getTime()}`);
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Establecinedo fechas');
+            /*
+            setFullYear(year [, month, date])  
+            setMonth(month [, date]) 
+            setDate(date) 
+            setHours(hour [, min, sec, ms]) 
+            setMinutes(min [, sec, ms])
+            setSeconds(sec [, ms])
+            setMilliseconds(ms)
+            setTime(milliseconds)
+            (sets the whole date by milliseconds since 01.01.1970 UTC)
+            Nota: Cada uno de ellos excepto setTime() tienen variante UTC
+            */
+           /*
+           let today = new Date();
+           today.setHours(0);
+           alert(today); // la fecha de hoy pero con la hora puesta a 0
+           today.setHours(0,0,0,0);
+           alert(today);// la fecha de hoy pero con todo los componentes de la hora puesta a 0
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Uso de la autocorreccion de la fecha');
+            let date = new Date(2013,0,32);// 32 es erroneo
+            alert(date); // 1st Feb 2013
+            // Usabilidad para adicionar valores a la fecha.
+            date.setDate(date.getDate() + 2);
+            alert(date);
+            let datenow = new Date();
+            datenow.setSeconds(datenow.getSeconds() + 70);
+            alert(`Sumando 70 segundos ${datenow}`);
+            date.setDate(1);
+            alert(`Reduciendo un dia ${date}`);
+            date.setDate(0);
+            alert(`Establecinedo 0 dias ${date}`); // se asume en caso extremo el año anterior
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Pasando de fechas a numeros (date diff)');
+            let date  = new Date();
+            alert(+date);// se transforma en la salida de getTime() (milisegundos)
+            let start = new Date();
+            for (let i = 0;i< 100000;i++){
+                let doSomething = i * i * i;
+            };
+            let end = new Date();
+            alert(`Timepo tomado por el lazo for ${end - start} ms`);
+            alert('Uso de Date.now()');
+            // Este metodo es utilizado para medir el rendimiento
+            // no crea un objeto intermedio, es semanticamente igual a getTime()
+
+            let begin = Date.now();
+            for (let i = 0;i< 100000;i++){
+                let doSomething = i * i * i;
+            };
+            let stop = Date.now()
+            alert(`El lazo tomo ${stop - begin} ms`);
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Benchmarking');
+            function diffSubtract(date1,date2){
+                return date2 - date1;
+            };
+            function diffGetTime(date1,date2){
+                return date2.getTime() - date1.getTime();
+            };
+            function benchmarking(f){
+                let date1 = new Date(0);
+                let date2 = new Date();
+
+                let start = Date.now();
+                for (let i = 0;i< 100000;i++)f(date1,date2);
+                return Date.now() - start;
+            };
+            alert(`Time of diffSubtract ${benchmarking(diffSubtract)} ms`);
+            alert(`Time of diffGetTime ${benchmarking(diffGetTime)} ms`);
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Mejorando el escenario de benchmarking');
+            // Para una mayor seguridad debe correrse mas de una vez
+            function diffSubtract(date1,date2){
+                return date2 - date1;
+            };
+            function diffGetTime(date1,date2){
+                return date2.getTime() - date1.getTime();
+            };
+            function benchmarking(f){
+                let date1 = new Date(0);
+                let date2 = new Date();
+
+                let start = Date.now();
+                for (let i = 0;i< 100000;i++)f(date1,date2);
+                return Date.now() - start;
+            };
+            let time1 = 0;
+            let time2 = 0;
+            for (let i = 0;i< 10;i++){
+                time1 += benchmarking(diffSubtract);
+                time2 += benchmarking(diffGetTime);
+            };
+            alert('Total time for diffSubtract: '+ time1);
+            alert('Total time for diffGetTime: ' + time2);
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Parseado de fechas a partir de strings');
+            /*
+            Formato aceptado por el metodo Date.parse:
+            YYYY-MM-DD – is the date: year-month-day. 
+            The character "T" is used as the delimiter. 
+            HH:mm:ss.sss – is the time: hours, minutes, seconds and milliseconds.
+            The optional 'Z' part denotes the time zone in the format +-hh:mm . 
+            A single letter Z that would mean UTC+0.
+
+            Retorna el tiempo pasado desde Date(0)  hasta la fecha introducida en milisegundos.
+            */
+            /*
+           let ms = Date.parse('2012-01-26T13:51:50.417-07:00');
+           alert(ms);
+           // Creando un objeto date desde Date.parse
+            let date = new Date(Date.parse('2012-01-26T13:51:50.417-07:00'));
+            alert(date);
+            alert(`Loading started ${performance.now()} ms ago`);
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 1');
+            let date = new  Date('2012-02-20 3:12:10')
+            alert(date); */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 2');
+            function getWeekDay(date){
+                let week = {
+                    0 : 'SU',
+                    1 : 'MO',
+                    2 : 'TU',
+                    3 : 'WE',
+                    4 : 'TH',
+                    5 : 'FR',
+                    6 : 'SA'
+                }
+                return week[date.getDay()];
+            };
+            let date = new Date(2012,0,3);
+            alert(getWeekDay(date)); */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 3');
+            function getLocalDay(date){
+                // Devuelve el dia de la semana con el formato Europeo
+                 let dayEurope = ['MO','TU','WE','TH','FR','SA','SU'];
+                 return dayEurope[date.getDay() + 1];
+
+            };
+            let date = new Date(2012,0,3);
+            alert(getLocalDay(date)); */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 4');
+            let date = new Date(2015,0,2);
+            function getDateAgo(date,days){
+                let datecopy = new Date(date);
+                datecopy.setDate(date.getDate() - days);
+                
+                return ['Diff:-> ',datecopy.getDate(),' Date:-> ',datecopy];
+            };
+            alert(getDateAgo(date,1)); // 1, 1 Juan 2015
+            alert(getDateAgo(date,2)); // 31, 31 Dec 2014
+            alert(getDateAgo(date,365)); // 2 2 Juan 2014
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 5');
+            function getLastDayOFMonth(year,month){
+                let date = new Date(year,month + 1,0)
+                return date.getDate();
+            };
+            alert(getLastDayOFMonth(2012,1));//29
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 6');
+            function getSecondsToday(){
+                let today = new Date();
+                let begingDay = new Date(today.getFullYear(),today.getMonth(),today.getDate());
+                let diff = (today - begingDay) / 1000
+                return diff;
+            };
+            alert(getSecondsToday());
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 7');
+            function getSecondsToTomorrow(){
+                let today = new Date();
+                let tomorrow = new Date(today.getFullYear(),
+                today.getMonth(),today.getDate() + 1)
+                return (tomorrow - today) / 1000; 
+            };
+            alert(getSecondsToTomorrow());
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 8');
+            function formatDate(date){
+                let diff = new Date() - date;
+
+                if (diff  < 1000) return "right now";
+                if (diff  < (1000*60)) return `${(diff / 1000)} sec. ago`;
+                if (diff < (1000 * 60 * 60)) return `${(diff / (1000 * 60))} min. ago`;
+
+                let d = date.getDate()+'.'+date.getMonth()+'.'+
+                String(date.getFullYear()).slice(2,)+' '+date.getHours()+':'+date.getMinutes()
+            
+                return d;
+            };
+            alert(formatDate(new Date(new Date() - 1)));
+            alert(formatDate(new Date(new Date() - 30 * 1000)));
+            alert(formatDate(new Date(new Date() - 5 * 60 * 1000)));
+            alert(formatDate(new Date(new Date() - 86400 * 1000)));
+            */
+        </script>
+    </body>
+</html>

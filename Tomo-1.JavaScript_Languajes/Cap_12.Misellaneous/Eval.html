@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eval</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert("Uso de la funcion eval()")
+        // El uso de la funcion eval permite ejecutar string de codigo
+        let result = 'alert("Hello")'
+        eval(result)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Usos de eval")
+        // La ejecucion ocurre en el ambiente lexico actual
+        // Variables externas pueden ser vistas
+        
+        let a = 1
+        function f(){
+            let a = 2
+            eval('alert(a)')
+        }
+        f()
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Asignando datos con eval")
+        let x = 5
+        eval('x = 10')
+        alert(x)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Uso con funciones")
+        eval("let x = 5; function f(){alert(x)};f()")
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Uso de buenas practicas de programacion con eval")
+        // Usando eval de forma global, evitando que use variables locales
+        let x = 1
+        {
+            let x = 5
+            window.eval('alert(x)') // 1 (global variable)
+        }
+
+        // Llamando desde función, cuando se necesitan variables locales
+        let f = new Function('a','alert(a)')
+        f(5)
+        */
+    </script>
+    <script>
+        'use strict'
+        alert("Ejercicio 1")
+        let calculator = expresion => {
+            alert(expresion)
+            alert(eval(expresion))
+        }
+        calculator(prompt("Expresion:",""))
+        
+    </script>
+    
+</body>
+</html>

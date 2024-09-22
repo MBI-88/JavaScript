@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decoradores y envios</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict';
+        alert('Uso de decoradores')
+        function slow(x){
+            alert(`Called with ${x}`)
+            return x
+        }
+        function cachingDecorator(func){
+            let cache = new Map()
+            return function(x){
+                if (cache.has(x)){return cache.get(x)}
+                let result = func(x)
+                cache.set(x,result)
+                return result
+            }
+        }
+        slow  = cachingDecorator(slow)
+        alert(slow(1))
+        alert("Again: " + slow(1))
+        alert(slow(2))
+        alert("Again: " + slow(2))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Decoradores con metodos')
+        let worker = {
+            someMethod(){return 1;},
+        
+            slow(x){
+                alert("Called " + x)
+                return x * this.someMethod()
+            }
+        }
+        function cachingDecorator(func){
+            let cache = new Map()
+            return function(x){
+                if (cache.has(x))return cache.get(x)
+                let result = func(x)
+                cache.set(x,result)
+                return result
+            }
+        }
+        alert(worker.slow(1))
+        worker.slow = cachingDecorator(worker.slow)
+        alert(worker.slow(2)) // error this queda indefinido
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Resolviendo el problema usando el metodo call')
+        // func.call(context,arg1,arg2,...)
+        function sayHi(){
+            alert(this.name)
+        }
+        let user = {name:'John'}
+        let admin = {name:'Admin'}
+
+        sayHi.call(user)
+        sayHi.call(admin)
+        function say(phrase){ alert (this.name + " : " + phrase)}
+        say.call(user,'Hello')
+
+        // Aplicando a objetos
+        let worker = {
+            someMethod(){return 1},
+            slow(x){alert("Called " + x);return x * this.someMethod();}
+        }
+        function cachingDecorator(func){
+            let cache = new Map()
+            return function(x){
+                if (cache.has(x)) return cache.get(x)
+                let result = func.call(this,x)
+                cache.set(x,result)
+                return result
+            }
+        }
+        worker.slow = cachingDecorator(worker.slow)
+        alert(worker.slow(2))
+        alert(worker.slow(2))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Usando multiples argumentos con func.apply')
+        let user = {name:'John'}
+        function say(time,phrase){
+            alert(`[${time}] ${this.name}: ${phrase}`)
+        }
+        let messages = ['10:00','Hello']
+        say.apply(user,messages)
+        // Si se usa func.call con (...) se obtiene el mismo resutado que con func.apply
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo de un decorador completo')
+        let worker = {
+            slow(min,max){
+                alert(`Called with ${min},${max}`)
+                return min +  max
+            }
+        }
+        function cachDecoration(func,hash){
+            let cache = new Map()
+            return function(){
+                let key = hash(arguments)
+                if (cache.has(key))return cache.get(key)
+                let result = func.apply(this,arguments)
+                cache.set(key,result)
+                return result
+            }   
+        }
+        function hash(args){
+            return args[0] + ',' + args[1]
+        }
+
+        worker.slow = cachDecoration(worker.slow,hash)
+        alert(worker.slow(3,5))
+        alert("Again " + worker.slow(3,5))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Prestado de metodos')
+        function hash(...args){
+            return [].join.call(args)
+        }
+        alert(hash(1,2,3))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 1')
+        function work(a,b){
+            alert(a + b)
+        }
+        
+        function spy(func){
+             function wrapper(...args){
+               wrapper.calls.push(args)
+              let result = func.apply(this,arguments)
+              return result
+            }
+            wrapper.calls = []
+            return wrapper
+          
+        }
+        work = spy(work)
+        work(1,2)
+        work(4,5)
+        work(10,20)
+        for (let args of work.calls){
+            alert('call: '+ args.join())
+        }
+        */        
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercico 2')
+        function f(x){ alert(x)}
+
+        function delay(func,ms){
+           return function (){
+              setTimeout(()=>{
+                  func.apply(this,arguments)
+              },ms)
+          }
+        }
+        let f1000 = delay(f,1000)
+        let f1500 = delay(f,1500)
+        f1000('test')
+        f1500('test')
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercico 3')
+
+        function debounce(func,ms){
+            let isCooldown = false
+            return function (){
+               if (isCooldown) return
+               func.apply(this,arguments)
+               isCooldown = true
+               setTimeout(() => isCooldown = false,ms)
+            }
+        }
+
+        let f = debounce(alert,1000)
+        f('Call 1')
+        f('Call 2')
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 4')
+
+        function f(x){
+            alert(x)
+        }
+
+        function throttle(func,ms){
+           let isThrottled = false
+            let savedArgs
+            let savedThis
+           
+           function wrapper(){
+               if (isThrottled){
+                   savedArgs = arguments
+                   savedThis = this
+                   return
+               }
+               func.apply(this,arguments)
+               isThrottled = true
+               setTimeout(() => {
+                    isThrottled = false
+                    if (savedArgs){
+                        wrapper.apply(savedThis,savedArgs)
+                        savedArgs = savedThis = null
+                    }
+               },ms)
+           }
+           return wrapper
+        }
+        let f1000 = throttle(f,1000)
+        f1000(1)
+        f1000(2)
+        f1000(3)
+        */
+    </script>
+</body>
+</html>

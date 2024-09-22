@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=chrome">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propiedades de funciones como objetos</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict';
+        alert('Propiedad name');
+        function sayHi(){alert('Hi');}
+        alert(sayHi.name);// sayHi
+
+        let sayhi = function(){alert('Hi');}
+        alert(sayhi.name);// sayhi
+
+        function f(sayHi=function(){}){alert(sayHi.name);}
+        f();
+
+        let user = {
+            sayHi(){},
+            sayBye:function(){}
+        };
+        alert(user.sayHi.name);
+        alert(user.sayBye.name);
+
+        //casos de propiedad name bacios
+
+        let arr = [function(){}];
+        alert(arr[0].name);// empty string
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Propiedad length');
+        //Retorna el numero de parametros de la funcion
+        function f1(a){}
+        function f2(a,b){}
+        function many(a,b,...more){}
+
+        alert(f1.length);
+        alert(f2.length);
+        alert(many.length);
+
+        function ask(question,...handlers){
+            let isYes = confirm(question);
+            for (let handler of handlers){
+                if (handler.length == 0){
+                    if (isYes) handler();
+                }else{handler(isYes)}
+            }
+        };
+        ask('Question?',() => alert('You said yes'),result => alert(result) );
+
+        //Propiedades personalizadas
+        function sayHi(){
+            alert('Hi');
+            sayHi.counter++;
+        };
+        sayHi.counter = 0;
+        sayHi();
+        sayHi();
+        alert(`Callled ${sayHi.counter} times`);
+
+        function makeCounter(){
+            function counter(){return counter.count++;}
+            counter.count = 0;
+            return counter;
+        };
+        let counter = makeCounter()
+        counter.count = 10
+        alert(counter()) // 10
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Expresion de funciones nombradas');
+        // El uso de func no crea una definicion de funcion
+        // Permite referenciar a la propia funcion internamente
+        // No es visible fuera de la funcion
+        let sayHi = function func(who){alert(`Hello, ${who}`)}
+        sayHi('John')
+
+        let sayhi = function func(who){
+            if (who){alert('Hello: '+ who)}
+            else{func('Guest')}
+        }
+        sayhi('Maike')
+        // Variante sin func.
+        // Si el valor de sayHI cambia no funciona el codigo
+        let sayHI = function(who){
+            if (who)alert('Hello '+ who)
+            else sayHI('Guest')
+        }
+        let welcome = sayHI
+        //sayHI = null
+        welcome('Pete')
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Ejercicio 1')
+        function makeCounter(){
+            function counter(){return counter.count++}
+            counter.count = 0
+            counter.set = value => counter.count = value
+            counter.decrease = function(){return counter.count--}
+            return counter
+        }
+        let counter = makeCounter()
+        counter.set(10)
+        alert(counter())
+        alert(counter())
+        alert(counter.decrease())
+        alert(counter())
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Ejercicio 2')
+        function sum(a){
+            let current = a
+            function f(b){
+                current += b
+                return f
+            }
+            f.toString = () => {return current}
+            return f
+        }
+        alert(sum(2)(1))
+        alert(sum(1)(2)(3))
+        alert(sum(0)(1)(2)(3)(4)(5))
+        alert(sum(6)(-1)(-2)(-3))
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pausando lazos</title>
+</head>
+<body>
+<script>
+    /*
+    alert('Pausando el lazo while');
+    let sum = 0;
+    while(true){
+        let value = +prompt('Enter a number:','');
+        if (!value)break;
+        sum += value;
+    }
+    alert('Sum: '+sum);
+     */
+</script>
+<script>
+    /*
+    alert('Continuando con la siguiente iteracion');
+    for (let i = 0;i < 10;i++){
+        if (i % 2 == 0)continue;
+        alert(i);// 1,3,5,7,9
+        // Las directivas break y continue no son permitidas con el  operador ternario.
+    }
+     */
+</script>
+<script>
+    /*
+    alert('Usando etiquetas para parar lazos dentro de lazos.');
+    labelName: for (let i = 0;i < 3; i++){
+        for (let j = 0;j < 3;j++){
+            let inuput = prompt(`Value at coords (${i},${j})`,'');
+            if (!inuput)break labelName;
+        }
+    }
+    alert('Done!');
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 1');
+    let i = 3;
+    while(i){
+        alert(i--);//el ultimo valor es 1.
+    }
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 2');
+    let i = 0;
+    while (++i < 5)alert(i);// 1,2,3,4 / con el posfijo muestra el 5.
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 3');
+    for (let i = 0;i < 5;++i)alert(i);//0,1,2,3,4. La salida es la misma para posfijo y prefijo.
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 4');
+    for (let x = 2;x < 10; x++){
+        if (x % 2 == 0)alert(x);
+    }
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 5');
+    let i = 0;
+    while (i < 3){
+        alert(i);
+        i++;
+    }
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 6');
+    while (true){
+        let num = prompt('Enter a number:','');
+        if ( parseInt(num) > 100)break;
+    }
+     */
+</script>
+<script>
+    alert('Ejercicio 7');
+    let prime= prompt('Enter a number:','');
+    for(let i = 0;i < parseInt(prime);i++){
+        if (i % 2 == 0)continue;
+        alert(`${i} es primo`);
+    }
+</script>
+
+</body>
+</html>

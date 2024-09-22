@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipos nativos</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Objetos planos')
+        /*
+        La notacion obj = {} es igual a obj = new Object(),el objeto es creado a partir de una funcion
+        constructora; esta funcion hace referencia a un enorme objeto con un metodo toString entre otros
+        */
+       /*
+       let obj = {}
+       alert(obj.__proto__ == Object.prototype)// true
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Otras creaciones de objetos')
+
+        let arr = [1,2,3]
+        alert(arr.__proto__ == Array.prototype) // true
+        alert(arr.__proto__.__proto__ == Object.prototype)//true
+        alert(arr.__proto__.__proto__.__proto__)// null
+        function f(){}
+        alert(f.__proto__ == Function.prototype)//true
+        alert(f.__proto__.__proto__ = Object.prototype)// true, inerito de func Objeto
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Prototipos primitivos')
+        // Cambiando prototipos primitivos
+        String.prototype.show = function(){alert(this)}
+        'Boom!'.show()// Boom!
+        // Esto no es buena idea hacerlo porque generaria conflicto con librerias que adicionen 
+        // el metodo String.prototype.show, los prototipos son globales
+
+        // Ejemplo de polifilling (termino usado para hacer la sustitucion de un metodo en js)
+
+        if (!String.prototype.repeat){
+            String.prototype.repeat = function(n){return Array(n+1).join(this)}
+        }
+        alert('La'.repeat(3))// LaLaLa
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Prestamos de prototipos')
+
+        let obj = {
+            0: 'Hello',
+            1: 'world',
+            length: 2
+        }
+        obj.join = Array.prototype.join
+        alert(obj.join(','))// Hello,world
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 1')
+       function f(){alert('Hello')}
+       
+       Function.prototype.defer = function(ms){
+           setTimeout(this,ms)
+       }
+       f.defer(1000)
+       */
+    </script>
+    <script>
+        'use strict'
+        alert('Ejercicio 2')
+
+        function f(a,b){alert(a + b)}
+
+        Function.prototype.defer = function(ms){
+            let f = this
+            return function(...args){
+                    setTimeout(()=>f.apply(this,args),ms)
+                    
+            }
+        }
+        f.defer(1000)(5,2)
+        
+    </script>
+</body>
+</html>

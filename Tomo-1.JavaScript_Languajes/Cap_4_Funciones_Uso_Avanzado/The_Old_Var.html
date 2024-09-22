@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso de la variable (var)</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict';
+        alert('Uso de var como let');
+        function sayHi(){
+            var phrase = 'Hello';
+            alert(phrase);
+        };
+        sayHi();
+        if (true){
+            var test = true;
+        };
+        alert(test); // se puede acceder fuera del lazo
+
+        // Con sentencia var se obvia el bloque de codigo.
+        // La decalaracion de var es procesada en el arranque de la funcion.
+
+        function testvar(){
+            phrase = 'Hello';
+            alert(phrase);
+            var phrase;
+        };
+        testvar();
+        function SayHi(){
+            alert(valor);
+            var valor = 'Hello';
+        };
+        SayHi();
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Objetivo globales');
+        // En el navegador toda funcion y variable declarada con var es accedida directamente
+        // se vuelven propiedad del objeto global
+        var gVar = 5;
+        alert(window.gVar);// 5 , propiedad del objeto ventana
+        // Esto ocurre por problemas de compatibilidad
+        let gLet = 10;
+        alert(window.gLet);
+        */
+    </script>
+    <script>
+        
+        'use strict';
+        alert('Haciendo un objeto global');
+        window.currentUser = {
+            name: 'John'
+        };
+        alert(currentUser.name); // John
+        // Para caso de ser una variable local
+        alert(window.currentUser.name);
+
+        // Usando polyfills
+
+        if (!window.Promise){alert('Your browser is really old!')}
+        
+    </script>
+</body>
+</html>

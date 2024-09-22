@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+    <head>
+        <meta charset='utf-8'>
+        <title>Asignacion multiple de array</title>
+    </head>
+    <body>
+        <script>
+            /*
+            'use strict';
+            alert('Asignacion en array');
+            let [a,b,c] = "abc";
+            let [one,two,three] = new Set([1,2,3]);
+            alert([a,b,c]);
+            alert([one,two,three]);
+            alert('Asignacion en objetos');
+            let user = {};
+            [user.name,user.surname] = 'Ilya Kantor'.split(' ');
+            alert(user.name);
+            alert(user.surname); */
+        </script> 
+        <script>
+            /*
+            'use strict';
+            alert('Lazos con entradas');
+            let user = {
+                name:'John',
+                age:30
+            };
+            for (let [key,value] of Object.entries(user)){
+                alert(`${key}: ${value}`);
+            }; */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Lazos en mapas');
+            let user = new Map();
+            user.set('name','John');
+            user.set('age',30);
+            for (let [key,value] of user){
+                alert(`${key}: ${value}`);
+            }; */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Uso de los (...) para seleccionar elementos');
+            let [name1,name2,...rest] = ['Julius','Caesar','Consul','of the Roman Republic'];
+            alert(name1);
+            alert(name2);
+            alert(rest[0]);
+            alert((rest[1]));
+            alert(rest.length); */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Valores por defecto');
+            // valores undefined
+            let [firname,surname] = [];
+            alert(firname); // undefined
+            
+            // Valores por defecto
+            let [Name = "Guest",Surname = 'Anonymous'] = ["Julius"];
+            alert(Name);
+            alert(Surname);
+            // Uso practico de la asignacion multiple
+
+            let [names = prompt('name?:__'),secondname = prompt('surname?:__')] = ['Julius'];
+            alert(names);
+            alert(secondname); */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Destructurando objetos');
+            let options = {
+                title:'Menu',
+                width:100,
+                height:200
+            };
+            let {title,width,height} = options;
+            alert(title);
+            alert(width);
+            alert(height);
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Asignando una propiedad a una variable con otro nombre');
+            let options = {
+                title:'Menu',
+                width:100,
+                height:200
+            };
+            let {width:w,height:h,title} = options;
+            alert(title);
+            alert(w);
+            alert(h); */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Uso practico de asignacion de propiedad');
+            let options = {
+                title: 'Menu'
+            };
+            let {width = prompt('Width?'),title = prompt('title?')} = options;
+            alert(title);
+            alert(width); */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Uso de ...rest con objetos');
+            let options = {
+                title:'Menu',
+                height:200,
+                width: 100
+            };
+            let {title,...rest} = options
+            alert(rest.height);
+            alert(rest.width);
+            // esto no funciona 
+            let title,width,height;
+            {title,width,height} = {title:'Menu',width:200,height:100};
+            // Para que funcione necesita estar entre parentisis.
+            ({title,width,height}) = {tittle:'Menu',width:200,height:100}
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Probando destructuracion');
+            // usos mas complejos
+            let options = {
+                size:  {
+                    width: 100,
+                    height: 200
+                },
+                items: ["Cake","Donut"],
+                extra: true
+            };
+            let {
+                size: {
+                    width,
+                    height
+                },
+                items: [item1,item2],
+                title = 'Menu'
+            } = options;
+            alert(title); // Menu
+            alert(width); // 100
+            alert(height); // 200
+            alert(item1); // Cake
+            alert(item2); // Donut
+            // Caso de complegidad en la busqueda
+            let {size}  = options;
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Parametros de funciones inteligentes');
+            // pasando objetos a funciones
+            let options = {
+                title: 'My menu',
+                items: ['item1','item']
+            };
+            function showMenu({title='Undefined',width=200,height=100,items=[]}){
+                alert(`${title} ${width} ${height}`);
+                alert(items);
+            };
+            showMenu(options);
+            // sintacxis:
+            // function({
+                // incomingProperty:parametrer = defaultvalue})
+            
+            showMenu({}); // no da error
+            // Si diera error entonces usamos lo siguiente
+            // function showMenu({title='Menu',width=100,height=200} = {}){} valor por defecto {}
+            */
+        </script>
+        <script>
+            /*
+            'use strict';
+            alert('Ejercicio 1');
+            let user = {
+                name: 'John',
+                year: 30
+            };
+            let {name,year:age,isAdmin=false} = user;
+            alert(name); // John
+            alert(age);// 30
+            alert(isAdmin);// false
+            */
+        </script>
+        <script>
+            
+            'use strict';
+            alert('Ejercicio 2');
+            let salaries = {
+                'John': 100,
+                'Pete': 300,
+                'Mary':250
+            };
+            function topSalary(salaries){
+                let salatem = 0;
+                let personMax = null;
+                for (const [persorn,salari] of Object.entries(salaries)){
+                    if(salari > salatem){
+                        salatem = salari;
+                        personMax = persorn;
+                    }
+                };
+                return personMax;
+            };
+            alert(topSalary(salaries));
+            
+        </script>
+    </body>
+</html>

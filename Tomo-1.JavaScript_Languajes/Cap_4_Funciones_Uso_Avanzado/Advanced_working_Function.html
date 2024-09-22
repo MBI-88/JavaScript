@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo avanzado de funciones</title>
+</head>
+<body>
+   <script>
+       /*
+       'use strict';
+       alert('Recurcividad');
+       // JavaScript permite una recursion a lo sumo de no mas 100000 pasos
+       function pow(x,n){
+           if (n == 1) return x;
+           return x * pow(x,n - 1);
+       };
+       alert(pow(2,3));
+       */
+   </script>
+   <script>
+       /*
+       'use strict';
+       alert('Recurcion transversal');
+       let company = {
+           sales:[{
+               name:'John',
+               salary:1000
+            },{
+               name: 'Alice',
+               salary:600
+            }],
+            development: {
+                sites:[{
+                    name:'Peter',
+                    salary:2000
+                },{
+                    name:'Alex',
+                    salary:1800
+                }]
+            },
+            internals:[{
+                name:'Jack',
+                salary:1300
+            }]
+        };
+        function sumaSalaries(department){
+            if (Array.isArray(department)){
+                return department.reduce((prev,current) => prev + current.salary,0);
+            }else{
+                let sum = 0;
+                for (let subdep of Object.values(department)){
+                    sum += sumaSalaries(subdep);
+                };
+            
+            return sum;
+            }
+        };
+        alert(sumaSalaries(company));// 6700
+        */
+   </script>
+   <script>
+       /*
+       'use strict';
+       alert('Listas enlazadas');
+       // Las listas enlazadas tienen que tener un valor y un metodo next que hace referencia al 
+       // siguinete nodo.
+       let list = {
+           value: 1,
+           next:{
+               value: 2,
+               next:{
+                   value: 3,
+                   next:{
+                       value: 4,
+                       next: null
+                   }
+                
+               }
+           }
+       };
+       // Alternativa 
+       let list2 = {value:  1};
+       list2.next = {value:2};
+       list2.next.next = {value:3};
+       list.next.next.next = {value:4};
+       // Eliminar elementos
+       list.next = list.next.next 
+       alert(Object.entries(list));
+       alert(Object.entries(list2));
+       */
+   </script>
+   <script>
+       /*
+       'use strict';
+       alert('Ejercicio 1');
+       function sumToR(n){
+           return (n == 1) ? n : n + sumToR(n - 1);
+       };
+       alert(sumToR(100)); // mas lenta
+       // Variante de lazo
+       function sumToL(n){
+           let suma = 0;
+           for (let i = n;i > 0;i--){
+                suma += i;
+           };
+           return suma
+       };
+       alert(sumToL(100));
+       // Variante formula matematica
+       function sumToM(n){
+           return n * (n + 1)/2
+       };
+       alert(sumToM(2)); // Mas rapida
+       */
+   </script>
+   <script>
+       /*
+       'use strict';
+        alert('Ejercicio 2');
+        function  factorial(n){
+            return (n == 1) ? n : n *= factorial(n - 1)
+        };
+        alert(factorial(5));
+        */
+   </script>
+   <script>
+       /*
+       'use strict';
+       alert('Ejercicio 3');
+       function fibonacci(n){
+          return (n <= 1 ? n: fibonacci(n - 1) + fibonacci(n - 2) )
+       };
+       function fibOp(n){
+           let a = 1,b = 1;
+           let c = 0;
+           for (let i = 1;i < n-1;i++){
+              c = a + b;
+              a = b;
+              b = c;
+           };
+           return c;
+       };
+       alert(fibOp(3));
+       alert(fibOp(7));
+       alert(fibOp(77));
+       alert(fibOp(100));
+       */
+   </script>
+   <script>
+       /*
+       'use strict';
+       alert('Ejercicio 4');
+       let list = {
+           value:1,
+           next:{
+               value:2,
+               next:{
+                   value:3,
+                   next:{
+                       value:4,
+                       next: null
+                   }
+               }
+           }
+       };
+       function printList(list){
+          while (list){
+              alert(list.value);
+              list = list.next;
+
+          }
+       };
+       printList(list);
+       // Recursiva
+       function printListR(list){
+            alert(list.value);
+           if (list.next){
+               printListR(list.next);
+           };
+           
+       };
+       printListR(list);
+       */
+   </script>
+   <script>
+       'use strict';
+       alert('Ejercicio 5');
+       let list = {
+           value:1,
+           next:{
+               value:2,
+               next:{
+                   value:3,
+                   next:{
+                       value:4,
+                       next: null
+                   }
+               }
+           }
+       };
+       function printListReverse(list){
+           let templist = [];
+           while (list){
+               templist.push(list.value);
+               list = list.next;
+           };
+           for (let i of templist.reverse()){
+               alert(i)
+           };
+       }
+       printListReverse(list);
+       // Recursiva
+       function printListReverseR(list){
+           if (list.next) printListReverseR(list.next)
+
+           alert(list.value);
+       };
+       printListReverseR(list);
+   </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asynchronously_await</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Introduccion a callbacks')
+        // Esta es la base de la programacion asincronica
+        // El script se carga en paralelo a la accion que se este realizando
+        function loadScript(src,callback){
+            let script = document.createElement('script')
+            script.src = src
+            script.onload = () => callback(script)
+            document.head.append(script)
+        }
+        loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\myScript.js',script =>{
+            alert(`Cool the ${script.src} is loaded`)
+        })
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Callback en callback')
+
+        // Insertando la funcion dentro de la funcion callback. Solo para pocas acciones
+
+        function loadScript(src,callback){
+            let script = document.createElement('script')
+            script.src = src
+            script.onload = () => callback(script)
+            document.head.append(script)
+
+        }
+        loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\myScript.js',script =>{
+            alert(`Cool the script ${script.src} is loaded`);
+            loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\myScript2.js',script =>{
+                alert(`Cool the second script ${script.src} is loaded`)
+            })
+        })
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Capturando errores')
+
+        function loadScript(src,callback){
+            let script = document.createElement('script')
+            script.src = src
+            script.onload = () => callback(null,script)
+            script.onerror = () => callback(new Error(`Script load error for ${src}`))
+            document.head.append(script)
+
+        }
+        loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\Script.js',(error,script)=>{
+            if (error)alert(`Error ${error}`)
+            else{
+                alert(`Cool the script ${script.src} was loaded`)
+            }
+        })
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('La piramide de Doom')
+        // Para pocas llamadas de funciones es buena practica pero si aumentan las llamadas 
+        // se vuelve inmanejable.
+
+        function loadScript(src,callback){
+            let script = document.createElement('script')
+            script.src = src
+            script.onload = () => callback(null,script)
+            script.onerror = () => callback(new Error(`Script load error for ${src}`))
+            document.head.append(script)
+
+        }
+        loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\myScript.js',(error,script) =>{
+            if (error) handleError(error)
+            else{
+                loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\myScript2.js',(error,script) =>{
+                    if (error) handleError(error)
+                    else{
+                        loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\Script.js',(error,script) =>{
+                            if (error) handleError(error)
+                            else{
+                                alert('All scripts were loaded')
+                            }
+                        })
+                    }
+                })
+            }
+        })
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        // Mejorando la pimramide de Doom
+
+        function loadScript(src,callback){
+            let script = document.createElement('script')
+            script.src = src
+            script.onload = () => callback(null,script)
+            script.onerror = () => callback(new Error(`Script load error for ${src}`))
+            document.head.append(script)
+
+        }
+        function step1(error,script){
+            if (error) handleError(error)
+            else{
+                loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\myScript2.js',step2)
+            }
+        }
+        function step2(error,scipt){
+            if (error) handleError(error)
+            else{
+                loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\Script2.js',step3)
+            }
+        }
+        function step3(error,script){
+            if (error)handleError(error)
+            else{
+                alert('all scripts were loaded')
+            }
+        }
+        loadScript('C:\\Users\\MBI\\Documents\\JavaScripts_Course\\Cap_9.Promises_async\\myScript.js',step1)
+        */
+    </script>    
+</body>
+</html>

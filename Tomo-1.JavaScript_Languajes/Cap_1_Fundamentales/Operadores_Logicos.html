@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uso de operadores logicos</title>
+</head>
+<body>
+<p>Operadores logicos: || (OR), && (AND),! (NOT)</p>
+<script>
+    /*alert('Las cuatro posibles combinaciones logicas');
+    alert(true || true); // true
+    alert(false || true);//true
+    alert(true || false);//true
+    alert(false || false);//false
+     */
+</script>
+<script>
+    /*
+    alert('Uso de OR en sentencia if');
+    let hour = 9;
+    if (hour < 10 || hour > 18){alert('This office is closed.');}
+    alert(1 || 0);//1
+    alert(true || 'no matter what');// true is verdadero
+    alert(null || 1);// 1 primer valor verdadero
+    alert(null || 0 || 1); // 1 el primer valor  verdadero
+    alert(undefined || null || 0);// 0 , todos son falsos retorna el ultimo valor
+     */
+
+</script>
+<script>
+    /*
+    alert('Ejemplo de uso de OR en la seleccion de datos de una lista');
+    let currentUSer = null;
+    let defaultuser = 'John';
+    let name = currentUSer || defaultuser || 'unnamed';// en caso de los 2 primeros ser falsos sacaria a unnamed como verdadero
+    alert(`El primer valor que devuelve de la lista es  ${name}`);// selecciona a John, el primer valor verdadero
+     */
+</script>
+<script>
+    /*
+    alert('Uso de AND ');
+    let hour = 12;
+    let minute = 30;
+    if (hour == 12 && minute == 30){alert('The time is 12:30');}
+    // AND busca el primer valor falso.
+    alert(1 && 0);//0
+    alert(1 && 5);//5
+    alert(null && 5);//null
+    alert(0 && 'no matter what');//0
+    // AND tiene mallor precedencia que OR.
+     */
+    
+</script>
+<script>
+    /*
+    alert('Uso de NOT');
+    alert(!true);//false
+    alert(!0);//true
+    alert('Uso de doble operador (!!)'); // es usado para convertir un valor a booleano.
+    alert(!!'non-empty string');//true
+    alert(!!null);//false
+    // el primer not convierte el valor a boolenao y devuelve el inverso, el segundo hace lo mismo
+    // el operador not es el de mayor precedencia.
+     */
+
+</script>
+<script>
+    /*
+    alert('Ejercicio de operadores');
+    let out = null || 2 || undefined;
+    alert(`La salida de la primera operacion es ${out}`); //2
+     */
+
+</script>
+<script>
+    /*
+    alert ('Ejercicio de operadores 2');
+    alert(alert(1) || 2 || alert(3));//2
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 3');
+    alert(1 && null && 2);// null
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 4');
+    alert(alert(1) && alert(2));//undefined
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 5');
+    alert(null || 2 && 3 || 4); // 3
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 6');
+    let age = prompt('How old are you ?','');
+    if (age > 14 && age < 90){alert('Inclusively!');}
+    else {alert('Uncluslively!');}
+     */
+</script>
+<script>
+    /*
+    alert('Ejercicio 7');
+    let valor_1 =  -1 || 0;
+    let valor_2 = -1 && 0;
+    let valor_3 =  null || -1 && 1;
+    if (valor_1) alert(`First ${valor_1}`); // se ejecuta
+    if (valor_2) alert(`Second ${valor_2}`);// no se ejecuta
+    if (valor_3) alert(`Third ${valor_3}`);// se ejecuta
+     */
+</script>
+<script>
+    alert('Ejercicio 8 check the login');
+    let name = prompt('Who is there?','');
+    let password;
+    if (name == 'Admin') {
+        password = prompt('Password ?','');
+        (password == 'TheMaster') ? alert('Welcome!'):
+            (password == 'Other') ? alert('Wrong password'):alert('Canceled');
+    }
+    else if (name == 'Other')alert('I dont kow you');
+    else {alert('Canceled');}
+
+</script>
+
+
+</body>
+</html>

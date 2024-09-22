@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformando y parcializando</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Sintaxis completa de bind')
+        // let bound = func.bind(context,arg1,agr2,...)
+
+        // Permite la utilizacion de la funcion parcializando sus argumentos en cuestion de uso
+        function mul(a,b){return a * b}
+        let double = mul.bind(null,2)
+        alert(double(3))
+        alert(double(4))
+        alert(double(5)) // Esto se conoce como aplicacion de parcializacion de funciones
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Parcializando sin contexto')
+        function partial(func,...argsBound){
+            return function(...args){
+                return func.call(this,...argsBound,...args)
+            }
+        }
+        let user = {
+            firstname: 'John',
+            say(time,phrase){
+                alert(`${time} ${this.firstname}: ${phrase}`)
+            }
+        }
+        user.sayNow = partial(user.say,new Date().getHours() + ':' + new Date().getMinutes())
+        user.sayNow('Hello!')
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Transformacion de funciones')
+        function curry(f){
+            return function(a){
+                return function(b){
+                    return f(a,b)
+                }
+            }
+        }
+        function sum(a,b){return a + b}
+        let  carriedSum = curry(sum)
+        alert(carriedSum(1)(2))// 3
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Bondaridades de Currying')
+
+        function curry(func){
+            return function curried(...args){
+                if (args.length >= func.length){
+                    return func.apply(this,args)
+                }
+                else {
+                    return function(...args2){
+                        return curried.apply(this,args.concat(args2))
+                    } }
+            }
+        }
+
+        function log(date,importance,message){
+            alert(`[${date.getHours()}:${date.getMinutes()}] [${importance} ${message}]`)
+        }
+        log = curry(log)
+        log(new Date(),'DEBUG','some debug')// log(a,b,c)
+        log(new Date())('DEBUG')('some debug') // log(a)(b)(c)
+
+        function sum(a,b,c){
+            return a + b + c
+        }
+        let curriedSum = curry(sum)
+        alert(curriedSum(1,2,3))
+        alert(curriedSum(1)(2)(3))
+        alert(curriedSum(1)(2,3))
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Ejercicio 1')
+        function askPassword(ok,fail){
+            let password = prompt('Password?','')
+            if (password == 'rockstar') ok()
+            else fail()
+        }
+        let user = {
+            name: 'John',
+            login(result){
+                alert(this.name + (result ? 'logged in' : 'failed to log in'));
+            }
+        }
+        askPassword(user['login'].bind(this,true),user['login'].bind(this,false))
+    </script>
+    
+</body>
+</html>

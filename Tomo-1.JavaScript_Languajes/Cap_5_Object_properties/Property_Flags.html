@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propiedad flags</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Obtencion de las propiedades fundamentales')
+        // Atributos especiales
+        /*
+        -> writable: si es verdadero, puede ser cambiado de lo contrario es solo lectura
+        -> enumerable: is es verdadero, es llistado en un lazo de lo contrario no se puede listar
+        -> configurable: si es verdadero, la propiedad pude ser borrada y estos atributos pueden ser
+        modificados, de otra manera no.
+        */
+       // Definicion de uso del metodo
+       // let descriptor = Object.getOwnPropertyDescriptor(obj,propertyName)
+        // obj: el objeto que se quiere la informacion
+        // propertyName: Nombre de la propiedad
+        /*
+        let user = {
+            name: 'John'
+        }
+        let descriptor = Object.getOwnPropertyDescriptor(user,'name')
+        alert(JSON.stringify(descriptor,null,2))
+        // Para cambiar las banderas se usa: Objetc.defineProperty(obj,propertyName,descriptor)
+        // Se crea una propiedad con el valor dado y la bandera, en caso de no haber bandera se 
+        // se asume false.
+        /*
+        let users = {}
+        Object.defineProperty(users,'name',{value: 'John'})
+        let descrip = Object.getOwnPropertyDescriptor(users,'name')
+        alert(JSON.stringify(descrip,null,2))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo con el uso de la propiedad writabel')
+        let user = {
+            name: 'John'
+        }
+        Object.defineProperty(user,'name',{writable:false})
+        user.name = 'Pete' // Error
+        */ 
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo con una propiedad no existente')
+        let user = {}
+        Object.defineProperty(user,'name',{value:'Pete',enumerable:true,configurable:true})
+        alert(user.name) // Pete
+        user.name = 'Alice'// Error
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo de uso non-enumerable')
+        let user = {
+            name: 'John',
+            toString(){return this.name}
+        }
+        for (let key in user) alert(key)
+
+        // Eliminando la iterabilidad
+        Object.defineProperty(user,'toString',{enumerable:false})
+        for (let key in user) alert(key)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejemplo de non-configurable')
+        let descriptor = Object.getOwnPropertyDescriptor(Math,'PI')
+        alert(JSON.stringify(descriptor,null,2))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Uso del metodo Object.defineProperties')
+        // Object.defineProperties(obj,{prop1: descriptor1,prop2:descriptor2,...})
+        let user = {}
+        Object.defineProperties(user,{
+            name:{value:'John',writable:false},
+            surname:{value:'Smith',writable:false},
+        })
+        let descriptor = Object.getOwnPropertyDescriptors(user)
+        alert(JSON.stringify(descriptor,null,2))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Clonando las propiedades de un objeto')
+        let user = {
+            name: 'John',
+            surname: 'Smith',
+            phone: 55655821
+        }
+        let clone = Object.defineProperties({},Object.getOwnPropertyDescriptors(user))
+        let descriptor1 = Object.getOwnPropertyDescriptors(clone)
+        alert(JSON.stringify(descriptor1,null,2))
+
+        let clone2 = {}
+        for (let key in user){
+            clone2[key] = user[key]
+        }
+        let descriptor2 = Object.getOwnPropertyDescriptors(clone2)
+        alert(JSON.stringify(descriptor2,null,2))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Metodos especiales')
+        /*
+        -> Object.preventExtensions(obj): Prohibe la adicion de nuevas propiedades al objeto.
+        -> Object.seal(obj): Prohibe adicionar/rmover propiedades. Establece configurable: false pra
+        todo lo existente.
+        -> Object.freeze(obj): Prohibe adiconar/remover/cambiar propiedades. Establece configurable: false
+        writable: false para todo lo existente. 
+        -> Object.isExtensible(obj): Retorna false si adicionar propiedades esta prohibido, verdadero de lo
+        contrario. 
+        -> Object.isSealed(obj): Retorna verdadero si adicionar/remover propiedades esta prohibido, todas las 
+        propiedades existentes tienen configurable:  false
+        -> Object.isFrozen(obj): Retorna verdadero si adiconar/remover/cambiar esta prohibido, todas las propie
+        dades actuales tienen configurable: false, writable: flase
+        */
+    </script>
+    <script>
+        /*/
+        'use strict'
+        alert('Propiedades getters y setters')
+        // Toda las propiedades utilizadas hasta ahora fueron propiedades de datos.
+        
+        // Las siguientes propiedades son propiedades de acceso
+        /*
+        let obj = {
+            get propName(){},
+            set propName(){}
+        }
+        */
+       /*
+       let user = {
+           name:'John',
+           surname:'Smith',
+           get fullName(){return `${this.name} ${this.surname}`},
+           set fullName(value){[this.name,this.surname] = value.split(" ")}
+
+        }
+        alert(user.fullName)
+        user.fullName = "Alice Cooper"
+        alert(user.name)
+        alert(user.surname)
+        alert(user.fullName)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Descriptores de acceso')
+        /*
+        -> get: una funcion sin argumentos, trabaja cuando se lee la propiedad
+        -> set: una funcion con un argumento, que es llamada cuando la propiedad se establece
+        -> enumerable: igual para propiedades de datos
+        -> configurable: igual para propiedades de datos
+        Las propiedades pueden estar entre un descriptor de acceso o un propiedad de datos, no 
+        ambos pueden ser asignados (dara error)
+        */
+       /*
+       let user = {
+           name: 'John',
+           surname: 'Smith'
+       }
+       Object.defineProperty(user,'fullName',{
+           get(){return `${this.name} ${this.surname}`},
+           set(value){[this.name,this.surname] = value.split(" ")}
+
+       })
+       alert(user.fullName) // John Smith
+       for (let key in user) alert(key)
+       */
+    </script>
+    <script>
+        /*
+        'user strict'
+        alert('Getter/Setter mas inteligentes')
+        // Las propiedades deben ser internas y solo ser usadas por metodos del mismo objeto
+        // Por convencion se usa "_" antes del nombre de la propiedad
+        let user = {
+            get name(){return this._name},
+            set name(value){
+                if (value.length < 4){
+                    alert('Name is too short, need at least 4 characters')
+                    return
+                }
+                this._name  = value
+            }
+        }
+        user.name = 'Pete'
+        alert(user.name)
+        user.name = ""
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Uso para compatibilidad')
+
+        function User(name,birthday){
+            this.name = name
+            this.birthday = birthday
+            Object.defineProperty(this,'age',{
+                get(){
+                    let todayYear = new Date().getFullYear()
+                    return todayYear - this.birthday.getFullYear()
+                }
+            })
+        }
+
+        let john = new User('John',new Date(1992,6,1))
+        alert(john.birthday)
+        alert(john.age)
+    </script>
+</body>
+</html>

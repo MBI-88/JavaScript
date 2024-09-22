@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modulos JavaScript</title>
+</head>
+<body>
+    <script type="module" >
+        /*
+        // eport : sentencia usada para hacer accesible fuera del marco del script
+        // import : permite importar funciones de modulos externos
+        // Las variabel que se usen son solo visibles en el modulo
+        // Para hacer una variable global es necesario asignar window, ejemplo (window.user)
+        // Si un modulo es importado multiples veces en diferentes lugares, el codigo solo evaluado una vez
+        // export da la exportacion para todos los importes. Una vez importado, el valor guardado sera igual para todos los importes
+        'use strict'
+        import { sayHi } from "./sayHi.js";
+        let user = prompt("Name please:","")
+        sayHi(user)
+        */
+    </script>
+    <script type="module"> 
+        /*
+        'use strict'
+        // Import.meta : contiene informacion sobre el modulo actual
+        // En un modulo a diferencia de un script normal la senctencia this es indefinida
+        alert("Uso de import.meta") 
+        alert(import.meta.url)
+        */
+    </script>
+    <script type="module">
+        /*
+        'use strict'
+        alert("Modulos script diferidos")
+        /*
+            -> Un modulo externo no bloquea al proceso de Html, se cargan en paralelo
+            -> Un modulo espera hasta que el documento HTML se complete.
+            -> El orden relativo de un script es mantenido: el script que va primero en el documento se ejecuta primero
+
+            Un modulo script siempre ve la carga completa del HTML, incluyendo sus elementos
+        */
+       //alert(typeof(button))
+    
+    </script>
+    <button id="button">Button</button>
+    <script>
+        /*
+        'use strict'
+        alert("Trabajo asincrónico en script en linea")
+        /*
+            La sentencia sync type="module" declara el uso del modulo script asincronico. El script corre sin esperar la finalizacion
+            del documento HTML
+        */
+    </script>
+    <script>
+        'use strict'
+        alert("Script externos")
+        /*
+            -> Un script externo con la misma fuente de direccion corre solo una vez
+            -> U script externo que es buscado desde otro origen requiere un cabezal CORS. Si un modulo
+            script es buscado en otro origen, el servidor remoto debe proveer un cabezal Access-Control-Allow-Origin: *
+        */
+    </script>
+    
+</body>
+</html>
+    
+    
+
+
+    

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases inheritas</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Herencia de clases')
+        /*
+        Cualquier expresion despues de extends es permitida.
+        Las clases pueden heredar de funciones objetos etc.
+        */
+        /*
+        class Animal{
+            constructor(name){
+                this.speed = 0
+                this.name = name
+            }
+            run(speed){
+                this.speed += speed
+                alert(`${this.name} runs with speed ${this.speed}`)
+            }
+            stop(){
+                this.speed = 0
+                alert(`${this.speed} stopped`)
+            }
+
+        }
+        class Rabbit extends Animal{
+            hide(){
+                alert(`${this.name} hides!`)
+            }
+        }
+        let rabbit = new Rabbit('White Rabbit')
+        rabbit.run(5)
+        rabbit.hide()
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Sobreescritura de metodos')
+        /*
+        Ejemplo
+        class Rabbit extends Animal{
+            stop(){...}
+        }
+        -> super.method(...) para llamar un metodo padre
+        -> super(...) para llamar a el constructor padre (solo dentro del constructor)
+
+        */
+       /*
+        class Animal{
+            constructor(name){
+                this.speed = 0
+                this.name = name
+                
+            }
+            run(speed){
+                this.speed += speed
+                alert(`${this.name} run with speed ${this.speed}`)
+            }
+            stop(){
+                this.speed = 0
+                alert(`${this.name} stopped`)
+            }
+        }
+        class Rabbit extends Animal{
+            hide(){alert(`${this.name} hides!`)}
+            stop(){
+                super.stop()
+                this.hide()
+            }
+        }
+        let rabbit = new Rabbit('White Rabbit')
+        rabbit.run(5)
+        rabbit.stop()
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Sobreescritura del constructor')
+        /*
+        El metodo constructor de una clase que hija tiene una etiqueta derived y no crea un objeto
+        (this.), la solucion es usar super() para la llamada al constructor padre
+        */
+        /*
+        class Animal{
+            constructor(name){
+                this.speed = 0
+                this.name = name
+            }
+        }
+        class rabbit extends Animal{
+            constructor(name,earLength){
+                super(name)
+                this.earLength = earLength
+                
+            }
+        }
+
+        let rabbit = new Rabbit('White Rabbit',10)
+        alert(rabbit.name)
+        alert(rabbit.earLength)
+        */
+    </script>
+    <script>
+        {
+            /*
+        'use strict'
+        alert('Metodo super (internamente)')
+
+        let animal = {
+            name: 'Animal',
+            eat(){alert(`${this.name} eats`)}
+        }
+        let rabbit = {
+            __proto__:animal,
+            name: 'Rabbit',
+            eat(){
+                this.__proto__.eat.call(this) // esto es como super lo hace super.eat()
+            }
+        }
+        rabbit.eat()// Rabbit eats
+
+        let longEar = {
+            __proto__: rabbit,
+            eat(){
+                this.__proto__.eat.call(this)
+            }
+        }
+        longEar.eat() // Error Maximum call stack size exceded
+        */
+        }
+
+        {/*
+            'use strict'
+            alert('Metodo super (internamente) solucion')
+
+            let animal = {
+                name : 'Animal',
+                eat(){alert(`${this.name} eats`)} // animal.eat.[[HomeObject]] == animal
+            }
+            let rabbit = {
+                __proto__: animal,
+                name : 'Rabbit',
+                eat(){super.eat()}// rabbit.eat.[[HomeObject]] == rabbit
+            }
+            let longEar = {
+                __proto__: rabbit,
+                name : 'Long Ear',
+                eat(){super.eat()}  // longEar.[[HomeObject]] == longEar
+            }
+            longEar.eat() // long Ear eats
+            */
+        }
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Los metodos no son libres')
+
+        let animal = {
+            sayHi(){
+                console.log('I\'m an animal' )
+            }
+        }
+        let rabbit = {
+            __proto__: animal,
+            sayHi(){super.sayHi()}
+        }
+        let plant = {   
+            sayHi(){console.log('I\'m a plant')}
+        }
+        let tree = {
+            __proto__: plant,
+            sayHi: rabbit.sayHi
+        }
+        tree.sayHi() // I'm an animal
+
+        /*
+        Los metodos no tienen propiedades de funciones. Los metodos deben especificarse exactamente
+        como method() no como method: function().
+        
+        let animal = {eat: function(){...}}
+        let rabbit = {
+            __proto__ : animal,
+            eat: function(){super.eat();}
+        }
+        rabbit.eat() // Error calling super (because there's no [[HomeObject]])
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 1')
+
+        class Animal{
+            constructor(name){
+                this.name = name 
+            }
+        }
+        class Rabbit extends Animal{
+            constructor(name){
+                super(name)
+                // this.name = name
+                this.created = Date.now()
+            }
+        }
+        let rabbit = new Rabbit('White Rabbit')
+        alert(rabbit.name)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 2')
+
+        class Clock{
+            constructor({template}){
+                this.template = template
+            }
+            render(){
+                let date = new Date()
+                let hours = date.getHours()
+                if (hours < 10) hours = '0' + hours
+                let mins = date.getMinutes()
+                if (mins < 10) mins = '0' + mins
+                let secs = date.getSeconds()
+                if (secs < 10) secs = '0' + secs
+                
+                let output = this.template
+                .replace('h',hours)
+                .replace('m',mins)
+                .replace('s',secs)
+                console.log(output)
+            }
+            stop(){clearInterval(this.timer)}
+
+            start(){
+                this.render()
+                this.timer = setInterval(() => this.render(),1000)
+            }
+        }
+
+        class ExtendedClock extends Clock{
+            constructor(options){
+                super(options)
+                let {presition = 1000} = options
+                this.presition = presition
+            }
+            start(){
+                this.render()
+                this.timer = setInterval(() => this.render(),this.presition)
+            }
+
+
+        }
+
+        let extclock =  new ExtendedClock({template:'h:m:s'})
+        extclock.start()
+        */
+    </script>
+    <script>
+        'use strict'
+        alert('Ejercicio 3')
+
+        class Rabbit {
+            constructor(name){
+                this.name = name
+                
+            }
+        }
+        let rabbit = new Rabbit('Rab')
+        // rabbit.__proto__ === Object.prototype
+        alert(rabbit.hasOwnProperty('name')) // true
+
+        class Rabbits extends Object {
+            constructor(name){
+                super()
+                this.name = name
+            }
+        }
+        let rabbits = new Rabbits('Rab')
+        alert(rabbits.hasOwnProperty('name')) // true
+    </script>
+    
+</body>
+</html>

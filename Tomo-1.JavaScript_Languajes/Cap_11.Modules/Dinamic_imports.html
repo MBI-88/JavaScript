@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importes dinamicos</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert("Uso de importaciones dinámicas")
+        let modulePath = prompt("Module path ?")
+        import(modulePath).then(obj =>{obj.hi()}).catch(err => { alert(`No module ${err} found`)})
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Usando async... await")
+        let modulePath = prompt("Module path ?","..")
+        async function module(m){
+            let {hi,bye} = await import('./'+m)
+            hi()
+            bye()
+        }
+        module(modulePath)
+        */
+    </script>
+    <script>
+        'use strict'
+        alert("Usando default")
+        let usr = prompt("Your name:")
+        let mod = prompt("Module path ?")
+        
+        async function module(m){
+            let {default:say} = await import ('./'+m)
+            say(usr)
+        }
+        module(mod)
+        
+
+
+    </script>
+    
+</body>
+</html>

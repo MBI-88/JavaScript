@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert("Uso del objeto proxy del navegador")
+        // Definición: let proxy = new Proxy(target,handler)
+        /*
+            -> target: es un objeto para capturar, puede ser cualquier objeto incluyendo funciones
+            -> handler: un objeto con traps: método que intercepta la operacion get para leer una propiedad, set para escribir , etc
+
+            -> Internal Method: [[Get]] es un nombre interno, especificacion de método de propiedad de lectura. 
+            -> Handler Method: es el nombre del metodo que deberia ser adicionado al handler del proxy
+
+            Nota: [[Set]] debe ser verdadero si el valor fue escrito, de otra manera devolverá falso
+            [[Delet]] debe retornar verdadero si el valor fué borrado completamente, falso de otra manera. 
+            [[GetPrototypeOf]] aplicado al objeto proxy debe devolver el mismo valor como [[GetPrototypeOf]] aplicado al objeto
+            target
+
+        */
+       /*
+       // Ejemplo: 
+       let target = {}
+       let proxy = new Proxy(target,{})
+       proxy.test = 5
+       alert(target.test)
+       alert(proxy.test)
+
+       for (let key in proxy)alert(key)
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Uso de default con get")
+        /*
+            Para interceptar la lectura el handler deberia tener un metodo get(target,property,receiver)
+            -> target: es el objeto objetivo, el pasado como primer argumento al new Proxy
+            -> property: nombre de la propiedad
+            -> receiver: si la propiedad es el receptor, entonces el receiver es el objeto que va a ser usado como
+            this en ese codigo. Usualmente es el objeto proxy propio.
+        *//*
+       let numbers = [1,2,3,4]
+       numbers = new Proxy(numbers,{
+           get(target,prop){
+               if (prop in target){
+                   return target[prop]
+               }else{
+                   return 0
+               }
+           }
+       })
+       alert(numbers[1])
+       alert(numbers[123])
+       // Ejemplo de uso prático
+       let dictionary = {
+           "hello":"hola",
+           "bye": "adiós"
+       }
+       dictionary = new Proxy(dictionary,{
+           get(target,prop){
+               if (prop in target){
+                   return target[prop]
+               }else{
+                   return prop
+               }
+           }
+       })
+       alert(dictionary["hello"])
+       alert(dictionary["welcome"])
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Validacion con set")
+        /*
+            set(target,property,value,receiver)
+            -> target: es el objeto pasado
+            -> property: nombre de la propiedad
+            -> value: valor de la propiedad
+            -> receiver: igual a get
+        *//*
+        let numbers = []
+        numbers = new Proxy(numbers,{
+            set(target,prop,val){
+                if ( typeof val == 'number'){
+                    target[prop] = val 
+                    return true
+                }else{
+                    return false
+                }
+            }
+        })
+        numbers.push(1)
+        numbers.push(2)
+        alert("Length is:" + numbers.length)
+        numbers.push("test")
+        alert("This line is never reached")
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Propiedades protegidas")
+        let user = {
+            name: "John",
+            _password:"****"
+        }
+        user = new Proxy(user,{
+            get(target,prop){
+                if (prop.startsWith('_')){
+                    throw new Error("Access denied")
+                }
+                let value = target[prop]
+                return (typeof value === 'function')? value.bind(target): value
+            },
+            set(target,prop,val){
+                if (prop.startsWith('_')){
+                    throw new Error("Access denied")
+                }else{
+                    target[prop] = val
+                }
+            },
+            deleteProperty(target,prop){
+                if (prop.startsWith('_')){
+                    throw new Error("Access denied")
+                }else{
+                    delete target[prop]
+                    return true
+                }
+            },
+            ownKeys(target){
+                return Object.keys(target).filter(key => !key.startsWith('_'))
+            }
+        })
+        try {
+            alert(user._password)
+        }catch(e) {alert(e.message)}
+        try {
+            user._password = "test"
+
+        }catch(e){alert(e.message)}
+
+        try{
+            delete user._password
+        }catch(e){alert(e.message)}
+
+        for (let key in user) {alert(key)}
+
+        */
+    </script>
+    <script>
+        /*
+        'users strict'
+        alert("Uso de el metodo has")
+        let range = {
+            start: 1,
+            end: 10
+        }
+        range = new Proxy(range,{
+            has(target,prop){
+                return prop >= target.start && prop <= target.end
+            }
+        })
+        alert(5 in range)
+        alert(50 in range)
+        */
+    </script>
+    <script>
+        'use strict'
+        alert("Capturando funciones con metodo apply")
+        // Definición : apply(target,thisArg,args)
+        // -> target: es el objeto 
+        // -> thisArg: es el valor de this
+        // -> args: es una lista de argumentos
+        // Ejemplo donde el uso de proxy permite enviar el uso de propiedades, antes no se podia hacer
+
+        function delay(f,ms){
+            return new Proxy(f,{
+                apply(target,thisArg,args){
+                    setTimeout(() => target.apply(thisArg,args),ms)
+                }
+            })
+        }
+        function sayHi(user){
+            alert(`Hello ${user}`)
+        }
+        sayHi = delay(sayHi,3000)
+        alert(sayHi.length)
+        sayHi("John")
+
+    </script>
+    
+</body>
+</html>

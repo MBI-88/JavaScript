@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso de funciones unidas</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Perdida de this')
+        // ejemplo de como se pierde el this
+        // Esto ocurre porque setTimeout toma el metodo separado del objeto
+        let user = {
+            firstname: 'John',
+            sayHi(){
+                alert(`Hello, ${this.firstname}`)
+            }
+        }
+        setTimeout(user.sayHi,1000)// undefined
+
+        // Aplicando primera solucion
+        setTimeout(() => {
+            user.sayHi()
+        },1000) // Hello John
+        
+        // Aplicando segunda solucion. Esta protege el cambio de valores en el objeto
+         function func(){
+             alert(this.firstname)
+         }
+         let funcUser = func.bind(user)
+         funcUser() // John
+
+         let sayHi = user.sayHi.bind(user)
+         sayHi()
+         setTimeout(sayHi,1000)
+         */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Uniendo multiples metodos')
+        let user = {
+            firstName: 'John',
+            sayHi(phrase){alert(`${phrase}, ${this.firstName}`)},
+            sayBye(phrase){alert(`${phrase},${this.firstName}`)},
+            lastName(lastName){
+                this.lastName = lastName
+                alert(`${this.firstName} ${this.lastName}`)
+            }
+        }
+        for (let key in user){
+            if  (typeof user[key] == 'function'){
+                user[key] = user[key].bind(user)
+            } 
+        }
+        setTimeout(lastName =>{
+                    user.lastName(lastName)
+                },1000,'Peterson')
+        
+        setTimeout(value => {
+            user.sayHi(value)
+        },2000,'Hello')
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio  1')
+        function f(){alert(this)}
+
+        let user = {
+            g : f.bind(null)
+        }
+        user.g() // null  
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 2')
+        function f(){alert(this.name)}
+
+        f = f.bind({name:'John'}).bind({name: 'Ann'})
+        f()// John, la funcion solo puede recordar el argumento una vez
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 3')
+        function sayHi(){
+            alert(this.name)
+        }
+        sayHi.test = 5
+
+        let bound = sayHi.bind({name:'John'})
+        alert(bound.test)// undefined, bind hace referencia a un nuevo objeto
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 4')
+        function askPasswork(ok,fail){
+            let password = prompt('Password? ','')
+            if (password == "rockstar") ok()
+            else fail()
+        }
+
+        let user = {
+            name: 'John',
+            loginOk(){
+                alert(`${this.name} logged in `)
+            },
+            loginFail(){
+                alert(`${this.name} failed to log in`)
+            },
+        }
+        askPasswork(user['loginOk'].bind(user),user['loginFail'].bind(user))
+        */
+    </script>
+    
+</body>
+</html>

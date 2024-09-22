@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uso del constructor new</title>
+</head>
+<body>
+<script>
+    /*
+    'use strict';
+    // El uso de letras capitales es un acuerdo para referenciar que se usara con un constructor
+    // Tecnicamente cualquier funcion puede ser usada con un constructor
+    alert('Uso a partir de una funcion');
+    function User(name){
+        this.name  = name;
+        this.isAdmin = false;
+    };
+    let user = new User('Jack');
+    alert(user.name);//Jack
+    alert(user.isAdmin);//false */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de modo test (new.target)');
+    function User( ){
+        alert(new.target);
+    };
+    User(); // undefined
+    new User(); // function User  */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Haciendo la sintaxis mas flexible');
+    function User(name){
+        if (!new.target){return new User(name)};
+        this.name  = name;
+    };
+    let john = User('John');
+    alert(john.name); // John */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Retornos del constructor');
+    function BigUser(){
+        this.name  = 'John';
+        return {name: 'Godzilla'}; // se sobre-escribe this retornando un objeto.
+    };
+    alert(new BigUser().name);// Godzilla.
+    // Ejemplo de retorno vacio
+    function SmallUser(){
+        this.name = 'John';
+        return ;
+    };
+    alert(new SmallUser().name); // John */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Metodos en el constructor');
+    function User(name){
+        this.name = name;
+        this.sayHi = function(){
+            alert('My name is: '+ this.name);
+        };
+    };
+    let john = new User('John');
+    john.sayHi(); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 1');
+    let obj = {}
+    function A(){return obj;}
+    function B(){return obj;}
+    let a = new A;
+    let b = new B;
+    alert(a == b); // false */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 2');
+    function Calc(){
+        this.read = function(){
+            this.valor_1 = parseInt(prompt('Valor 1:',''));
+            this.valor_2 = parseInt(prompt('Valor 2:',''));
+        };
+        this.sum = function(){
+            let resul = this.valor_1 + this.valor_2;
+            return resul;
+        };
+        this.mul = function(){
+            let mul = this.valor_2 * this.valor_1;
+            return mul;
+        };
+    };
+    let calculador = new Calc();
+    calculador.read();
+    alert('Sum = '+calculador.sum());
+    alert('Mul = '+calculador.mul()); */
+</script>
+<script>
+    'use strict';
+    alert('Ejercicio 3');
+    function Accumulator(startingValue){
+        this.value = parseInt(startingValue);
+        this.read = function(){
+            this.value += parseInt(prompt('Give me a value:',' '));
+        };
+    };
+    let accumulator = new Accumulator(1);
+    accumulator.read();
+    accumulator.read();
+    alert(accumulator.value);
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<header>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>Uso de iteradores</title>
+</head>
+<body>
+<script>
+    /*
+    'use strict';
+    alert('Interpretacion completa');
+    let range = {
+        from: 1,
+        to: 5
+    };
+    range[Symbol.iterator] = function(){
+        return {
+            current: this.from,
+            last:this.to,
+            next(){
+                if (this.current <= this.last)return {done:false,value:this.current++}
+                else{return{done:true};}
+
+            }
+        
+        }
+    };
+    for (let num of range)alert(num)
+    alert('Uso de la definicion corta');
+
+    let  rangeShort = {
+        from: 1,
+        to: 5,
+        [Symbol.iterator](){
+            this.current = this.from;
+            return this;
+        },
+
+        next(){
+            if (this.current <= this.to)return {done:false,value:this.current++};
+            else{return{done:true};}
+        }
+    };
+    for(let num  of rangeShort)alert(num) */
+   
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Iteracion sobre strings');
+    for (let char of 'text') alert(char);
+    // trabaja con cualquier tipo de array */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Llamada a un iterador explicito');
+    let str = 'Hello';
+    let iterador = str[Symbol.iterator]();
+    while(true){
+        let result = iterador.next();
+        if (result.done) break;
+        alert(result.value);
+    }; */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Iterables con array-like');
+    let arayLike = {
+        0:'Hello',
+        1:'World',
+        length: 2
+    };
+    // Error (no hay Symbol.iterator)
+    for (let item of arraylike){} */
+
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso del metodo universal Array.from');
+    let arraLike = {
+        0:'Hello',
+        1:'World',
+        length: 2
+    };
+    let arr = Array.from(arraLike);
+    alert(arr.pop());
+  // definicion de Array.from: Array.from(objects[,mapFn,thisArg]).los brackers significa valores opcionales
+  alert('Ejemplo de uso de la definicon completa');
+  let range = {
+        from: 1,
+        to: 5
+    };
+    range[Symbol.iterator] = function(){
+        return {
+            current: this.from,
+            last:this.to,
+            next(){
+                if (this.current <= this.last)return {done:false,value:this.current++}
+                else{return{done:true};}
+
+            }
+        
+        }
+    };
+
+    let arraRange = Array.from(range,num => num * num);
+    alert(arraRange);
+  */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejemplo de uso Array.from como slice');
+    function slice(str,start,end){
+        return Array.from(str).slice(start,end).join('');
+    };
+    let str = 'Hol@Mundo';
+    alert(slice(str,1,5)); */
+    // Resumen un iterabel debe tener un objeto Symbol.iterator.
+    // Un iterador debe tener un metodo next() que retorne {done:Booleano,value:any}
+    // done: true significa fin de la iteracion
+    // El Symbol.iterator es llamado automaticamente por (for of). 
+    // Los objetos que tienen la propiedad length son llamados array-like.
+</script>
+</body>
+</html>
+
+

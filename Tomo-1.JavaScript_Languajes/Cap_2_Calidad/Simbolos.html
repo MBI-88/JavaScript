@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simbolos</title>
+</head>
+<body>
+<h1>Tipos de simbolos</h1>
+<script> /*
+    alert('Uso de la clase  simbolo');
+    let id = Symbol('id');
+    let id_ = Symbol('id');
+    alert(id === id_);// false
+    // Los string y los simbolos son diferentes */
+</script>
+<script>
+    /*
+    alert('Propiedades ocultas');
+    let user = {name: 'John'};
+    let id = Symbol('id');
+    user[id] = 'ID Value';
+    alert(user[id]);
+    // Los simbolos son diferentes y solo son usados por el script que lo crea.
+    // Los simbolo no pueden ser accedidos ocacionalmente por terceros. */
+</script>
+<script>
+    
+    alert('Simbolso literales');
+    let id  = Symbol('id');
+    let user = {
+        name: 'John',
+        [id]: 123
+    };
+    alert(user[id]); 
+</script>
+<script>
+    /*
+    alert('Simbolos saltados por for...in');
+    let id = Symbol('id');
+    let user = {
+        name: 'John',
+        age: 30,
+        [id]: 123
+    };
+    for (let key  in user) alert(key); // Los simbolos son saltados en los bucles.
+    alert('Compiando todo el objeto con assign');
+    let clone = Object.assign({},user);
+    alert(clone[id]); // 123 */
+
+</script>
+<script>
+    /*
+    alert('Uso de simbolos globales');
+    let id = Symbol.for('id');
+    let diAgain = Symbol.for('id');
+    alert(id === diAgain); // true
+     */
+</script>
+<script>
+    /*
+    alert('Uso de Symbol.keyFor');
+    let sym = Symbol.for('name'); // retorna el simbolo por nombre
+    let sym2 = Symbol.for('id');
+    // obtener el nombre del simbolo
+    alert(Symbol.keyFor(sym)); // retorna el nombre por simbolo
+    alert(Symbol.keyFor(sym2)); */
+</script>
+<script>
+    alert('Simbolos del sistema');
+    // Symbol.hasInstance
+    // Symbol.isConcatSpreadable
+    // Symbol.iterator
+    // Symbol.toPrimitive
+</script>
+
+
+</body>
+</html>

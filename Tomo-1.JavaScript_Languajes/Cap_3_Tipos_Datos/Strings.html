@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uso de String</title>
+</head>
+<body>
+<script>
+    /*
+    'use strict';
+    alert('Uso de cuotas');
+    // Ventaja de uso de cuotas diagonales
+    let guestList = `Guests:
+    * John
+    * Pete
+    * Mary
+    `;
+    alert(guestList); // una lista de invitados, multiples lineas */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Caracteres especiales');
+    let guestsList = "Guests:\n * John\n * Pete\n * Mary";
+    alert(guestsList); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Caracteres especiales');
+   // \n : Nueva linea.
+  //  \r : Retorno de carro.
+  //  \',\" : Cuotas.
+  //  \\ : Backlash.
+  //   \t : tabulador.
+  //  \b,\f,\v : espacio,forma alimetada,tabulador vertical.
+  //  \xXX : caracter unicode con el unicode dado. XX ej \x7A es z.// \uXXXX : simbolo unicode en formato UTF-16
+   // \u{X...XXXX} : 1 a simbolo unicode en formato UTF-32.
+     alert("\u00A9");
+     alert("\u{20331}");
+     alert("\u{1F60D}");
+     alert('I\'m the Walrus!');
+     */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de la propiedad length');
+    alert(`My\n`.length);// 3
+    // str.length no es un metodo, es una propiedad
+    alert('Opteniendo los caracteres segun su posicion');
+    let str = `Hello`;
+    alert(str[0]);// H
+    alert(str.charAt(0)); // H
+    alert(str[str.length - 1]); // o
+    alert('Iterando los caracteres con for...of');
+    for (let char of 'Hello'){
+        alert(char);
+    }; */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de la mutabilidad');
+    let str = 'Hi';
+   // str[0] = 'h';// error
+   // alert(str[0]);// no trabaja
+    alert('Resolviendo el problema');
+    str = 'h' + str[1];
+    alert(str);//hi */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Metodos de la clase str');
+    alert('Interface'.toUpperCase());// INTERFACE
+    alert('Interface'.toLowerCase());// interface
+    alert('Busqueda en un string');
+    let string = 'Widget with id';
+    alert(string.indexOf('Widget'));// 0
+    alert(string.indexOf('widget'));// -1 no se encontró
+    alert(string.indexOf('id')); // 1
+    alert(string.indexOf('id',2));// el segundo parametro indica posicion. */
+</script>
+<script>
+    /*
+    'use stirct';
+    alert('Uso de el operador Not con indexOf');
+    let str = 'Widget';
+    if (~str.indexOf('Widget')){alert('found it!')};// trabaja
+    // ~str.indexOf(n) es igual a  - (n + 1).*/
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de los metodos modernos de busqueda de string');
+    alert("Widget with id".includes('Widget'));// true
+    alert("Hello".includes('Bye')); // false
+    // Tambien tiene un segundo argumento que funciona igual al de indexOf */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Obteniendo las subtracciones de un string');
+    let str = 'stinglify';
+    alert(str.slice(0,5)); // strin
+    alert(str.slice(0,1)); // s
+    alert(str.slice(2));//ringinfy
+    alert(str.substring(2,6)); // ingli
+    alert(str.substring(6,2)); // ingli
+    // Invertir los extremos solo se permite en substring
+    // Argumentos negativos son tratados como 0 */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de substr');
+    let str = 'stringigy';
+    alert(str.substr(2,4));// ring. De la segunda posicion obtener los 4 caracteres
+    alert(str.substr(-4,2)); // gi */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Comparaciones de string');
+    alert('a' > 'Z'); // true
+    alert('Osterreich' > 'Zealand'); // false
+    // Las letras minusculas tienen mayor peso que las mayusculas.
+    // Una comparacion correcta de los string se hace con str.localCompare(x):
+    // retorna 1 si str is mayor que x
+    // retorna -1 si str es menor que x
+    // retorna 0 si son iguales.
+    */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de str.codePointAt,str.fromCodePoint');
+    alert('z'.codePointAt(0)); // 122
+    alert('Z'.codePointAt(0));//90
+    alert(String.fromCodePoint(90)); // Z
+    let str = '';
+    for (let i = 65; i <= 220; i++){
+        str  += String.fromCodePoint(i);
+    };
+    alert(str);*/
+
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Uso de diacriticos');
+    alert('S\u0307');
+    alert('S\u0307\u0323');
+    // Dos caracteres con diacriticos se ven iguales pero se representan diferentes.
+    let string1 = 'S\u0307\u0323'
+    let string2 = 'S\u0323\u0307'
+    alert(string1 == string2); // false
+    alert(string1.normalize() == string2.normalize());// true */
+
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 1');
+    let check1 = 'viagra'
+    let check2 = 'XXX';
+    function checkSpan(str){
+        if (str.toLowerCase().includes(check1))return alert('es spam, contiene viagra');
+
+        if (str.toUpperCase().includes(check2))return alert('es spam contiene XXX');
+
+        return alert('No es spam');
+    }
+    checkSpan('buy ViAgRa now');
+    checkSpan('free xxxxxxx');
+    checkSpan('innocent rabbit'); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 2');
+    function Truncate(str,n){
+        (str.length > +n) ?  alert(str.substr(0,+n)+'...') : alert(str.substr(0,+n));
+    };
+    Truncate('What I\'d like to tell on this topic is:',20)
+    Truncate('Hi everyone!',20); */
+</script>
+<script>
+    /*
+    'use strict';
+    alert('Ejercicio 3');
+    function extractCurrencyValue(str){
+        (str.startsWith('$')) ? alert(+str.slice(1)): alert('No se intridujo numeros');
+    };
+    extractCurrencyValue('$120');
+    extractCurrencyValue('Nada'); */
+</script>
+<script>/*
+    'use strict';
+    alert('Ejemplo de uso de split);
+    let str = 'Hola mundo como estas bien? ';
+   alert( str.split(' ',3) );*/
+</script>
+</body>
+</html>

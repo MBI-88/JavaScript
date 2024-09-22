@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipos F</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Propiedades regulares')
+
+        let animal = {
+            eats : true
+        }
+        function Rabbit(name){this.name = name}
+        
+        Rabbit.prototype = animal
+
+        let rabbit = new Rabbit('White Rabbit')
+        alert(rabbit.eats)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Propiedad constructora de F.prototype')
+        /*
+        Cada funcion tiene un prototipo por defecto aun cuando no se le provea
+        el prototipo por defecto es el constructor que señala a la porpia funcion
+        function Rabbit(){ ...}
+        Rabbit.prototype = {constructor: Rabbit}
+        */
+       /*
+       function Rabbit() {}
+       alert(Rabbit.prototype.constructor == Rabbit) // true
+
+       function Rabbits(name){
+           this.name = name,
+           alert(name)
+       }
+       let rabbit = new Rabbits('White Rabbit')
+       let rabbit2 = new rabbit.constructor('Black Rabbit')
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Remplazo de prototipo por defecto')
+
+        function Rabbit(){}
+        Rabbit.prototype = {
+            jumps:true
+        }
+        let rabbit = new Rabbit()
+        alert(rabbit.constructor == Rabbit) // false
+
+        // Agregando propiedades al constructor por defecto sin sobrescribirlo
+        function Rab(){}
+        Rab.prototype.name = 'White Rabbit'
+        let rab = new Rab()
+        alert(rab.constructor == Rab) // true
+
+        /*
+        Otra variante:
+        Rabbbit.prototype = {
+            jumps: true
+        }
+        */
+    </script>
+    <script>
+        /*
+        {
+            'use strict'
+            alert('Ejercicio 1')
+            function Rabbit(){}
+            Rabbit.prototype = {
+            eats:true
+            }
+            let rabbit = new Rabbit()
+            alert(rabbit.eats)// true
+        }
+        */
+       /*
+        {
+            'use strict'
+            alert('Ejercicio 1')
+            function Rabbit(){}
+            Rabbit.prototype = {
+            eats:true
+            }
+            let rabbit = new Rabbit()
+            Rabbit.prototype = {}
+            let pet = new Rabbit()
+            alert(rabbit.eats) // true
+        }
+        */
+       /*
+       {
+           'use strict'
+           alert('Ejercicio 1')
+           function Rabbit(){}
+           Rabbit.prototype = {eats:true}
+           let rabbit = new Rabbit()
+           Rabbit.prototype.eats = false
+           alert(rabbit.eats) // false
+       }
+       */
+      /*
+       {
+           'use strict'
+           alert('Ejercicio 1')
+           function Rabbit(){}
+           Rabbit.prototype = {eats:true}
+
+           let rabbit = new Rabbit()
+           delete rabbit.eats
+           alert(rabbit.eats) // true
+       }
+       */
+      /*
+       {
+           'use strict'
+           alert('Ejercicio 1')
+           function Rabbit() {}
+           Rabbit.prototype = {eats:true}
+           let rabbit = new Rabbit()
+           delete Rabbit.prototype.eats
+           alert(rabbit.eats) // undefined
+       }
+       */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Ejercicio 2')
+        /*
+        let obj2 = new obj.contructor()
+        Respuesta: si se puede hacer por esta via
+        */
+       // Ejemplo
+       /*
+        function User(name){
+            this.name = name
+        }
+        let user = new User('John')
+        let user2 = new user.constructor('Pete')
+        alert(user2.name)
+        alert(user.name)
+        */
+    </script>
+    
+</body>
+</html>

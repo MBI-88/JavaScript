@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parametros restantes y operador de separacion</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict';
+        alert('Parametros restantes');
+        /*
+        Math.max(arg1, arg2, ..., argN) – returns the greatest of the arguments.
+        Object.assign(dest, src1, ..., srcN) – copies properties from src1..N into
+        dest.
+        */
+       /*
+       function sum(a,b){
+           return a + b;
+       };
+       alert(sum(1,2,3,4,5));
+       // Capturando todos los argumentos
+       function sumAll(...args){
+           let suma = 0;
+           for (let arg of args) suma += arg
+           return suma;
+       };
+       alert(sumAll(1,2,3,4));
+       alert(sumAll(1,5));
+       // Usando el resto como titulo
+       // El resto de argumentos tiene que ser el ultimo (...arg)
+       function showName(firstName,lastName,...title){
+           alert(firstName+' '+lastName);
+           alert(title[0]);
+           alert(title[1]);
+           alert(title.length);
+       };
+       showName('julio','Cesar','Consul','Imperator');
+       */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Uso de arguments');
+        // Funciona como un array pero sin los metodos
+        function f(){
+            let showArg = () => alert(arguments[0]);
+            showArg();
+        };
+        f(1);
+        */
+    </script>
+    <script>
+        'use strict';
+        alert('Operador de separacion'); 
+        let arr = [3,5,1];
+        //alert(Math.max(arr));//NaN
+        alert(Math.max(...arr));//5
+        let arr2 = [8,2,-8,1];
+        alert(Math.max(...arr,...arr2));//8
+        // Combinacion de numeros con array
+        alert(Math.max(1,...arr,10,...arr2));//10
+        //Mezclando array
+        let merged = [5,...arr,10,...arr2];
+        alert(merged);
+        // Cambiando de string a array
+        let str = 'Hello';
+        alert([...str]);// H,e,l,l,o = Array.from(str)
+    </script>
+</body>
+</html>

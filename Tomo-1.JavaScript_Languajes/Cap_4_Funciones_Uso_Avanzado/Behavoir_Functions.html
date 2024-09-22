@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comportamineto de las funciones con variables externas</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert('Uso de variable fuera del scop de la funcion');
+        let name = 'John';
+        function sayHi(){
+            alert('Hi  ' + name);
+        };
+        name = 'Pete';
+        sayHi();
+        // Una funcion que devuelve otra funcion
+        function makeWorker(){
+            let n = 'Pete';
+            return function(){alert(n)}
+        };
+        let n = 'John';
+        let worker = makeWorker();
+        worker();
+        // Una variable es una propiedad de un objeto interno especial asociado con la 
+        // ejecucion actual del bloque. (Lexical Environments)
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Funciones probadas');
+        function sayBye(firstName,lastName){
+            function getFullName(){
+                return firstName + " " + lastName;
+            }
+            alert('Hello, ' + getFullName());
+            alert('Bye, ' +  getFullName());
+        };
+        sayBye("John","Hilton");
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Usando metodos ');
+        function User(name){
+            this.sayHi = function(){alert(name);};
+        };
+        let user = new User("John");
+        user.sayHi();
+        // Haciendo un contador
+        // Esto crea tipo de campo donde se guardan los valores de count
+        function makeCounter(){
+            let count = 0;
+            return function(){return count++;}
+        };
+        let counter = makeCounter();
+        alert(counter());
+        alert(counter());
+        alert(counter());
+        alert(counter());
+        // El uso de {} hace posible la separacion de bloques de codigo 
+        // en multiples scripts
+
+        { // Lexical Environment
+            let message = 'Hello';
+            alert(message);// Hello
+        }
+        alert(message);// Error: message is not defined
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Funciones automaticamente llamadas');
+        (function(){
+            let message = 'Hello';
+            alert(message);
+        })();
+        // Formas para hacer llamadas automaticas reconocidad por JS
+        (function(){alert('Parentisis al rededor de todo');}());
+        !function(){alert('Operador Bitwise en el comienzo de la expresion')}();
+        +function(){alert('Operador unario (+) en el comienzo de la expresion')}();
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Garbage collection (recolector de basura)');
+        function F(){
+            let value = Math.random();
+            return function(){alert(value)}
+        };
+        let array = [F(),F(),F()]; // Guardado de la funcion de retorno
+        alert(array);
+        function f(){
+            let value = 123;
+            function g(){alert(value)};
+            return g;
+        };
+        let g = f(); // While g is alive
+        g = null; // ... and now the memory is cleaned up
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Probando la retencion de variables en chrome');
+        function f(){
+            let value = Math.random();
+            function g(){
+                debugger;
+            };
+            return g;
+        }
+        let g = f();
+        g();
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Ejercicio 1');
+        function makeCounter(){
+            let counter = 0;
+            return function(){return counter++;};
+        };
+        let counter = makeCounter();
+        let counter2 = makeCounter();
+        alert(counter());//0
+        alert(counter());//1
+        // Son independientes
+        alert(counter2());// 0
+        alert(counter2());//1
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Ejercicio 2');
+        function Counter(){
+            let count = 0;
+            this.up = function(){return ++count;};
+            this.down = function(){return --count;};
+
+        };
+        let counter = new Counter();
+        alert(counter.up());//1
+        alert(counter.up());//2
+        alert(counter.down());//1
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Ejercicio 3');
+        let phrase = 'Hello';
+        if (true){
+            let user = 'John';
+            function sayHi(){alert(`${phrase}, ${user}`);}
+        };
+        sayHi();// Error undefined
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Ejercicio 4');
+        function sum(a){
+           return function(b){
+                return a + b;
+            }
+        };
+        alert(sum(1)(2));
+        alert(sum(5)(-1));
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Ejercicio 5');
+        function inBetween(a,b){
+            return function(x){
+                return (x >= a && x <= b);
+            }
+        };
+        let arr = [1,2,3,4,5,6,7]
+        alert(arr.filter(inBetween(3,6)));
+
+        function inArray([...args]){
+            return function(x){
+                return args.find(item => item == x) // args.includes(x)
+            };
+        };
+        alert(arr.filter(inArray([1,2,3,7])));
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Ejercicio 6');
+        let users = [
+            {name:'John',age:20,surname:'Johnson'},
+            {name:'Pete',age:18,surname:'Peterson'},
+            {name:'Ann',age:19,surname:'Hathaway'}
+        ];
+        function byField(field){
+            return function(a,b){
+                return a[field] > b[field] ? 1 : -1 ;
+            }
+        };
+        //users.sort(byField('name'));
+        users.sort(byField('age'))
+        users.forEach((name,age) =>{
+            alert(`${name.name} ${name.age}`)
+        })
+        */
+    </script>
+    <script>
+        /*
+        'use strict';
+        alert('Ejercicio 7');
+        function makeArmy(){
+            let shooters = [];
+            for (let i = 0; i < 10;i++){
+                let shooter = function(){alert(i)};
+                shooters.push(shooter)
+            };
+            
+            return shooters;
+        };
+        let army = makeArmy();
+        army[0]();
+        army[5]();
+        */
+    </script>
+</body>
+</html>
