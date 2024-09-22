@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propiedades de los nodos</title>
+</head>
+<body>
+    Hello
+    <!-- Comment -->
+    <script>
+        /*
+            -> HTMLInputElement – this class provides input-specific properties, and
+            inherits from…
+            -> HTMLElement – it provides common HTML element methods (and
+            getters/setters) and inherits from…
+            -> Element – provides generic element methods and inherits from…
+            Node – provides common DOM node properties and inherits from…
+            -> EventTarget – gives the support for events (to be covered),
+            …and finally it inherits from Object , so “pure object” methods like
+            hasOwnProperty are also available.
+
+        *//*
+       'use strict'
+       alert("Buscando el nombre del constructor del DOM")
+       //alert(document.body.construnctor.name)
+       alert(document.body)
+       */
+    </script>
+    <script>
+        /*
+            elem.nodeType == 1 for element nodes,
+            elem.nodeType == 3 for text nodes,
+            elem.nodeType == 9 for the document object,
+            there are few other values in the specification  .
+
+        *//*
+        'use strict'
+        alert('Propiedades del nodeType')
+        let elem = document.body
+        alert(elem.nodeType)// 1
+        alert(elem.nodeType) // 3
+        alert(document.nodeType) // 9
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Node name y tag name")
+        alert(document.body.nodeName) // Body
+        alert(document.body.tagName) // Body
+        alert(document.tagName) // undefined
+        alert(document.nodeName) // #document
+        // Equivalente a
+        alert(document.body.firstChild.tagName) // undefined
+        alert(document.body.firstChild.nodeName) // #comment
+        */
+    </script>
+   <div>
+       <p>A paragraph</p>
+   </div>
+   <script>
+       /*
+       'use strict'
+       alert("uso de innerHTML ")
+       alert(document.body.innerHTML) // salida de todo el source code
+       document.body.innerHTML = 'The new Body'
+       */
+   </script>
+   <script>
+       /*
+       'use strict'
+       alert("Insertando Html en el DOM")
+       document.body.innerHTML = '<b>Test'
+       alert(document.body.innerHTML)
+       */
+   </script>
+   <script>
+       /*
+       'use strict'
+       alert("Agregando y manteniedo el HTML anterior")
+       document.body.innerHTML += "<div>Hello<img src='smile.gif'/> !</div>"
+       alert(document.body.innerHTML)
+       */
+   </script>
+   <div id="elem">Hello <b>World</b></div>
+   <script>
+       /*
+       'use strict'
+       alert("Elementos completos de HTML")
+       alert(elem.outerHTML)// <div id="elem">Hello <b>World</b></div>
+
+       // La propiedad outerHTML no modifica el documento pero lo extrae del contexto
+       // y inserta una nueva pieza HTML en su lugar, a la cual se puede acceder por una
+       // incuesta al DOM
+       */
+   </script>
+   <script>
+       /*
+       'use strict'
+       alert("Nodo texto")
+       let text = document.body.firstChild
+       alert(text.data) // Hello
+       let comment = text.nextSibling
+       alert(comment.nodeValue) // Comment
+       */
+   </script>
+   <div id="news">
+       <h1>Headline!</h1>
+       <span>Martians attack people!</span>
+   </div>
+   <script>
+       /*
+       'use strict'
+       alert("Uso de textContent")
+       alert(news.textContent)
+       */
+   </script>
+   <div id="elem1"></div>
+   <div id="elem2"></div>
+   <script>
+       /*
+       'use strict'
+       alert("Escribiendo el textContent")
+       let name = prompt("What's your name?,","<b>Winnie-the-pooh!</b>")
+
+       elem1.innerHTML = name // interpreta la entrada
+       elem2.textContent = name // imprime la entrada tal como es
+       */
+   </script>
+   <div>Both divs below are hidden</div>
+   <div hidden>With the attribute "hidden"</div>
+   <div id="oculto">JavaScript assigned the property "Hidden"</div>
+   <script>
+       /*
+       'use strict'
+       alert("Uso de la propiedad oculto")
+       setTimeout(() => {oculto.hidden = true},4000)
+       // Hidden trabaja igual a style="display:none",pero es mas corta su declaración
+       */
+   </script>
+   <input type="text" id="buttom" value="value">
+   <script>
+       /*
+       'use strict'
+       alert("Mas propiedades")
+       alert(buttom.type)
+       alert(buttom.id)
+       alert(buttom.value)
+       buttom.value = "Cambio"
+       // Para conocer todas las propiedades del DOM use console.dir(elem) o 
+       // explorar las propiedades en el developer tools en el navegador 
+       */
+   </script>
+  
+
+    
+</body>
+</html>

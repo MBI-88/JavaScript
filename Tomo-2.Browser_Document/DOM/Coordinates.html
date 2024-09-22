@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body id="coords-show-mark" style="padding: 10em  10em;">
+    <!--    
+        Coordenadas de ventana (getBoundingClientRect)
+        El metodo elem.getBoundingClientRect() devuelve las coordenadas para
+        el elemento como un objeto con propiedades:
+        -> top -Y-coodenada para el borde alto del elemento
+        -> left -X-coordenada para el borde izquierdo del elemento
+        -> right -X-coordenada para el borde derecho del elemento
+        -> bottom -Y-coordenada para el borde inferior del elemento
+
+        Las coordenadas de ventana no toman en cuenta el scrolled out como parte 
+        del documento, solo es calculado el borde superior izquierdo
+
+        El metodo document.elementFromPoint solo trabaja si (x,y) estan dentro del
+        area visible.
+
+    -->
+    
+    <script>
+        /*
+        'use strict'
+        alert("Uso de elementFromPoint(x,y)")
+
+        let centerX = document.documentElement.clientWidth / 2
+        let centerY = document.documentElement.clientHeight / 2
+
+        let elem = document.elementFromPoint(centerX, centerY)
+        elem.style.background = 'red'
+        alert(elem.tagName)
+        */
+    </script>  
+    <script>
+        /*
+        'use strict'
+        alert("Uso de position:fixed")
+        /*
+            En CSS para posicionar un elemento relativo al puerto visible usamos
+            position:fixed junto con letf/top o right/bottom
+
+            Nota: Cuando la pagina es sscrolled, el flujo del mensaje espera por la parte baja.
+            El element mensaje se lanza sobre la position:fixed, entonces recuerda el mismo lugar de ventana
+            mientras la pagina espera por ser scrolled.
+            Esto puede ser cambiado usando postition:absolute
+
+        */
+       /*
+       let elem = document.getElementById("coords-show-mark")
+
+       function createMessageUnder(elem, html){
+           let message = document.createElement('div')
+           message.style.cssText = "position:fixed; color:red"
+           let coords = elem.getBoundingClientRect() // devuelve las coordenada de un elemento
+           alert(`${coords.left}--${coords.bottom}--${coords.right}--${coords.top}`)
+
+           message.style.left = coords.left + "px"
+           message.style.top = coords.bottom + "px"
+
+           message.innerHTML = html
+           return message
+       }
+       let message = createMessageUnder(elem, "Hello, world")
+       document.body.append(message)
+       setTimeout(() => message.remove(), 5000)
+       */
+    </script>
+    <!--
+        Coordenadas del Documento
+
+        Las coordenadas realtivas al documento comienzan en la esquina izquierda superior, no en la ventana
+        En CSS, las coordenadas de ventanas corresponden a position:fixed, mientras que las las coordenasas
+        del documento son similares a position:absolute en lo mas alto
+
+        Se puede usar position:absolute y top/left para ubicanr algo en un cierto lugar del documento, entonces 
+        permanece ahi durante el pasado de la pagina.
+
+        Cuando la pagina no es pasada, entonces las coordenadas de ventana y del documento son iguales
+
+
+        Obteniendo las coordenadas del documento
+
+        Las dos coordenadas del sistema estan conectadas por la siguiente formula:
+        -> pageY = clientY + alto de el scrolled-out de la parte vertical del documento
+        -> paqeX = clientX + ancho de el scrolled-out de la parte horizontal del documento
+    -->
+    <div id="box" style="border: 10em; ">
+        <p><h2>Probando la captura de coordenadas del documento</h2></p>
+
+    </div>
+    <script>
+        'use strict'
+        alert('Obteniendo las coordenadas e un elemento del documento')
+
+        function getCoords(elem){
+            let box = elem.getBoundingClientRect()
+            
+            return {
+                top: box.top + pageYOffset,
+                left: box.left + pageXOffset
+            }
+        }
+        let div = document.getElementById('box')
+        let coord = getCoords(div)
+        
+        for (let ob in coord){
+            alert(coord[ob])
+        }
+    </script>
+    
+</body>
+</html>

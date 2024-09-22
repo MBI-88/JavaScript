@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios</title>
+    <style>
+        img {
+          cursor: pointer;
+        }
+        #flyjet {
+          width: 40px;
+          transition: all 3s; /* -> 400px */
+    
+          height: 24px;
+          /* -> 240px */
+        }
+
+        /* ejercicio 1 */
+        #flyjet.growing {
+            width: 400px;
+            height: 240px;
+        }
+        /* ejercicio 2 */
+        #flyjet.outgrowing {
+            width: 400px;
+            height: 240px;
+            transition: all 3s cubic-bezier(.25,1.5,0.75,1.5);
+        }
+        .circle {
+            transition-property: width, height, margin-left, margin-top;
+            transition-duration: 2s;
+            position: fixed;
+            transform: translateX(-50%) translateY(-50%);
+            background-color: red;
+            border-radius: 50%;
+
+        }
+      </style>
+</head>
+<body>
+    <!--Ejercicio 1-->
+   <!--
+       <div id="ejercicio-1">
+        <img id="flyjet" src="https://en.js.cx/clipart/flyjet.jpg">
+    </div>
+   --> 
+    <script>
+        /*
+        'use strict'
+         flyjet.onclick = ()=>{
+            let ended = false 
+            flyjet.addEventListener('transitionend', ()=>{
+                if (!ended){
+                    ended = true
+                    alert("Done!")
+                }
+            })
+            flyjet.classList.add('growing')
+        }
+        */
+    </script>
+    <!--Ejercicio 2-->
+    <script>
+        /*
+        'use strict'
+        flyjet.onclick = ()=>{
+            flyjet.classList.add('outgrowing')
+        }
+        */
+    </script>
+    <!--Ejercicio 3-->
+    <script>
+        'use strict'
+
+        function showCircle(cx,cy,radius){
+            let div = document.createElement('div')
+            div.style.width = 0
+            div.style.height = 0
+            div.style.left  = cx + 'px'
+            div.style.top = cy + 'px'
+            div.className = 'circle'
+            document.body.append(div)
+
+            setTimeout( ()=>{
+                div.style.width = radius * 2 + 'px'
+                div.style.height = radius * 2 + 'px'
+            },0)
+
+        }
+    </script>
+    <button onclick="showCircle(150,150,100)">showCircle(150,150,100)</button>
+
+
+    
+    
+</body>
+</html>

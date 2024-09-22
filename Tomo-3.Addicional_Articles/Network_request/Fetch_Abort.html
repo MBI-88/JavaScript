@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abortar con fetch</title>
+</head>
+<body>
+    <!--
+        Abortar con fetch
+
+        El metodo fetch retorna una promesa y js generalmente no tiene el concepto de abortar una 
+        promesa. Existe un un objeto especial para este proposito: AbortController
+
+        Uso:
+        -> let controller = new AbortController()
+        Este tiene un metodo abort() y una propiedad signal. Cuando el metodo abort() es llamado
+        el evento abort es disparado sobre controller.signal
+    -->
+    <script>
+        /*
+        'use strict'
+
+        let controller = new AbortController()
+        let signal = controller.signal
+
+        signal.addEventListener('abort',() => alert('abort!'))
+        controller.abort()
+        alert(signal.aborted)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+
+        let controller = new AbortController()
+        fetch('https://api.github.com/repos/javascript-tutorial/en.javascript/commits',{
+            signal: controller.signal
+        })
+        controller.abort()
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        let controller = new AbortController()
+        setTimeout(() => controller.abort(), 2000)
+
+        try{
+            let response = fetch('https://api.github.com/repos/javascript-tutorial/en.javascript/commits',{
+                signal: controller.signal
+            })
+
+        }catch(err){
+            if (err.name == 'AbortError'){
+                alert('Aborted!')
+            }else{
+                throw err
+            }
+        }
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+
+        let urls = []
+        let controlller =  new AbortController()
+        let fetchJobs = urls.map(url => fetch(ulr,{
+            signal: controlller.signal
+        }))
+        let result = await Promise.all(fetchJobs)
+        */
+    </script>
+    <script>
+        'use strict'
+
+        let urls = []
+        let controller = new AbortController()
+        let ourjob = new Promise((resolve,reject) => {
+            //...
+            controller.signal.addEventListener('abort',reject)
+        })
+        let fetchJobs = urls.map(url => fetch(url,{
+            signal: controller.signal
+        }))
+        let results = await Promise.all([...fetchJobs,ourjob])
+    </script>
+    
+</body>
+</html>

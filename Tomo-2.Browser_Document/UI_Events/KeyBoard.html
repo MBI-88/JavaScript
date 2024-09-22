@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos de teclado</title>
+</head>
+<body>
+    <!--
+        Keydown and Keyup
+
+        event.conde : devuelve la tecla fisica ejemplo (KeyZ)
+        event.key : devuelve el caracter, el cual puede ser minusca o mayuscula
+
+        Para event.code:
+        -> Las claves de letras tienen el siguiente codigo: "Key<letter>"
+        -> Las claves de digitos tienen el siguiente codigo: "Digit<number>"
+        -> Claves especiales son codificadas por sus nombres: "Enter","Backspace","Tab"
+
+        Nota: event.code siempre devuelve el caracter fisico sin importar el idioma del sistema
+
+        Auto-repeat:
+        Para evenos lanzados por auto-repeat, el evento tiene una propiedad event.repeat establecida
+        a true.
+    -->
+    <script>
+        'use strict'
+        document.addEventListener('keydown',function(event){
+            if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey) ) alert('Undo!')
+        })
+    </script>
+    <script>
+        'use strict'
+        function ckeckPhoneKey(key){
+            return (key >= '0' && key <= '9') || key == '+' || key == '(' || key == ')' ||
+            key == 'ArrowLeft' || key == 'ArrowRight' || key == 'Delete' || key == 'Backspace'
+        }
+    </script>
+    <input onkeydown="return ckeckPhoneKey(event.key)" placeholder="Phone, please" type="text">
+    
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enfoque</title>
+    <style>
+        .invalid {border-color: red;}
+        #error {color: red;}
+        li { cursor: pointer;}
+        :focus {outline: 1px dashed green;}
+        h3 {padding: 15px 2px}
+        .focused {outline: 1px solid red;}
+    </style>
+</head>
+<body>
+    <!--
+        Evento focus/blur
+        El evento focus es llamado sobre el enfoque y blur cuando un elemento pierde el 
+        focus
+        En el siguiente ejemplo se usa para validacion:
+        -> El capturador blur chequea si el campo email esta lleno y si no muestra un error
+        -> El capturador focus esconde el mensage de blur.
+
+        Metodos foucs/blur
+
+        Los metodos elem.focus() y elem.blur() establecen y quitan el focus sobre el elemento
+    -->
+    Your email please: <input type="email" id="input">
+    <div id="error"></div>
+    <script>
+       /* {
+            'use strict'
+            input.onblur = function(){
+                if (!input.value.includes('@')){
+                    input.classList.add('invalid')
+                    error.innerHTML  = 'Please enter a correct email'
+                }
+            }
+            input.onfocus = function(){
+                if (this.classList.contains('invalid')){
+                    this.classList.remove('invalid')
+                    error.innerHTML = ''
+                }
+            }
+        }*/
+        /*
+        {
+            'use strict'
+            input.onblur = function(){
+                if (!this.value.includes('@')){
+                    this.classList.add('error')
+                    input.focus()
+                }else{
+                    this.classList.remove('error')
+                }
+            }
+
+        }
+        */
+    </script>
+    <!--
+        Permitir focus sobre cualquier elememto
+        
+        Por defecto muchos elemento no soportan focus.
+        La lista depende de los navegadores, pero lo que siempre ocurriá es que en los 
+        elementos que interactuen con el usuario como: button,input,select,a  entre otros simepre
+        soportaran focus.
+
+        Por otro lado los elementos como: div,span,table no soportan focus por defecto. Pero esto puede ser
+        cambiado usando el atributo tabindex.
+        Hay dos reglas especiales para su uso:
+        -> tabindex="0": hace al elemento el ultimo
+        -> tabindex="-1": se ignora el elemento 
+
+        Nota: Cualqueir elemento soporta focus si tiene tabindex
+    -->
+    <div>
+        <h3>Click the first itme and press Tab. Keep track of the order. Please not taht mark</h3>
+        <ul>
+            <li tabindex="1">One</li>
+            <li tabindex="0">Zero</li>
+            <li tabindex="2">Two</li>
+            <li tabindex="-1">Minus one</li>
+        </ul>
+    </div>
+    <!--
+        Delegacion: focusin/focusout
+
+        Los eventos focus y blur no burbujean.
+        Cuando se usa focus sobre un <input> el evento focus se lanzará solo sobre el elemento
+        y no burbujeará, por lo que form.onfocus nunca lanzara su evento.
+
+        Hay 2 soluciones:
+        -> no burbujean hacia arriba pero se propagan hacia abajo
+        -> existen focusin y focusout que hacen lo mismo que focus/blur pero burbujean.
+
+        Nota: Las asignaciones deben ser hechas usando elem.addEventListener no on<enve>
+    -->
+    <form action="#" id="form">
+        <input type="text" name="name" id="" value="Name">
+        <input type="text" name="surname" id="" value="Surname">
+    </form>
+    <script>
+        /*
+        {
+            'use strict'
+        // primera solucion
+
+        form.addEventListener('focus',()=> form.classList.add('focused'),true)
+        form.addEventListener('blur',()=> form.classList.remove('focused'),true) 
+        }
+        */
+       {    'use strict'
+           // segunda variante
+
+           form.addEventListener('focusin',()=> form.classList.add('focused'))
+           form.addEventListener('focusout',()=> form.classList.remove('focused'))
+       }
+       
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El servidor enviando eventos</title>
+</head>
+<body>
+    <!--
+        Server Sent Events
+
+        Tiene una conexion persistente como WebSocket, se diferencia de este en:
+        -> Comunicacion en una sola direccion
+        -> Solo usa texto
+        -> Uso de HTTP regular
+
+        EventSource es una forma de comunicacion menos fuerte que WebSocket. Soporta reconexion 
+        es util para recibir stream de datos del servidor, etc.
+    -->
+    <!--
+        Getting messages
+
+        Para recibir un mensaje se crea una new EventSource(url), el navegador crea una conexion y la mantiene
+        abierta. El servidor debe responder con status 200 y el header Content-Type: text/event-stream.
+        El mensaje va despues del "dato:"
+        El mensaje es delimitado con doble cotas y '\n''\n'
+        Para enviar una linea '\n', podemos enivar inmediatamente un dato mas
+
+        Ejemplo:
+        data: Message 1
+        data: Message 2
+        data: Message 3
+        data: of two lines
+
+        En la practia mensajes complejos son usualmente JSON-encoded, los saltos de linea son codificados dentro
+        del JSON
+        data: {"use":"John","message":"First line\n Second line"}
+    -->
+    <script>
+        /*
+        'use strict'
+        let eventSource = new EventSource('/events/subscribe')
+        eventSource.onmessage = event => console.log("New message",event.data)
+        // or eventSource.addEventListener('message',...)
+        */
+    </script>
+    <!--
+        Cross-domain request
+
+        EventSource soporta cross-domain request, como fetch y cualquier otro metodo de red. Se puede usar URL
+
+        let source = new EventSource('https://another-site.com/events')
+
+        El servidor remoto obtendrá el cabezal Origin y debe responder con Access-Control-Allow-Origin para proceder.
+        Para pasar credenciales se debe adicionar la opcion withCredentials.
+        
+        let source = new EventSource('https://another-site.com/event',{
+            withCredentials: true
+        })
+
+        El navegador deberia esperar lo suficiente para la reconexion, si la conexion de red se pierde.
+        Si el servidor quiere para la conexion, deberia responder con HTTP status 204
+        Si el navegador quiere cerrar la conexion, deberia llamar eventSource.close()
+    -->
+    <!--
+        Message id
+
+        Cuando la conexion se pierde ninguno de los lados puede estar seguro de que mensaje fue recibido.
+        La forma correcta para resumir la conexion, cada mensaje deberia tener una id field. Cuando un 
+        mensaje con id es recivido el navegador establece la propiedad eventSource.lastEventId a su propio valor.
+        Levantar la reconexion requiere el header Last-Event-ID con el id para que el servidor reenvie los mensajes.
+
+        Eventos: 
+        -> message: un mensaje recibido, accequible como event.data
+        -> open: la conexion esta abierta
+        -> error: la conexion no pudo ser establecida
+
+        Para manipular eventos se usa addEventListener no on<..>
+
+        eventSource.addEventListener('join',event => {
+            alert(`Joined ${event.data}`)
+        })
+
+    -->
+</body>
+</html>

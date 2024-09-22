@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Burbugenado y capturando</title>
+    <style>
+        body *{
+            margin: 10px;
+            border: 1px solid blue;
+        }
+    </style>
+</head>
+<body>
+    <!--Ejemplo-->
+    <div onclick="alert('The handler!')">
+        <em>If you click on <code>EM</code>, the handler on <code>DIV</code> runs.</em>
+    </div>
+    <!--
+        Burbugenado
+
+        Si tenemos un handler en form entonces capturara todos 
+        los click que ocurran dentro de su domineo.
+        
+        En el manipulador form.onclick:
+        -> this (=event.currentTarget) es el elemento <form>, porque el manipulador (handler) corre sobre
+            el.
+        -> event.target es el elemento concreto dentro del form que actulamente fue clickiado.
+    
+    -->
+    <form onclick="alert('form')">
+        FORM
+        <div onclick="alert('div')">DIV 
+            <p onclick="alert('p')">P</p>
+        </div>
+    </form>
+    <!--
+        Parando el burbugiado
+
+        El metodo stopPropagation() frena el manejador creado en el elemento actual donde 
+        se de click.
+        El metodo stopImmediatePropagation() frena el manejador del elemento actual y todos los
+        otros que sigan despues de el (si un elemento tiene multiples handler)
+    
+    -->
+    <div onclick="alert('Funciona div')">
+    <button onclick="event.stopPropagation()">click me</button>
+    </div>
+    <!--
+        Capturando
+
+        Para capturar un evento en la fase de captura necesitamos establecer un manipulador 
+        con la opcion de captura en true. 
+        elem.addEventListener(..., {capture: true}) // or, just "true" is an alias to {capture: true} 
+        elem.addEventListener(..., true)
+
+        Existen 2 posibles valores de opciones de captura:
+        -> Si es false (default), entonces el manipulador es establecido en la face de retroceso (bubbling)
+        -> Si es true, entonces el manipular es establecido en la fase de captura.
+
+        Existe una propiedad event.eventPhase que nos dice el numero de fases donde el evento fue capturado.
+
+        Si usamos addEventListener(...,true), entonces deveriamos usar de la misma forma removeEventListener(...,true),
+        para una correcta eliminacion.
+    -->
+
+
+</body>
+</html>

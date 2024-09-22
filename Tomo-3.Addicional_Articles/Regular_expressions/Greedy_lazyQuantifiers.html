@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greedy and lazy quantifiers</title>
+</head>
+<body>
+    <!--
+        Greedy and lazy quantifiers
+
+        Una epresion como /".+"/g (una cuota,entonces algo mas,y otra cuota)
+    -->
+    <script>
+        /*
+        let reg = /".+"/g
+        let str = 'a "witch" and her "broom" is none'
+        alert(str.match(reg)) // "witch" and her "broom"
+        */
+    </script>
+    <!--
+        Lazy mode (resuelve el problema anterior)
+
+        Se habilita poniendo una '?' despues del cuantificador, entonces se convierte en: *?,+? o ??.
+        Usandolo despues de otro cuantificador o el mismo cambia su significado, cambia de la igualdad greedy a la
+        lazy. En el algoritmo de busqueda lazy el motor de busqueda solo aumenta su busqueda si el resto del patron
+        no puede igualarse a la posicion actual
+    -->
+    <script>
+        /*
+        let reg = /".+?"/g
+        let str = 'a "witch" and her "broom" is none'
+        alert(str.match(reg)) // whitch, broom 
+
+        // ejemplo
+        alert("123 456".match(/\d+ \d+?/g)) // 123 4
+
+        // Encontrando cuotas sin el lazy mode
+        let regexp = /"[^"]+"/g
+        alert(str.match(regexp)) // witch, broom
+
+        // ejemplo donde falla lazy
+        let string = '...<a href="link" class="doc">...<a href="" class="doc">...'
+        let re = /<a href=".*?" class="doc">/g
+        alert(string.match(re)) // <a href="link" class="doc">...<a href="" class="doc">
+        // solucion
+        alert(string.match(/<a href="[^"]*" class="doc">/g)) // <a href="link" class="doc">,<a href="link2" class="doc">
+        */ 
+    </script>
+    <!--Ejercicios-->
+    <script>
+        /*
+        alert("123 456".match(/\d+? \d+?/)) // 123,4
+        */
+    </script>
+    <script>
+        /*
+        let reg = /<!--[\s\S]*?-->/sg
+        let str = `... <!-- My -- comment
+            test --> .. <!---->..`
+        alert(str.match(reg))
+        */
+    </script>
+    <script>
+        let reg = /<[^<>].*?>/g
+        let str = '<> <a href="/"><input type="radio" checked><b>'
+        alert(str.match(reg))
+    </script>
+
+</body>
+</html>

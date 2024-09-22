@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observador de mutacion</title>
+</head>
+<body>
+    <!--
+        MutationObserver
+
+        Es la creacion de un objeto par observar los elementos del DOM y dipara una llamada en caso de cambios.
+
+        Sintaxis:
+
+        let observer = new MutationObserver(callback)
+        obsever.observe(nod,config)
+
+        config es un objeto con opciones booleanas "que tipo de cambios se deberia reaccionar"
+        -> childList: cambios en el hijo directo de un nodo
+        -> subtree: en todos los decendientes de un nodo
+        -> attributes: atributos de un nodo
+        -> attributeOldValue: guardado de viejos valores de atributos
+        -> characterData: si observa el node.data (text content)
+        -> characterDataOldValue: guardado de los viejos valores de node.data
+        -> attributeFilter: nombre de arreglos de atributos para observar solo el seleccionado
+
+        Depues de cualquier cambio la funcion es ejecutado con una lista de MutationRecord como primer
+        argumento y el propio observador como el segundo argumento.
+        -> type: tipo de mutacion: -> attributes: atributo modificado
+                                   -> characterData: datos modificados, usados para nodos textos
+                                   -> childList: elementos hijos added/removed
+        
+        -> target: donde el cambio ocurre, un elemento para atributos, o nodo texto para 
+                    characterData, o un elemento para una mutación childList
+        -> addedNodes/removedNodes: nodos que fueron adicionados o removidos
+        -> previousSibling/nextSibling: el previo y siguiente sibling para added/removed nodes
+        -> attributeName/attributeNamespace: el name/namespace (para HTML) de cambios el atributo
+        -> oldValue: el valor previo solo para atributos o cambios de textos
+
+    -->
+    <div contenteditable id="elem">Click and <b>edit</b>, please </div>
+    <script>
+        'use strict'
+        let observer = new MutationObserver(mutationRecords => {
+            console.log(mutationRecords)
+        })
+        observer.observe(elem,{
+            childList:true,
+            subtree: true,
+            characterDataOldValue: true
+        })
+    </script>
+    <!--Casos de uso de MutationObserver-->
+    <div>
+        <pre class="language-js">
+            <code>
+                let hello = "World"
+            </code>
+        </pre>
+        <script>
+            'use strict'
+            // debe ser instalada la biblioteca Prism.js
+            document.querySelectorAll('pre[class*="language"]').forEach(Prism.highlightElem)
+        </script>
+    </div>
+    <!--
+        Metodos adicionales
+
+        -> obsever.disconnect(): parará la obsevación
+        -> mutationRecords = observer.takeRecords(): obtendra una lista de mutaciones no procesadas, esto ocurre
+        cuando el callback no los pudo capturar
+    -->
+</body>
+</html>

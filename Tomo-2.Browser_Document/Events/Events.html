@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intorduccion a eventos</title>
+    <style>
+        .transition {
+            transition: width 1s;
+            width: 100px;
+        }
+        .wide {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <!--
+        Eventos mas usado en el DOM:
+
+        .Eventos de mouse:
+        -> click: cuando se hace click sobre un elemento
+        -> contextmenu: cuando se hace click derecho sobre un elemento
+        -> mouseover/mouseout: cuando el cursor del mouse pasa sobre el elemento/deja un elemeto
+        -> mosuedown/mouseup: cuando el boton del mouse es presionado / soltado
+        -> mousemove: cuando el mouse se esta moviendo
+
+        .Eventos de elementos de formularios:
+        -> submit: cuando el usuario presiona submit en el formulario
+        -> focus: cuando se hace foco sobre un elemento para el usuario e.g sobre <input>
+
+        .Eventos de teclado:
+        -> keydown and keyup: cuando un usuario presiona y suelta el boton
+
+        .Eventos de DOM:
+        -> DOMContentLoaded: cuando el cargado y procesado el html, el DOM esta completo
+
+        .Eventos CSS:
+        -> transitioned: cuando finaliza una animacion CSS
+
+    -->
+    <!--Estableciendo un handler en Html, usando on<event>-->
+    <div class="HTML-attribute">
+        <input value="Click me" onclick="alert('Click!')" type="button">
+    </div>
+    <script>
+        'use strict'
+        function countRabbits(){
+            for (let i = 1;i <= 3;i++){
+                alert("Rabbit number " + i)
+            }
+        }
+    </script>
+    <div class="HTML-attribute-script"><input value="Count rabbits!" onclick="countRabbits()" type="button"></div>
+
+    <!--Propiedades del DOM-->
+    <input id="elem" type="button" value="Click here!">
+    <script>
+        'use strict'
+        elem.onclick = function(){
+            alert('Thank you')
+        }
+        // Nota: No se puede asignar mas de un evento a una etiqueta
+    </script>
+
+    <!--Asignando una funcion existente a un manipulador/ sobreescribiendo la operacion establecida-->
+    <input id="elem2" type="button" onclick="alert('Thank!')" value="Press!">
+    <script>
+        'use strict'
+        function sayThanks(){
+            alert('Hola mundo, gracias')
+        }
+        elem2.onclick = sayThanks
+        // Note: para remover un manipulador usar elem.onclick = null
+    </script>
+
+    <!--Accediendo al elemento (this). El valor de this dentro de un manipulador es el elemento-->
+    <button onclick="alert(this.innerHTML)">Click (this)</button>
+
+    <!--
+        Posibles errores.
+
+        Al comienzo de un trabajo con eventos:
+        .La funcion deberia ser asignada como bottom.onclick = sayThank, 
+        no asi bottom.onclick = sayThank()
+
+        Nota: Si se addicionan parentisis a la funcion ocurren la llamada a la misma,
+        donde el resultado es undefined (la funcion no retorna nada).
+
+        En caso de asignacion en la etiqueta html usar <input type="button" id="button" onclick="sayThanks()">
+
+        Tal uso no funcinara:
+        document.body.setAttribute('onclick',function(){alert(1)})
+        los atributos siempre son strings, la funcion se convierte en string
+
+        addEvnetListener:
+
+        El problema fundamental con la asignacion de manipuladores es que solo se puede asignar un evento a 
+        cada manipulador
+
+        Metod alternativo para confrontar el problema:
+        addEventListener/removeEventListener
+        -> element.addEventListener(event,handler[,options])
+        Argumentos:
+        -> event: e.g "click"
+        -> handler: la funcion manipuladora
+        -> options: 
+                    -> once: si es verdadero, el escuchador es automaticamente removido despues de su lanzamiento
+                    -> capture: fase para capturar el evento
+                    -> passive: si es verdadero, el manipulador no sera preventDefault()
+        
+        Para remover un manipulador usar: element.removeEventListener(event,handler[,options])
+    -->
+    <input id="elemHandler" type="button" value="Handler">
+    <script>
+        'use strict'
+        function handler1(){
+            alert('Thanks (handlers)')
+
+        }
+        function handler2(){
+            alert('Thanks again')
+        }
+        
+        elemHandler.addEventListener('click',handler1)
+        elemHandler.addEventListener('click',handler2)
+
+        // Nota: si no se guarda la funcion en una variable no se puede remover despus
+    </script>
+    <!--
+        Para algunos eventos, los manipuladores solo trabajan con addEventListener
+        Ejemplo el evento transitionend (CSS) (ya funciona en esta version)
+    -->
+    <input type="button" id="elemTransition" class="transition" onclick="this.classList.toggle('wide')" value="click transiton">
+    <script>
+        'use strict'
+        elemTransition.ontransitionend = function(){
+            alert("DOM property") // ya funciona
+        }
+
+        //elemTransition.addEventListener("transitionend", function(){alert("addEventListener")})
+    </script>
+    <!--
+        Capturando argumentos en los manipuladores
+
+        Cuando un evento pasa el navegador crea un objeto event, pone sus detalles dentro de el y lo pasa al manipulador
+
+    -->
+    <input type="button" value="Event Object" id="elemObject">
+    <script>
+        'use strict'
+        elemObject.addEventListener('click',function(event){
+            alert(event.type + " at " + event.currentTarget)
+            alert("Coordinates: " + event.clientX + "," + event.clientY)
+        })
+    </script>
+    <!--
+        Propiedades de los objetos eventos:
+        -> event.type: tipo de evento que ocurre
+        -> event.currentTarget: elemento que manipuló el evento, es lo mismo que this a menos que el manipulador 
+           sea uan funcion flecha
+        -> event.clientX / event.clienY: coordenadas relativas del cursor sobre la ventana
+
+        Los objectos de eventos son accesible desde HTML
+        Ejemplo: <input type="button" onclick="alert(event.type)" value="Event type">  
+    -->
+
+    <!--
+        Manipulador de objetos: handleEvent
+
+        Podemos asignar un objecto como un manipulador de eventos. Cuando el evento ocurre el metodo 
+        handleEvent es llamado con el. addEventListener recive un objecto como manipulador y llama a 
+        handleEvent en caso de evento
+
+        Ejemplo usando eventos por separado:
+
+        class Menu { 
+            handleEvent(event) { 
+            // mousedown -> onMousedown 
+            let method = 'on' + event.type[0].toUpperCase() + event.type.slice(1); 
+            this[method](event); 
+            }
+            onMousedown() { 
+                elem.innerHTML = "Mouse button pressed"; 
+            }
+            onMouseup() { 
+                elem.innerHTML += "...and released."; 
+            } 
+        }
+    -->
+    <button id="elemBotton" >Botton click</button>
+    <script>
+        'use strict'
+        elemBotton.addEventListener('click',{
+            handleEvent(event){
+                alert(event.type + " at " + event.currentTarget)
+            }
+        })
+    </script>
+    <button id="elemClass">Class Bottom click</button>
+    <script>
+        'use strict'
+        class Menu{
+            handleEvent(event){
+                switch(event.type){
+                    case 'mousedown': elemClass.innerHTML = "Mouse button pressed"
+                    break;
+                    case 'mouseup': elemClass.innerHTML += "...and released."
+                }
+            }
+        }
+        let menu = new Menu()
+        elemClass.addEventListener('mousedown',menu)
+        elemClass.addEventListener('mouseup',menu)
+    </script>
+
+    
+
+
+</body>
+</html>

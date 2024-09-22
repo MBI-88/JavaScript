@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animaciones en JS</title>
+    <link rel="stylesheet" href="cssStyle.css">
+    <script src="https://js.cx/libs/animate.js"></script>
+    <style>
+        #train {
+            position: relative;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!--Animacion usando js-->
+    <img id="train" src="https://js.cx/clipart/train.gif">
+    <script>
+        'use strict'
+        train.onclick = function() {
+            let start = Date.now();
+            let timer = setInterval(()=>{
+                    let timePassed = Date.now() - start;
+
+                    train.style.left = timePassed / 5 + 'px';
+
+                    if (timePassed > 2000) clearInterval(timer);
+
+                }, 20);
+        }
+    </script>
+    <!--
+        requestAnimationFrame
+
+        Existe en js la funcion requestAnimationFrame que resuleve el promblema de multiples transitiones
+
+        Sintaxis: let requestId = requestAnimationFrame(callback)
+
+        Si se hacen cambios en elementos en el callback entonces seran reagrupados junto a otros en la llamada 
+        asi como las animaciones CSS.
+
+        Para cancelar la animacion: cancelAnimationFrame(requestId)
+
+        Callback solo toma un argumeto, el timepo pasado desde el comienzo de carga de la pagina en microseconds.
+        El tiempo puede ser obtenido usando performance.now()
+
+        Ejemplo:
+        let prev = performance.now()
+        let times = 0
+
+        requestAnimationFrame(function measure(time){
+            document.body.insertAdjacentHTMl("beforeEnd",Math.floor(time - prev) + " ")
+            prev = time
+
+            if (times++ < 10) requestAnimationFrame(measure)
+        })
+    -->
+    <!--
+        Resumen
+
+        Ejemplo
+
+        function animate({timing,draw,duration}){
+            let start = performance.now()
+
+            requestAnimationFrame(function animate(time){
+                let timeFraction = (time - start) / duration
+                if (timeFraction > 1) timeFraction = 1
+
+                let progress = timing(timeFraction)
+                draw(progress)
+
+                if (timeFraction < 1)requestAnimationFrame(animate)
+            })
+        }
+        Opciones:
+        -> duration: el tiempo total en ms
+        -> timing: la funcion para calcular el proceso de animacion. Obtiene una fracion de tiempo entre 0 y 1 
+        -> draw: la funcion que dibuja la animacion
+
+
+    -->
+    <!--Ejemplos de uso -->
+    <div id="field">
+        <img src="https://js.cx/clipart/ball.svg" width="40" height="40" id="ball">
+    </div>
+    <script>
+        /*
+        'use strict'
+        function makeEaseOut(timing) {
+          return function(timeFraction) {
+            return 1 - timing(1 - timeFraction);
+          }
+        }
+    
+        function bounce(timeFraction) {
+          for (let a = 0, b = 1, result; 1; a += b, b /= 2) {
+            if (timeFraction >= (7 - 4 * a) / 11) {
+              return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+            }
+          }
+        }
+    
+        ball.onclick = function() {
+    
+          let to = field.clientHeight - ball.clientHeight;
+    
+          animate({
+            duration: 2000,
+            timing: makeEaseOut(bounce),
+            draw(progress) {
+              ball.style.top = to * progress + 'px'
+            }
+          });
+    
+    
+        };
+        */
+      </script>
+        <script>
+            'use strict'
+            
+            function makeEaseOut(timing) {
+              return function(timeFraction) {
+                return 1 - timing(1 - timeFraction);
+              }
+            }
+        
+            function bounce(timeFraction) {
+              for (let a = 0, b = 1, result; 1; a += b, b /= 2) {
+                if (timeFraction >= (7 - 4 * a) / 11) {
+                  return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+                }
+              }
+            }
+        
+            function quad(timeFraction) {
+              return Math.pow(timeFraction, 2);
+            }
+        
+            ball.onclick = function() {
+        
+              let height = field.clientHeight - ball.clientHeight;
+              let width = 100;
+        
+              animate({
+                duration: 2000,
+                timing: makeEaseOut(bounce),
+                draw: function(progress) {
+                  ball.style.top = height * progress + 'px'
+                }
+              });
+        
+              animate({
+                duration: 2000,
+                timing: makeEaseOut(quad),
+                draw: function(progress) {
+                  ball.style.left = width * progress + "px"
+                }
+              });
+            }
+          </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea de estilo y clases</title>
+</head>
+<body>
+    <script>
+        'use strict'
+        alert("Ejercicio 1")
+
+        function showNotification(options){
+            let styleOption = options
+            let div = document.createElement('div')
+            div.className = `${styleOption['className']}`
+            div.setAttribute('style',`
+                margin-top: ${styleOption['top']}+px;
+                margin-right: ${styleOption['right']}+px;
+            `)
+            div.innerHTML = `${styleOption['html']}`
+            document.body.append(div)
+        }
+        showNotification({
+            top:10,
+            right: 10,
+            html: "Hello!",
+            className: "welcome"
+        })
+        let style = document.getElementsByTagName('div')
+        alert(style[0].className)
+    </script>
+    
+</body>
+</html>

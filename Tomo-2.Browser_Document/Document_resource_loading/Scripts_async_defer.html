@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script: async, defer</title>
+</head>
+<body>
+    <!--
+        Cuando un navegador carga un HTML y con etiquetas script, no puede continuar 
+        la carga completa del documento hasta que este no se halla descargado por completo
+        y ejecutado.
+        Solucion para la demora de carga de HTML por causa de los script: defer y async
+
+        defer
+
+        El atributo defer le dice al navegador que deberia seguir trabajando con la pagina, y cargar
+        el script en background. Script con defer nunca bloquerá la pagina, siempre se ejecuta cuando
+        el DOM esta listo pero antes del evento de DOMContentLoaded
+
+        Si tenemos un script pesado primero y otro pequeño como segundo el ultimo espera. Aunque el mas
+        pequño se descargue primero, esperará por el mas grande según el orden de ejecucion.
+
+        El atributo defer es solo para script externos. Es ignorado si la etiqueta script no tiene atributo
+        src
+
+
+        async
+
+        El atibuto async significa que el script es completamente independiente.
+        No esperará por nada y nada esperará por el.
+        Es util cuando se usan script de terceros integrados con los nuestros
+
+
+        Dynamic scripts
+
+        Se puede adicionar script dinamicos usando js: let script = document.createElement('script')
+        El scipt se empieza a cargar tan pronto como es agregado al documento.
+        Se comparta como async por defecto.
+    -->
+    
+</body>
+</html>

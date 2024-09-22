@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularios</title>
+</head>
+
+<body>
+    <!--
+        Navegacion: formularios y elementos
+        
+        Los formularios son miembros de una colección especial del documento. (document.forms.)
+        Se puede acceder a ellos por medio del numero ó el nombre: document.forms.my -> nma="my"
+        document.forms[0] -> el primer formulario en el documento.
+
+        Cuando tenemos un formulario todos sus elementos son accesibles por meido de form.elements
+    -->
+    <div>
+        <form action="#" name="my">
+            <input type="text" name="one" id="" value="1">
+            <input type="text" name="two" id="" value="2">
+        </form>
+        <script>
+            /*
+            'use strict'
+            let form = document.forms.my
+            let elem = form.elements.one
+            alert(elem.value)// 1
+            */
+        </script>
+    </div>
+    <div>
+        <form action="#">
+            <input type="radio" name="age" id="" value="10">
+            <input type="radio" name="age" id="" value="20">
+        </form>
+        <script>
+            /*
+            'use stirct'
+            let form1 = document.forms[1]
+            let ageElems = form1.elements.age
+            alert(ageElems[0].value)
+            */
+        </script>
+    </div>
+    <!--Fieldset como subforms-->
+    <div>
+        <form action="#" id="form2">
+            <fieldset name="useFields">
+                <legend>info</legend>
+                <input type="text" name="login">
+            </fieldset>
+        </form>
+        <script>
+            /*
+            'use stirct'
+            alert(form2.elements.login)
+            let fieldset = form2.elements.useFields
+            alert(fieldset)
+            alert(fieldset.elements.login == form2.elements.login) // true
+            */
+        </script>
+    </div>
+    <!--Notacion corta form.name-->
+    <div>
+        <form action="#" id="form3">
+            <input type="text" name="login" id="">
+        </form>
+        <script>
+            /*
+            'use strict'
+            alert(form3.elements.login == form3.login) // true
+            form3.login.name = 'usrname'
+            alert(form3.elements.login) // undefined
+            alert(form3.elements.usrname) // input
+
+            alert(form3.usrname == form3.login) // true
+            */
+        </script>
+    </div>
+    <!--Referencia invertida: element.form-->
+    <div>
+        <form action="#" id="form">
+            <input type="text" name="login">
+        </form>
+        <script>
+            /*
+            'use strict'
+            // form --> element
+            let login = form.login
+            alert(login)
+            // element --> form
+            alert(login.form) // HTMLFormELement
+            */
+        </script>
+    </div>
+    <!--
+        Elementos del formulario
+
+        Input y Textarea
+
+        Se puede acceder a sus valores por medio de input.value (string) o input.checked (booleano) para checkboxes.
+        No se puede usar textarea.innerHTML, en su lugar se usa textarea.value
+
+
+        Select y Option
+
+        Propiedades de <select>: -> select.options: la colección de elementos
+                                 -> select.value: el valor de la acción actual seleccionada
+                                 -> select.selectedIndex: el numero de opciones actuales seleccionadas
+        
+        Tres formas de establecer un valor a <select>: -> encontrar la opcion necesria y establecer option.selected a true
+                                                       -> establecer el valor a select.value
+                                                       -> establecer select.selectedIndex al numero de la optcion
+    -->
+    <div style="padding: 1em 20em;">
+        <select name="" id="select">
+            <option value="apple">Apple</option>
+            <option value="pear">Pear</option>
+            <option value="banana">Banana</option>
+        </select>
+        <script>
+            'use strict'
+            select.options[2].selected = true
+            select.selectedIndex = 2
+            select.value = 'banana'
+        </script>
+    </div>
+    <!--Usando seleccion multiple-->
+    <div style="padding: 1em 20em;">
+        <select name="" id="multiple" multiple>
+            <option value="blues" selected> Blues</option>
+            <option value="rock" selected> Rock</option>
+            <option value="classic" selected> Classic</option>
+        </select>
+        <script>
+            /*
+            'use strict'
+            let selected = Array.from(multiple.options).filter(options => options.selected)
+                .map(options => options.value)
+            alert(selected) // blue,rock
+            */
+        </script>
+    </div>
+    <!--
+        new Option
+
+        Sintaxis: option = new Option(text,defaultSelected,selected)
+        Parametros: -> text: el texto dentro de la opción
+                    -> value: el valor de opción
+                    -> defualtSelected: si es true, entonces el atributo HTML seleccionado es creado
+                    -> selected: si es true, entonces la opción es selecciónada
+        
+        Propiedades adicionales:
+        selected: es la opcion seleccionada
+        index: el numero de optiones entre las otras de <select>
+        text: es el contexto (valor que ve el usuario)
+
+    -->
+    <!--Ejercicio 1-->
+    <div style="padding: 2em 20em;">
+        <select name="" id="genres">
+            <option value="rock">Rock</option>
+            <option value="blue" selected>Blues</option>
+        </select>
+        <script>
+            'use strict'
+            // Mostrando el texto y el valor de la opción seleccionada
+            let genres = document.querySelector('#genres')
+            alert(genres.options[genres.selectedIndex].text + '  '+ genres.value)
+
+            // Adicionar una opcion: <option value="classic">Classic</option>
+            let newoption = new Option("Classic",'classic',true,true)
+            genres.append(newoption)
+        </script>
+
+
+    </div>
+
+
+</body>
+
+</html>

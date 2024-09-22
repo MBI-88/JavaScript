@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos en submit</title>
+</head>
+<body>
+    <!--
+        Evento submit
+
+        Dos formas para el metodo submit del formulario:
+        -> Primero clickiar <input type="submit"> o <input type="image">
+        -> El segundo es presiona enter en el campo del input
+
+        Nota: Ambos eventos permitien enviar el formulario. Si tiene errores
+        se puede usar event.preventDefault() para evitar el envio.
+
+        Si se presiona enter en un campo input el evento submit se lanzará
+    -->
+    <div>
+        <form onsubmit="alert('submit')";return false>
+            First: Enter in the input field <input type="text" value="text">
+            <br>Second: Click "submit": <input type="submit" value="submit">
+        </form>
+    </div>
+    <!--
+        Metodo submit
+
+        Para hacer un envio manual al servidor usar form.submit()
+        El evento submit no será generado, se asume que el progrmador  hizo una 
+        llamada form.submit(), por lo que el script murio antes de ser procesado.
+    -->
+    <div>
+        <script>
+            'use strict'
+            let form = document.createElement('form')
+            form.action = 'https://google.com/search'
+            form.method = 'GET'
+            form.innerHTML = '<input name="q" value="test">'
+            document.body.append(form)
+
+            form.submit()
+           
+        </script>
+    </div>
+
+    
+</body>
+</html>

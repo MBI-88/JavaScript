@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArrayBuffer, binary arrays</title>
+</head>
+<body>
+    <!--
+        ArrayBuffer no es un array
+
+        -> tiene una longitud ajustada, no se puede aumentar
+        -> toma un espacio exacto en memoria
+        -> para acceder a bytes individuales usar "view" object, no buffer[index]
+
+        sintaxis: let buffer = new ArrayBuffer(16) crea un buffer de 16 byte
+
+        -> Uint8Array: trata cada byte en el ArrayBuffer como un numero separado, con posibles valores
+        de 0 a 255.
+        -> Uint16Array: trata  2 bytes como un entero, con posibles valores de 0 a 65535
+        -> Uint32Array: trata 4 bytes como un entero ,con valores entre 0 a 4294967295
+        -> Float64Array: trata 8 bytes como un numero de punto flotante con valores entre 5*10^-324 a 1.8*10^308
+
+    -->
+    <!--Ejemplo de uso -->
+    <script>
+        /*
+        'use strict'
+        let buffer = new ArrayBuffer(16)
+        let view = new Uint32Array(buffer)
+
+        alert(Uint32Array.BYTES_PER_ELEMENT)
+        alert(view.byteLength)
+
+        view[0] = 123456
+
+        for (let num of view){alert(num)}
+        */
+    </script>
+    <!--
+        TypedArray
+
+        El termino comun para todos los array (Uint8Array,Uint32Array,etc) es TypedArray, todos comparten los mismos 
+        metodos y propiedades
+
+        Hay 5 variantes de arguemtos
+
+        -> new TypedArray(buffer,[byteOffset],[length])
+        -> new TypedArray(object)
+        -> new TypedArray(typedArray)
+        -> new TypedArray(length)
+        -> new TypedArray()
+
+        1. Si se provee un argumento a un ArrayBuffer, la vista es creada sobre este, se usa la sintaxis anterior
+        2. Si un array, o un array-like object es dado, se crea un typed array de la misma longitud y copia su con
+        tenido.
+        3. Si otro TypedArray es provisto, hace lo mismo: crea un typed array de la misma longitud y copia sus valores.
+        4. Para un argumento numerico length crea el typed array que contiene muchos elementos. La longitud del byte sera
+        multiplicada por el numero de bytes en un simple item TypedArray.BYTES_PER_ELEMENT
+        5. Sin argumentos crea un typed array de longitud 0
+
+        Lista de typed arrays:
+        -> Uint8Array,Uint16Array,Uint32Array: para numeros enteros de 8 a 16 y 32 bits
+        -> Uint8ClampedArray: para 8 bit enteros, "clamps" o asignados
+        -> Int8Array,Int16Array,Int32Array: para enteros firmados (pueden ser negativos)
+        -> Float32Array,Float64Array: para numeros de punto flotante de 32 y 64 bits
+
+        El uso de Uint8ClampedArray es especial, se comporta diferente a los otros, salva el valor de 255
+        para cualquier numero mallor que 255 y 0 para cualquier numero negativo. Este comportamiento es util
+        para imagenes
+
+    -->
+    <script>
+        /*
+        'use strict'
+        let arra = new Uint8Array([0,1,2,3])
+        alert(arra.length)
+        alert(arra[1])
+
+        let arr = new Uint16Array(4)
+        alert(Uint16Array.BYTES_PER_ELEMENT)
+        alert(arr.byteLength)
+        */
+    </script>
+    <!--
+        Typed Array methods
+
+        Contiene los metodos de array regulares a exepción
+        de:
+        -> No splice: no se puede borrar un valor 
+        -> No concat
+
+        Existen 2 metodos adicionales
+
+        -> arr.set([fromArr,[offset]]): copia todos los elementos de fromArr a el arr, empesando por la posision del 
+        offset.
+        -> arr.subarray([begin,end]): crea una nueva vista del mismo tipo de begin a end. Similar a slice
+    -->
+    <!--
+        DataView
+
+        Es especial super flexible no tipado sobre ArayBuffer. Permite acceder al dato en una posicion y fromato dado
+
+        -> Para typed arrays, el contructor dicta cual es el formato. Todo el array es supesto uniforme, la posicion enecima
+        es arrr[i]
+        -> Con DataView accedemos al dato con metodos como: .getUint8(i) o .getUint16(i).
+
+        Sintaxis: new DataView(buffer,[byteOffset],[byteLength])
+        -> buffer: la capa ArrayBuffer. Diferente a typed arrays, DataView no crea un buffer de su propiedad.
+        Necesitamos tenerlo listo.
+        -> byteOffset: el byte de posicion de comienzo en la vista (defautlt 0)
+        -> byteLength: el byte de longitud de la vista (default el final del buffer)
+
+    -->
+    <!--Ejermplo de DataView-->
+    <script>
+        /*
+        'use strict'
+        let buffer = new Uint8Array([255,255,255,255]).buffer
+
+        let dataview = new DataView(buffer)
+        
+        alert(dataview.getUint8(0))
+        alert(dataview.getUint16(0))
+        alert(dataview.getUint32(0))
+        dataview.setUint32(0,0)
+        */
+    </script>
+    <!--Ejercicio 1-->
+    <script>
+        'use strict'
+
+        function concat(arrays) {
+            let totlalength = arrays.reduce((acc,value) => acc + value.length,0)
+        
+            if (!arrays.length) return null
+
+            let result = new Uint8Array(totlalength)
+            
+            let length = 0
+            for (let array of arrays){
+                result.set(array,length)
+                length += array.length
+            }
+            return result
+        }   
+  
+        let chunks = [
+            new Uint8Array([0, 1, 2]),
+            new Uint8Array([3, 4, 5]),
+            new Uint8Array([6, 7, 8])
+        ];
+  
+        console.log(Array.from(concat(chunks))); // 0, 1, 2, 3, 4, 5, 6, 7, 8
+  
+        console.log(concat(chunks).constructor.name); // Uint8Array
+    </script>
+
+    
+</body>
+</html>

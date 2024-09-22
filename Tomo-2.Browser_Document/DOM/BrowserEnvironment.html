@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Evironment</title>
+</head>
+<body>
+    <script>
+        /*
+        'use strict'
+        alert("Ejemplo de uso de objeto global")
+        /*
+            Ambiente del navegador esta compuesto por:
+            1. El objeto global para codigo JavaScript
+            2. Representacion de la ventana del navegador, provee metodos para controlarlos
+
+            La ventana del navegador (window) esta compuesta de:
+            -> DOM: document
+            -> BOM: naigator,screen,location,frames,history,XMLHttpRequest
+            -> JavaScript: Object,Array,Function
+        *//*
+
+        function sayHi(){alert("Hello")}
+        window.sayHi() // las funciones globales son accesibles como propiedades de la ventana
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Usando la ventana del navegador")
+        alert(window.innerHeight)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("DOM(document Object Model")
+        // Con el uso de DOM se puede cambiar cualquier elemento de la vista
+        // Toda la informacion:  https://dom.spec.whatwg.org
+
+        document.body.style.background = 'red';
+        setTimeout(() => document.body.style.background = "",2000)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("BOM(Browser object model")
+        /*
+            El BOM trabaja con todo excepto con el DOM.
+            -> El navegador provee informacion sobre el sistema operativo, existen muchas propiedades pero 2 son las mas ampliamente
+            conocidas: 
+                navigator.userAgent: informa sobre el navegador actual 
+                navigator.platform: informa sobre la plataforma en la que corre el navegador
+            -> La ubicacion, permite leer la pagina actual y redireccionar al navegador hacia otra
+
+            Nota: las funciones alert,confirm,prompt son solo parte del BOM, no estan directamente relacionada con el DOM.
+                  BOM es parte de las especificaciones de HTML.  https://html.spec.whatwg.org
+                  DOM especificacion: https://dom.spec.whatwg.org
+                  CSSOM especificacion: https://www.w3.org/TR/cssom-1/
+
+        *//*
+       // Ejemplo
+       alert(location.href) // lugar actual
+       if (confirm("Go to wikipedia?"))location.href = "https://wikipedia.org" // redireccion
+       */
+    </script>   
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #table  {
+            border: 10px;
+            padding: 10px; 
+            background-color: rgb(249, 255, 240);
+            position: relative;
+            grid-column: auto;
+            grid-row: auto;
+        }
+        #table td {
+            color: royalblue;
+        }
+    </style>
+    <title>Delegaciones de Eventos</title>
+</head>
+<body>
+    <!--
+        Bagua Chart: Direction, Element, Color, Meaning
+        
+        Explicacion:
+        -> El metodo elem.closest(selector) retorna el ancestro mas cercano que se iguala al selector
+           en nuestro caso buscamos <td>  en el camino desde el elemento fuente
+        -> Si event.target no esta dentro de cualquier <td>, entonces la llamada returna null, y no hacemos nada
+        -> En caso de tablas mas cercanas, event.target tal vez sea un <td> fuera de la tabla actual
+        -> En caso contrario se ilumina.            
+    -->
+    <table id="table" >
+        <tr>
+            <th colspan="3"><em>Bagua</em>Chart: Direction, Element, Color, Meaning</th>
+        </tr>
+        <tr>
+            <td><strong>Northwest</strong>
+                <p>Metal</p>
+                <p>Silver</p>
+                <p>Elders</p>
+            </td>
+            <td><strong>North</strong>
+                <p>Water</p>
+                <p>Blue</p>
+                <p>Change</p>
+            </td>
+            <td><strong>Northeast</strong>
+                <p>Earth</p>
+                <p>Yellow</p>
+                <p>Direction</p>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>West</strong>
+                <p>Metal</p>
+                <p>Gold</p>
+                <p>Youth</p>
+            </td>
+            <td><strong>Center</strong>
+                <p>All</p>
+                <p>Purple</p>
+                <p>Harmony</p>
+            </td>
+            <td><strong>East</strong>
+                <p>Wood</p>
+                <p>Blue</p>
+                <p>Future</p>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Southwest</strong>
+                <p>Earth</p>
+                <p>Brown</p>
+                <p>Tranquility</p>
+            </td>
+            <td><strong>South</strong>
+                <p>Fire</p>
+                <p>Orange</p>
+                <p>Fame</p>
+            </td>
+            <td><strong>Southeast</strong>
+                <p>Wood</p>
+                <p>Green</p>
+                <p>Romance</p>
+            </td>
+        </tr>
+
+    </table>
+    <script>
+        'use strict'
+        let selectedTd;
+        function highlight(td){
+            if (selectedTd){
+                selectedTd.classList.remove('highlight')
+            }
+            td.style.color = "red"
+            selectedTd = td
+            selectedTd.classList.add('highlight')
+        }
+        table.onclick = function(event){
+            let td = event.target.closest('td')
+            if (!td)return
+            if (!table.contains(td)) return
+
+            highlight(td)
+        }
+    </script>
+    <!--
+        Ejemplos de Delegacion: accines en marcas
+
+        La primera idea debe ser asignar un manipulador para cada evento en cada botton. Pero existe
+        una mejor solucion (mas elegante). Podemos asignar un manipulador para todo el menu y atributos
+        de data-action en los button que tengan el metodo call.
+    -->
+    <div id="menu">
+        <button data-action="save">Save</button>
+        <button data-action="load">Load</button>
+        <button data-action="search">Search</button>
+    </div>
+    <script>
+        'use strict'
+        class Menu{
+            constructor(params) {
+                this._elem = params;
+                params.onclick = this.onClick.bind(this) // muy importante para que ocurra lo esperado 
+                // this hace referencia a Menu no a DOM
+            };
+            save(){
+                alert('saving')
+            };
+            load(){
+                alert('loading')
+            };
+            search(){
+                alert('searching')
+            };
+            onClick(event){
+                let action = event.target.dataset.action;
+                if (action) this[action]();
+            };
+        }
+        new Menu(menu)
+    </script>
+    <!--
+        Comportamiento de los patrones
+
+        Los patrones tienen 2 partes:
+        -> Adicionar un atributo especial al elemento
+        -> Seguir los eventos del documentos, y si algo ocurre sobre un elemento elige una action
+    -->
+    <!-- 
+        Contadores 
+
+        Cuando asignamos un manipulador de eventos al document, debemos siempre usar addEventListener y no onclick para
+        evitar conflictos que puedan ocurrir con la sobre escritura de manipuladores.
+    -->
+    <div >
+        <p>Counter: <input type="button" value="1" data-counter> One more Counter: <input type="button" value="2" data-counter></p>
+    </div>
+    <script>
+        'use strict'
+        document.addEventListener('click',function(event){
+            if (event.target.dataset.counter != undefined) event.target.value++;
+
+        })
+    </script>
+    <!--
+        Intercambiando (toggler)
+    -->
+    <button data-toggle-id="subscribe-mail">Show the subscription</button>
+    <form id="subscribe-mail" hidden>
+        Your mail: <input type="email">
+    </form>
+    <script>
+        'use strict'
+        document.addEventListener('click',function(event){
+            let id = event.target.dataset.toggleId
+            if (!id) return;
+
+            let elem = document.getElementById(id)
+            elem.hidden = !elem.hidden
+        })
+
+    </script>
+
+    
+</body>
+</html>

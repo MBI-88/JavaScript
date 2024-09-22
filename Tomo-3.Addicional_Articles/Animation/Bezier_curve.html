@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Besier curve </title>
+</head>
+<body>
+    <!--
+        Bezier curves
+
+        Es usada en computacion grafica para dibujar formas, para animacion CSS y otros.
+
+
+        Control points
+
+        La Bezier curves es definida por control points. Caracteristicas:
+        -> Los puntos no siempre estan sobre la curva. Es perfectamente normal.
+        -> El orden de la curva es igual al numero de puntos menos uno.
+        -> Una curva esta siempre dentro de la figura convexa formada por los puntos del plano
+
+
+        Maths
+
+        La formula para la creacion de Bezier: 
+        P = (1-t)P1 + P2 // para 2 puntos
+        P1 = (x1,y1)
+        P2 = (x2,y2)
+
+        P = (1-t)^2P1 + 2(1-t)tP2 + t^2P3 // para 3 puntos
+        P = (1-t)^3P1 + 3(1-t)^2tP2 + 3(1-t)t^2P3 + t^3P4 // para 4 puntos
+
+        Sustituyendo con x,y
+
+        x = (1-t)^2X1 + 2(1-t)tX2 + t^2X3
+        y = (1-t)^2Y1 + 2(1-t)tY2 + t^2Y3
+
+
+    -->
+    
+</body>
+</html>

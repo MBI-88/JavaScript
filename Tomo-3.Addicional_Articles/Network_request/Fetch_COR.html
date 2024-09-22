@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Origin-Requests</title>
+</head>
+<body>
+    <!--
+        Los conceptos claves son origen (domineo,puerto,protocol)
+
+        Cross-origin-request: Para que se envien a otro domineo (o subdomineo), protocolo o puerto
+        requiere un headers especial del sitio remoto. Esa politica es llamada CORS (Cross-Origin Resource Sharing)
+
+        Las rectricciones CORS protegen a internet de ciberdelincuentes
+
+        Usando formularios
+
+        Una forma de comunicacion con otro servidor fue usando form se hacia un envio en un iframe 
+        para mantenerse en la misma pagina
+        Ejemplo:
+        <iframe name="iframe"></iframe>
+        <form target="iframe" method="POST" action="http://another.com/.."></form>
+
+        El metodo XMLHttpRequest permite el uso de cross-domain siempre y cuando el server permita 
+        los previlegios solicitados.
+
+        Peticiones simples
+
+        Hay 2 tipos de peticiones cross-domain:
+        -> Simple
+        -> Todos de otros
+
+        Una peticion simple satiface 2 condiciones:
+        -> GET,POST o HEAD
+        -> Headers simples, los headers personalizados permitidos son:
+           -> Accept
+           -> Accept-Language
+           -> Content-Language
+           -> Content-Type con valores application/x-www-form-urlencoded, multipart/form-data o text/plan
+        
+        Otros tipos de peticiones son consideradas como no simples como PUT o una API-key HTTP-header
+
+
+        CORS de una simple peticion
+
+        Si una peticion es cross-origin, el navegador siempre adiciona el cabezal Origin
+        Ejemplo: 
+        Si la peticion es https://anywhere.com/request de https://javascript.info/page los cabezales
+        serán:
+
+        GET /request
+        Host: anywhere.com
+        Origin: https://javascript.info
+        ...
+
+        El servidor insperciona el Origin y si está de acuerdo acepta tal peticion, adiciona un 
+        header especial Access-Control-Allow-Origin a la respuesta. Ese header en este caso contendrá
+        https://javascript.info o comenzar con *
+
+
+        Headers de respuesta
+
+        Para peticiones cross-origin por defecto JS talvez solo accede "simple peticion de headers":
+        -> Cache-Control
+        -> Content-Language
+        -> Content->Type
+        -> Expires
+        -> Last-Modified
+        -> Pragma
+
+        Otros tipos de cabezales son prohibidos
+
+        Para garantizar que JS pueda acceder a cualquier tipo de respuesta de headers, el servidor debe listarlo
+        en el Access-Control-Expose-Headers 
+        Ejemplo:
+        200 OK
+        Content-Type:text/html; char set=UTF-8
+        Content-Length: 12345
+        API-Key: 2c9de507f2c54aa1
+        Access-Control-Allow-Origin: https://javascript.info
+        Access-Control-Expose-Headers: Content-Length, APOI-Key
+
+
+        Peticiones no simples
+
+        Se pueden usar culquier metodo HTTP como PATCH, DELECT, PUT y otros
+        Para evitar el mal entendimiento de cualquier peticion no simple
+        antes de enviar la peticion el navegador envia un prelimiar llamado
+        "preflight", preguntando por permisos.
+        Un preflight usa metodos OPTIONS y no tiene cuerpo
+        .Access-Control-Request-Method tiene el metodo solicitado
+        .Access-Control-Request-Headers provee una lista de cabezales HTTP no simple peticion separados por
+        coma
+    -->
+    <script>
+        /*
+        'use strict'
+        let response = fetch('https://site.com/service.json',{
+            method: 'PATCH',
+            headers: {
+                'Content-Type':'application/json',
+                'API-Key':'secret'
+            }
+        })
+        */
+    </script>
+    <!--
+        Credenciales
+
+        Una peticion cross-origin por defecto no trae credenciales (cookie o HTTP authentication)
+        No es comun para una peticion HTTP. Normalmente las peticiones bienen acompañadas de cookies 
+        del domineo, pero las cross-domain hechas por los metodos js son una exepción
+        Para enviar credenciales se usa:
+        fetch('url',{
+            credential:'include'
+        })
+
+        Si el servidor acepta credenciales entonces debuelve:
+        Access-Control-Allow-Credential: true
+        Access-Control-Allow-Origin
+    -->
+
+</body>
+</html>

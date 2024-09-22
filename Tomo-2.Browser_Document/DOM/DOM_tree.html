@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM tree</title>
+</head>
+<body>
+    <hgroup>
+        <p>
+            <h2 style="color: darkblue;">En el DOM existen dos niveles de exclusion:</h2>
+            <h4 style="color: blue;">-> Espacios y nuevas lineas antes de "head" son ignorados. </h4>
+            <h4 style="color: blue;">-> Todo elemento puesto despues de "/body" es automaticamente
+                movido hacia dentro del cuerpo y puesto al final.</h4>
+            <div>
+                <h5 style="color: blueviolet;font-family: 'Lucida Sans';font-size:medium;">Autocorreccion</h5>
+                <h6 style="color: black;font-family: 'Courier New', Courier, monospace;font-size: small;font: weight 50px;">
+                    Si el navegador encuentra html malformados, automaticamente los corrige, aun cuando
+                    no exista la firma "html" explicitamente, siempre existira en el DOM y el navegador la 
+                    creará, lo mismo sucede para "body".
+                
+                </h6>
+            </div>
+        </p>
+        <div>
+            <table id="table">
+                <span style="color:red;font-family: 'Courier New';"><h4>Uso de tabla</h4></span>
+                <tr style="border: 10px;color: rgb(12 , 180, 50);"><td><h5 style="margin-left: 50px;">1</h5></td></tr>
+                <tr style="border: 10px;color: rgb( 200, 20, 100);"><td><h5 style="margin-left: 50px;">2</h5></td></tr>
+                <tr style="border: 10px;color: rgb( 25, 100, 250);"><td><h5 style="margin-left: 50px;">3</h5></td></tr>
+            </table>
+        </div>
+        <div>
+            <span style="color: black;"><h3> Existen 12 tipos de nodos, en la prática usanlmente se usan 4:</h3></span>
+            <p style="color: rebeccapurple;">
+                <h4 style="margin-left: 10px;">1-> Documents: el punto de entrada de DOM</h4>
+                <h4 style="margin-left: 10px;">2-> Elemetos de nodos: Los hijos de Html (las tag)</h4>
+                <h4 style="margin-left: 10px;">3-> Comentarios: se puede poner informacion aqui, la cual no será mostrada, pero Js puede leerla del DOM</h4>
+                <h4 style="margin-left: 10px;">4->Nodos textos: contienen texto</h4>
+            </p>
+        </div>
+        <div style="margin-left: 10px;margin-top: 10px;color: blue;font-family: 'Lucida Sans';">
+           <span style="font-size:medium;"><h4>Sumario</h4></span>
+           <p style="margin-left: 5px;">
+            <h4>-> Las etiquetas se convierten en elementos de nodos y forman la estructura</h4>
+            <h4>-> Los textos se convierten en textos de nodos</h4>
+            <h4>-> Todo los elementos en Html tienen un lugar en el DOM</h4>
+           </p>
+        </div>
+    </hgroup>
+    <address style="color: brown;margin-left: 10px;" >https://developers.google.com/web/tools/chrome-devtools</address>
+    
+</body>
+</html>

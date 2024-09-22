@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos de formularios</title>
+</head>
+<body>
+    <!--
+        Envio de formularios con o sin archivos
+
+        Sintaxis: let formData = new FormData([form])
+
+        Si el formulario html es dado, captura automaticamente los campos. Es un objeto 
+        para almacenar y enviar datos.
+        Algo especial en FormData es que los metodos de red tales como fetch pueden aceptar
+        objetos FormData como cuerpo, son codificados y enviados con Content-Type: form/multipart
+    -->
+    <!--Enviando un simple formulario-->
+    <div>
+        <form action="" id="formElem">
+            <input type="text" name="name" value="John">
+            <input type="text" name="surname" value="Smith">
+            <input type="submit">
+        </form>
+        <script>
+            'use strict'
+            formElem.onsubmit = async (e) => {
+                e.preventDefault()
+                let response = await fetch('/article/formdata/post/user',{
+                    method: 'POST',
+                    body: new FormData(formElem)
+                })
+                let result = await response.json()
+                alert(result.message)
+            }
+        </script>
+    </div>
+    <!--
+        Metodos de FormData
+
+        -> formData.append(name,value): adiciona un campo al formulario con name y value dados
+        -> formData.append(name,blob,fileName): agrega un campo como si fuera un input type="file",
+                                                el 3er argumento establese el nombre de archivo como si fuera
+                                                un nombre de archivo de sistema
+        -> fromData.delete(name): remueve el campo con el nombre dado
+        -> formData.get(name): obtiene el valor del campo con el nombre dado
+        -> formData.has(name): si existe el campo con el nombre dado retorna true, si no false
+        -> formData.set(name,value): remueve todos los campos con el nombre dado y agrega el nuevo campo
+        -> formData.set(name,blob,fileName)
+
+        Iterando sobre los datos del formulario, usando for...of
+    -->
+    <script>
+        /*
+        'use strict'
+        let formData = new FormData()
+        formData.append('key1','value1')
+        formData.append('key2','value2')
+
+        for (let [name,value] of formData) alert(`${name} = ${value}`)
+        */
+    </script>
+    <!--Enviando formulario con archivo-->
+    <div>
+        <form action="" id="formElem2">
+            <input type="text" name="firstName" value="John">
+            <input type="file" name="picture" accept="image/*">
+            <input type="submit" name="" id="">
+        </form>
+
+        <script>
+            'use strict'
+            formElem2.onsubmit = async (e) => {
+                e.preventDefault()
+                let response = await fetch('/arcticle/formdata/post/user-avatar',{
+                    method: 'POST',
+                    body: new FormData(formElem2)
+
+                })
+
+                let result = await response.json()
+                alert(result.message)
+            }
+        </script>
+    </div>
+    <!--
+        Enviando un formulario con Blob data
+
+        En la practica es conveniente enviar una imagen como parte de un formulario con sus metadatos.
+        Los servidores son usualmente mejor preparados para aceptar multipar-encoded forms, mas que lineas
+        de pixeles.
+    -->
+    <div>
+        <canvas id="canvasElem" width="100" height="80" style="border: 1px solid;"></canvas> 
+        <input type="button" value="Submit" onclick="submit()">
+        <script>
+            canvasElem.onmousemove = (e) => {
+                let ctx = canvasElem.getContext('2d')
+                ctx.lineTo(e.clientX,e.clientY)
+                ctx.stroke()
+            }
+
+            async function submit() {
+                let imageBlob = await new Promise(resolve => canvasElem.toBlob(resolve,'image.png'))
+                let formData = new FormData()
+                formData.append('firtName','John')
+                formData.append('image',imageBlob,'image.png')
+
+                let response = await fetch('/article/formdata/post/image-form',{
+                    method: 'POST',
+                    body: formData
+                })
+                let result = await response.json()
+                alert(result.message)
+            }
+        </script>
+    </div>
+    
+
+
+    
+</body>
+</html>

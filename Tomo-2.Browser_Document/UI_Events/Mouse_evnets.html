@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos basicos del raton</title>
+    <style>
+        #doubleClick {
+            -moz-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <!--
+        Tipos de eventos del raton 
+
+        Se pueden separar en 2 categorias: simples y complejos
+
+        Simples: -> mousedown/mouseup
+                 -> mouseover/mouseout
+                 -> mousemove
+        
+        Complejos: -> click
+                   -> contextmenu
+                   -> dblclick
+
+        Obteniendo el boton: (which)
+
+        El lanzado de un click siempre tiene una propiedad which, la cual nos permite obtener el 
+        boton exacto del ranton.
+        No es usado en click ni en contextmenu porque estos ya definen el boton usado.
+
+        Los 3 valores posibles son: -> event.which == 1 - the left botton
+                                    -> event.which == 2 - the middle button
+                                    -> event.which == 3 - the right button
+        
+        Modificadores: shift,alt,ctrl y meta
+
+        Todos los eventos del raton incluyen informacion del modificador.
+        Las propiedades son:
+        -> shiftKey
+        -> altKey
+        -> ctrlKey
+        -> metaKey (Cmd for Mac)
+    -->
+    <div>
+        <button id="button">Alt+Shift+Click</button>
+        <script>
+            'use strict'
+            button.onclick = function(event){
+                if (event.altKey && event.shiftKey)alert('Hooray!')
+            }
+        </script>
+    </div>
+    <!--
+        Coordinadas: clientX/Y,pageX/Y
+
+        Todos los eventos del raton tienen coordenadas:
+        -> Relativas a la ventana: clientX y clientY
+        -> Relativas al documento: pageX y pageY
+
+        Por ejemplo si tenemeos una ventana de tamaño 500x500 y el raton esta en la 
+        esquina superior izquierda el clientX y clientY es 0. Si el raton esta en el 
+        centro, entonces el clientX y clientY es 250 no importa en que lugar en el do-
+        cuento este. Es similuar al uso de la propiedad css position:fixed
+
+        Coordenadas relativas al documento son contadas desde la esquina superior del documento 
+        no de la ventana. Las coordenadas pageX y pageY son similares a position:absolute
+
+        No seleccion sobre mousedown
+
+        Si queremos manipular un evento click nosotros mismos, una seleccion extra no pareceria buena.
+        En el siguiente ejemplo un dbclick sobre el texto lo selecciona en adicion al manipulador.
+        Existe una forma de evitar la seleccion con el uso de css: user-select
+    -->
+    <div>
+        Uso de CSS
+        <b id="doubleClick" ondblclick="alert('dblclick')">Double-click me</b>
+        Uso de return false
+        <!--Mejor forma de evitar la seleccion con doble click-->
+        <b ondblclick="alert('doble-click')" onmousedown="return false">Double-click here</b>
+        Usando canceling
+        <b ondblclick="getSelection().removeAllRanges()">Double-click this</b>
+        <!-- Previniendo el copiado del contenido -->
+        <div oncopy="alert('Copying forbidden')" return false>
+            Dear user,
+            The copying is forbidden for you.
+            If you know JS or HTML, then you can get everything from the 
+            source page
+        </div>
+    </div>
+</body>
+</html>

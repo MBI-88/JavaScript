@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atributos y propiedades</title>
+</head>
+<body id="test" something="non-standard" data-abouot="Elephants">
+    <!--Comment
+     For element nodes, most standard HTML
+     attributes automatically become properties of DOM objects.
+     For instance, if the tag is <body id="page"> , then the DOM object has
+     body.id="page" .
+    -->
+    <script>
+        /*
+        'use strict'
+        alert("Creacion de propiedades personalizadas")
+        document.body.myData = {
+            name: 'Caesar',
+            title: 'Imperator'
+        }
+        alert(document.body.myData.title) // Imperator
+        alert("Adicionando un metodo")
+        document.body.sayTagName = function(){
+            alert(this.tagName)
+        }
+        document.body.sayTagName() // Body
+
+        alert("Modificando el prototipo")
+        Element.prototype.sayHi = function(){
+            alert(`Hello, I'm ${this.tagName}`)
+        }
+        document.documentElement.sayHi() // Hello, I'm HTML
+        document.body.sayHi()// Hello, I'm Body
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Uso de atributos estandar y no estandar")
+        alert(document.body.id) // test
+        alert(document.body.something) // undefined
+        */
+    </script>
+    <!--Comment
+        For instance, "type" is standard for <input> (HTMLInputElement),
+        but not for <body> (HTMLBodyElement). Standard attributes are described in
+        the specification for the corresponding element class.
+        
+        Sure. All attributes are accessible by using the following methods:
+        elem.hasAttribute(name) – checks for existence.
+        elem.getAttribute(name) – gets the value.
+        elem.setAttribute(name, value) – sets the value.
+        elem.removeAttribute(name) – removes the attribute.
+
+    -->
+    <script>
+        /*
+        'use strict'
+        alert("Accediendo a atributos no estandar")
+        alert(document.body.getAttribute('something')) // non-standard
+        */
+    </script>
+    <!--Comment 
+        HTML attributes have the following features:
+        Their name is case-insensitive ( id is same as ID ).
+        Their values are always strings.
+    -->
+    <div id="elem" about="Elephant"></div>
+    <script>
+        /*
+        'use strict'
+        alert(elem.getAttribute('About')) // (1) Elephant, reading
+        elem.setAttribute('Test',123)// (2) writing
+        alert(elem.outerHTML) // (3) see it's there
+
+        for (let attr of elem.attributes){
+            alert(`${attr.name} = ${attr.value}`)
+        }
+        */
+    </script>
+    <!--Comment
+        Please note:
+        1. getAttribute('About') – the first letter is uppercase here, and in HTML
+        it’s all lowercase. But that doesn’t matter: attribute names are case-insensitive.
+        2. We can assign anything to an attribute, but it becomes a string. So here we
+        have "123" as the value.
+        3. All attributes including ones that we set are visible in outerHTML .
+        4. The attributes collection is iterable and has all the attributes of the
+        element (standard and non-standard) as objects with name and value
+        properties.
+    -->
+    <input>
+    <script>
+        /*
+        'use strict'
+        alert("Sincronizacion de propiedades y atributos")
+        let input = document.querySelector('input')
+        input.setAttribute('id','id')
+
+        input.id = 'newId'
+        alert(input.getAttribute('id')) // newId
+        */
+    </script>
+    <!--Comment
+        But there are exclusions, for instance input.value synchronizes only from
+        attribute → to property, but not back:
+    -->
+    <script>
+        /*
+        'use strict'
+        alert("La sincronizacion no es a la inversa")
+        let input = document.querySelector('input')
+        input.setAttribute('value','text')
+        alert(input.value) // text
+
+        input.value = 'newValue'
+        alert(input.getAttribute('value')) // text (not updated!)
+        */
+    </script>
+    <input id="input" type="checkbox" checked> checkbox
+    <script>
+        /*
+        'use strict'
+        // Las propiedades del DOM no siempre son string
+        // input.checked es un booleano
+        alert("Las propiedade del DOM son tipadas")
+        alert(input.getAttribute('checked')) // el valor del atributo es un string vacio
+        alert(input.checked)
+
+        // El atributo style es un string pero la propiedad stayle es un objeto
+        */
+    </script>
+    <div id="div" style="color: red;font-size: 120%;">Hello</div>
+    <script>
+        /*
+        'use strict'
+        alert("Propiedades y objetos")
+
+        // string
+        alert(div.getAttribute('style')) // color:red;font-size:120%
+
+        // objeto
+        alert(div.style) // [object CSSStyleDeclaration]
+        alert(div.style.color) // red
+        */
+    </script>
+    <a id="a" href="#hello">link</a>
+    <script>
+        /*
+        'use strict'
+        alert("Caracteristicas del atributo href")
+        // atribute
+        alert(a.getAttribute('href')) // #hello
+        // property
+        alert(a.href) // full url in the form http://site.com/page#hello
+        */
+    </script>
+    <!--mark the div to show 'name' herre-->
+    <div show-info="name"></div>
+    <!-- and age here -->
+    <div show-info="age"></div>
+    <script>
+        /*
+        'use strict'
+        alert("Uso de los no standar atributos y dataset")
+        let user = {
+            name: "Pete",
+            age: 25
+        }
+        for (let div of document.querySelectorAll('[show-info]')){
+            let field = div.getAttribute('show-info')
+            div.innerHTML = user[field] // Pete, then age
+        }
+        */
+    </script>
+    <style>
+        .order[order-state="new"]{
+            color: green;
+        }
+        .order[order-state="pendig"]{
+            color:blue;
+        }
+        .order[order-state="canceled"]{
+            color:red
+        }
+    </style>
+    <div class="order" order-state="new">A new order </div>
+    <div class="order" order-state="pendig">A pendig order </div>
+    <div class="order" order-state="canceled">A canceled order </div>
+    <!--Porque usar preferiblemente atributos para clases ?
+        Esto es porque un atirbuto es mas conveniente arministrar, el 
+        estado puede ser cambiado facilmente
+
+        Para evitar confictos entre atributos standar y no estandar se 
+        utiliza la siguiente declaracion: todos los atributos empiezan con
+        data- (reservado apra programadores), ejemplo: "data-about"
+    -->
+    <script>
+        'use strict'
+        alert("Evitando conflictos con datos no standar")
+
+        alert(document.body.dataset.about) // Elephants
+    </script>
+    
+
+
+</body>
+</html>

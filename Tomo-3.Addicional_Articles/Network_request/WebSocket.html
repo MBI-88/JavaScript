@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket</title>
+</head>
+<body>
+    <!--
+        El protocolo WebSocket provee una forma de intercambio de datos entre el navegador y el 
+        servidor a travez de una via persistente.
+        Es especialmente bueno para servicios que requieran transferencia de datos continua, por ejemplo
+        juegos online, real-time trading system.
+
+        Ejemplo:
+        let socket = new WebSocket("ws://javascript.info")
+
+        Existe tambien la conexion cifrada wss al igual que HTTPS
+
+        Una vez creado el socket se procede a la escucha de eventos:
+        -> open: establece la conexion
+        -> message: recibe el dato
+        -> error: error en la conexion
+        -> close: conexion cerrada
+    -->
+    <!--Ejemplo de uso-->
+    <script>
+        /*
+        'use strict'
+        let socket = new WebSocket("wss://javascript.info/websocket/demo/hello")
+        socket.onopen = (e) => {
+            alert("[open] Connection established, send -> servet")
+            socket.send('My name is John')
+        }
+        socket.onmessage = (e) => {
+            alert(`[message] Data received: ${e.data} < - server`)
+        }
+        socket.onclose = (e) => {
+            if (e.wasClean){
+                alert(`[close] Connection closed cleanly, code=${e.code} reason=${e.reaset}`)
+            }else {
+                alert('[close] Connection died')
+            }
+        }
+        socket.onerror = (e) => {
+            alert(`[error] ${e.message}`)
+        }
+        */
+    </script>
+    <!--
+        Opening a websocket
+
+        Cuando se crea un nuevo  new WebSocket la conexion comienza inmediatmente.
+        Durante la conexion el navegador le pregunta al servidor si soporta WebSocket y si este 
+        response ok entonces la comunicacion sigue con el protocolo WebSocket
+
+        Nota: Si el servidor acepta la conexion websocket envia un codigo de confirmacion 101
+
+        La Sec-WebSocket-Protocol header depende de nosotros, podemos decidir que tipo de dato
+        se envia. El parametro opcional de new WebSocket es justo para esto.
+
+        let socket = new WebSocket('wss://...',['soap','wamp'])
+    -->
+    <!--
+        WebSocket data
+
+        El metodo send puede enviar texto o datos binarios. La llamada a socket.send(body) permite que body
+        sea string o tados binarios que influyen Blob, ArrayBuffer, etc. No necesita opciones, solo enviarlo.
+
+        El socket.bufferType es blob por default, por lo que los datos binarios vienen con Blobs. Blob es un 
+        objeto binario del alto nivel, es directamente integrado con <a>, <img> y otras etiquetas. Para trabajor
+        el procesamiento binario y acceder a bytes individuales es mejor cambiar a "arraybuffer".
+
+        socket.bufferType = "arraybuffer"
+        socket.onmessage = (event) => {...}
+    -->
+    <!--
+        Rate limiting
+
+        Cuando una conexion de internet es lenta los datos enviados con socket.send(data) son almacenados en 
+        memoria hasta que sean enivados por completo. La propiedad socket.bufferedAdmount almacena la cantidad
+        de bytes que seran buffereados en ese momento y los enviará segun la velocidad de la red.
+    -->
+    <!--
+        Conexion close
+
+        Normalmente cuando una de las partes quiere cerrar la conexion (tienen los mismos derechos), envia un frame
+        para indicar el con un codigo y la razon por la cual lo hacen.
+
+        socket.close([code],[reason])
+        -> code: es un codigo especial de cierre de WebSocket
+        -> reason: es un string que describe la razon por la que se cierra la conexion.
+
+        Ejemplo:
+        socket.close(1000,"Work complete")
+        socket.onclose = event => {
+            event.code == 100
+            event.reason == "Work complete"
+            event.wasClean == true
+        }
+        -> 1000: por default cierre normal (se usa en caso de que no halla razon)
+        -> 1006: indica que la conexion se perdió
+        -> 1001: la parte que espera ejemplo server esta apagandose o el navegador abandona la pagina
+        -> 1009: mensaje muy grande para procesar
+        -> 1011: error inesperado en el servidor
+        
+        Nota: los codigos menores a 1000 son reservados y no se pueden usar 
+    -->
+    <!--
+        Connection state
+
+        Para obtener el estado de la conexion existe socket.readyState, es una propiedad con valores:
+        -> 0 "CONNECTING":la conexion no ha sido establecida
+        -> 1 "OPEN": comunicando
+        -> 2 "CLOSING": la conexion esta cerrandose
+        -> 3 "CLOSED": la conexion esta cerrada
+    -->
+    <!--Ejemplo de Chat-->
+    
+    <form action="" name="publish">
+            <input type="text" name="message">
+            <input type="submit" value="Send">
+    </form>
+    <div id="messages"></div>
+    <script>
+        'use strict'
+        let socket = new WebSocket('wss://javascript.info/article/websocket/chat/ws')
+        document.forms.publish.onsumbit = () => {
+            let outgoingMessage = this.message.value
+            socket.send(outgoingMessage)
+            return false
+        }
+        socket.onmessage = event => {
+            let message = event.data
+            let messageElem = document.createElement('div')
+            messageElem.textContent = message
+            document.getElementById('messages').prepend(messageElem)
+        }
+    </script>
+    
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escapando caracteres especiales</title>
+</head>
+<body>
+    <!--
+        Escaping
+    
+        Lista de caracteres para una busqueda mas avanzada: [\^$.|?+()
+
+        Intepretaicon de caracters:
+        -> \n: se vuelve una nueva linea
+        -> \u1234: se vuleve un caracter unicode 
+    -->
+    <script>
+        alert("Chapter 5.1".match(/\d\.\d/)) // 5.1 encontrando el punto
+        alert("funcion g()".match(/\(\)/)) // encontrando los parentisis
+        alert("1\\2".match(/\\/)) // encontrando el blackslash
+        alert("/".match(/\//)) // encontrando "/"
+        alert("/".match(new RegExp("/"))) // variante
+        alert("Chapter 5.1".match(new RegExp("\d\.\d"))) // null
+        
+        // solucion. Porque las quotas cambian \\ a \
+        alert("Chapter 5.1".match(new RegExp("\\d\\.\\d")))// 5.1
+    </script>
+    
+</body>
+</html>

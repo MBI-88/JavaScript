@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso de XMLHttpRequest</title>
+</head>
+<body>
+    <!--
+        XMLHttpRequest es un objeto creado en el navegador que permite hacer peticiones
+        HTTP en js.
+        Se pueden subir/descargar archivos y monitoriar procesos entre otros.
+
+        En el desarrollo moderno es usado por las siguientes 3 razones:
+        1. Razones historicas. necesidad de soportar la existencia de scripts 
+        2. Necesidad de soportar navegadores viejos.
+        3. Necesidad de hacer cosas como fetch que no se hacian todavia, ejemplo monitoriar procesos.
+
+        Tiene 2 modos de operacion sincronico y asincrónico
+        Asincrónico es el mas usado.
+        Proceso:
+        1. Crear un XMLHttpRequest (let xhr = new XMLHttpRequest())
+        2. Inicializarlo (xhr.open(method,URL,[async,user,password]))
+        3. Enviarlo: (xhr.send([body]))
+
+        Parametros:
+        -> method: Usualmente GET o POST
+        -> URL: La direccion a buscar
+        -> async: Si se establece falso, entonces las peticiones son sincronicas
+        -> user,password: El login para una autenticación basica. 
+        
+        Escucha de eventos para responder
+        -> load: Cuando el resultado esta listo, incluye HTTP errors como 404
+        -> error: Cuando la peticion falló
+        -> progress: Es lanzado periodicamente durante la descarga, reporta cuanto ha sido descargado
+    -->
+    <script>
+        /*
+        'use strict'
+        // Ejemplo de uso de XMLHttpRequest
+
+        let xhr = new XMLHttpRequest()
+        xhr.open('GET','/article/xmlhttprequest/example/load')
+        xhr.send()
+        xhr.onload = () => {
+            if (xhr.status != 200) alert(`Error ${xhr.statusText}`)
+            else alert(`Done,got ${xhr.response.length} bytes`)
+        }
+        xhr.onprogress = event => {
+            if (event.lengthComputable)alert(`Received ${event.loaded} of ${event.total} bytes`)
+            else alert(`Received ${event.loaded} bytes`)
+        }
+        xhr.onerror = () => alert("Request failed")
+        */
+    </script>
+    <!--
+        Una vez recivida la respuesta del servidor, esta tiene:
+        -> status: 200,404,403 y puede ser 0 en caso de no ser HTTP
+        -> statusText: mensaje de estado HTTP, usualmente OK para 200, Not found para 404,
+        Forbidden para 403.
+
+        Se puede establecer el timepo de espera como: xhr.timeout = 1000 (en milisegundos)
+
+        Para pasar parametros a la URL como ?name=value y asegurarse de que se codifiquen bien:
+        
+        let url = new URL('https://google.com/search')
+        url.searchParams.set('q','test me!')
+        xhr.open('GET',url) // https://google.com/search?q=test+me%21
+    -->
+    <!--
+        Response Type
+
+        Se usa la propiedad xhr.responseType para establecer el formato:
+        -> "" (default) obtener como string
+        -> "text" obtener como string
+        -> "arraybuffer" obtener como ArrayBuffer (para datos binarios)
+        -> "blob" obtener como Blob (para datos binarios)
+        -> "document" obtener como XML document (se puede usar XPath otros metodos XML)
+        -> "json" obtener como Json (automaticamente parseado)
+    -->
+    <script>
+        /*
+        'use strict'
+        // Ejemplo en formato json
+
+        let xhr = new XMLHttpRequest()
+        xhr.open('GET','/article/xmlhttprequest/example/json')
+        xhr.responseText = 'json'
+        xhr.send()
+
+        xhr.onload = () => {
+            let responseObj = xhr.response
+            alert(responseObj.message)
+        }
+        */
+    </script>
+    <!--
+        Ready states
+
+        XMLHttpRequest cambia entre estados como procesos. El estado actual es accesible 
+        via xhr.readyState
+        Todos los estados como en la especificacion:
+        -> UNSET = 0
+        -> OPENED = 1
+        -> HEADERS_RECEIVED = 2
+        -> LOADING = 3
+        -> DONE = 4
+
+        El estado 3 es repetido cada vez que un paquete es recivido en la red.
+
+        Se pueden monitoriar usando el evento:
+
+        xhr.onreadystatechange = () => {}
+
+        Para abortar una peticion usar: xhr.abort()
+    -->
+    <!--
+        Synchronous requests
+
+        Si se establece en falso el 3er parametro del xhr.open() entonces la peticion es sincronica
+        y js pausará el flujo de ejecucion hasta que finalice y se reciva la la respuesta.
+    -->
+    <script>
+        /*
+        'use strict'
+        // Ejemplo de uso sincronico
+
+        let xhr = new XMLHttpRequest()
+        xhr.open('GET','/article/xmlhttprequest/hello.txt',false)
+        try{
+            xhr.send()
+            if (xhr.status != 200)alert(`Error ${xhr.status}: ${xhr.statusText}`)
+            else alert(xhr.response)
+        }catch(err){
+            alert("Request failed")
+        }
+        */
+    </script>
+    <!--
+        HTTP-headers
+
+        Hay 3 metodos para HTTP-headers:
+        -> setRequestHeader(name,value):(xhr.setRequestHeader('Content-Type','application/json'))
+        -> getResponseHeader(name): (xhr.getResponseHeader('Content-Type'))
+        -> getAllResponseHeaders(): retorna todos los headers excepto Set-Cookie y Set-Cookie2
+    -->
+    <!--
+        POST,FormData
+
+        Para hace POST usamos FormData:
+        
+        let formData = new FormData([form])
+        formData.append(name,value)
+
+        1. xhr.open('POST',...)
+        2. xhr.send(formData)
+    -->
+    <form action="" name="person">
+        <input type="text" name="name" value="John">
+        <input type="text" name="surname" value="Smith">
+    </form>
+    <script>
+        /*
+        'use strict'
+        let formData = new FormData(document.forms.person)
+
+        formData.append('middle','Lee')
+
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST','/article/xmlhttprequest/post/user')
+        xhr.send(formData)
+        // El formulario es enviado usando multipart/form-data encoding
+
+        // Ejemplo usuando Json
+
+        let xhr2 = new XMLHttpRequest()
+        let json = JSON.stringify({
+            name: 'John',
+            surname: 'Smith'
+        })
+        xhr2.open('POST','/submit')
+        xhr2.setRequestHeader('Content-Type','applicaction/json; charset=utf-8')
+        xhr2.send(json)
+        */
+    </script>
+    <!--
+        Upload progress
+        
+        Solo trabaja en el proceso de descarga.
+
+        Lista de eventos:
+        -> loadstart: arranco la subida
+        -> progress: se lanza periodicamente durante la subida
+        -> abort: aborta la subida
+        -> error: no HTTP
+        -> load: subida finalizada completamente
+        -> timeout: tiempo de subida (propiedad)
+        -> loadend: subida finalizada con error o sin error
+
+        Ejemplo:
+        
+        xhr.upload.onprogress = event => alert(`Uploaded ${event.loaded} of ${event.total} bytes`)
+        xhr.upload.onload = () => alert("Upload finished successfully")
+        xhr.upload.onerror = () => alert(`Error during the upload: ${xhr.status}`)
+    -->
+    <!--
+        Cross-origin request
+
+        Puede hacer las peticiones cross-domain usando same CORS policy
+
+        Para usarlo se estable:
+
+        let xhr = new XMLHttpRequest()
+        xhr.withCredentials = true
+        xhr.open('POST','http://anywhere.com/request')
+    -->
+    
+    
+</body>
+</html>

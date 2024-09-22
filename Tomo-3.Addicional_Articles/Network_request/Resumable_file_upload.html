@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumiendo la subida de archivos</title>
+</head>
+<body>
+    <!--
+        Algoritmo para poder conocer la cantidad de datos que se han subido.
+
+        1. Se crea un identificador de archivo, para que sea unico el archivo que se suve
+        let fileId = file.name + '-'+ file.size + '-' +  +file.lasModifieldDate
+        
+        2. Se envia una peticion al servidor, preguntando cuantos bytes ya tiene
+        let response = await fetch('status',{
+            headers: {
+                'X-File-Id':fileId
+            }
+        })
+        let startByte  = +await response.text()
+
+        Se asume que el servidor esta siguiendo la subida del archivo por el cabezal X-File-Id.Esto deberia 
+        ser implementado en el lado del servidor
+
+        3. Entonces podemos mandar un Blob con un metodo slice para enviar el file del startByte
+        xhr.open('POST','upload',true)
+        xhr.setRequestHeader('X-File-Id',fileId)
+        xhr.setRequestHeader('X-Start-Byte',startByte)
+        xhr.upload.onprogress = (e) => {
+            console.log(`Uploaded ${startByte + e.loaded} of ${startByte + e.total}`)
+        }
+        xhr.send(file.slice(startByte))
+
+        Nota: Demostracion completa del algoritmo con node.js https://plnkr.co/edit/uwIHsRek1zB1NhjxDjC9?p=preview 
+    -->
+
+</body>
+</html>

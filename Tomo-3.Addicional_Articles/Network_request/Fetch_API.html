@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch interface de aplicacion interactiva</title>
+</head>
+<body>
+    <!--
+        Todos los metodos de la API
+        
+        let promise = fecht(url,{
+            method: GET,POST,PUT,DELETE,etc
+            headers:{"Content-Type":"text/plain;charset=UTF-8"},
+            body: undefined,
+            referrrer: "about:client",
+            mode: "cors","same-origin","no-cors",
+            credentials: "same-origin","omit","include",
+            cache: "default","no-store","reload","no-cache","force-cache","only-if-cached",
+            redirect: "follow","manual","error",
+            integrity: "",
+            keepalive: false,true,
+            signal: undefined, 
+            window: window,null
+        })
+
+
+        referrer,referrerPolicy
+
+        Estas opciones gobiernan como fetch establese el cabezal HTTP.
+        Ese header contiene la url de la pagina que hizo la peticion. Para
+        establecer otra url dentro del origen actual usar referrer
+
+        La referrerPolicy establese las opsiones para referrer
+        posibles valores son:
+        -> "no-referrer-when-downgrade":valor por defecto, referrer es siempre enviado a menos que 
+        enviemos una peticion de HTTPS a HTTP.
+        -> "no-referrer": nunca envia referrer
+        -> "origin":solo envia el origen en referrer, no la direccion completa
+        -> "origin-when-cross-origin": envia referrer completamente al mismo origen, pero solo la parte del
+        origen para cross-origin.
+        -> "same-origin": envia referrer completo para el mismo origen, pero no para cross-origin.
+        -> "strict-origin": envia solo el origen, no envia referrer para HTTPS -> HTTP
+        -> "strict-origin-when-cross-origin": para el mismo origen envia referrer completo, para cross-origin
+        solo envia origin a menos que HTTPS -> HTTP
+        -> "unsafe-url": siempre envia el referrer completo
+
+        Nota: Normalmente cuando una pagina se cierra todas las peticiones de red son abortadas exepto keepalie
+        que le dice al navegador que haga una peticion en background, aun despues de dejar la pagina.
+        No se pueden enviar megabytes, el cuerpo es limitado a 64 Kb
+    -->
+    
+</body>
+</html>

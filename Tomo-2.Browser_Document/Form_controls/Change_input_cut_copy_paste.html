@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos cambiar copiar cortar pegar</title>
+</head>
+<body>
+    <!--
+        Evento change
+
+        Nota: Funciona despues de haber movido el foco sobre el elemento
+    -->
+    <div>
+        <input type="text" onchange="alert(this.value)">
+        <input type="text" value="Botton">
+    </div>
+    <div>
+        <select onchange="alert(this.value)">
+            <option value="">Select something</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+        </select>
+    </div>
+    <!--
+        Evento input
+
+        Nota: El evento es lanzado cada vez que el contenido cambia
+        No se puede usar event.preventDefault() porque el evento ocurre despues 
+        de la modificacion del valor
+    -->
+    <div>
+        <input type="text" id="input">oninput: <span id="result"></span>
+        <script>
+            'use strict'
+            input.oninput = function(){
+                result.innerHTML = input.value
+            }
+        </script>
+    </div>
+    <!--
+        Evento cut,copy,paste
+
+        Nota: Pertenecen a la clase ClipboardEvent.
+        Se puede usar event.preventDefault() para abortar la acción
+    -->
+    <div>
+        <input type="text" id="input2">
+        <script>
+            'use strict'
+            input2.oncut = input2.oncopy = input2.onpaste = function(event){
+                alert(event.type + ' - ' + event.clipboardData.getData('text/plain'))
+                return false
+            }
+
+        </script>
+    </div>
+    
+
+    
+</body>
+</html>

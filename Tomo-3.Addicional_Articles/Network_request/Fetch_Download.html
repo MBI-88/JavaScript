@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progreso de descarga con fetch</title>
+</head>
+<body>
+    <!-- 
+        El metodo fetch permite seguir el proceso de descarga.
+
+        No existe forma de seguir los procesos de subida de datos con fetch, para ese proposito
+        usar XMLHttpRequest.
+        Para seguir el proceso de descarga podemos usar response.body que provee el contenido del
+        del cuerpo pedaso a pedaso.
+        Diferente a los metodos text(),json() body da un control completo del proceso de lectura y 
+        podemos contar cuanto se ha consumido en cada momento.
+
+        Propiedades de reader.read():
+        -> done: true cuando la lectura es completada
+        -> value: un tipo de array de bytes: Uint8array
+
+    -->
+    <script>
+        'use strict'
+
+        // Step 1: start the fetch and obtain a reader 
+        let response =  fetch('https://api.github.com/repos/javascript-tutorial/en.javascript/commits')
+        const reader = response.body.getReader(); 
+        // Step 2: get total length 
+        const contentLength = +response.headers.get('Content-Length'); 
+        // Step 3: read the data 
+        let receivedLength = 0; // length at the moment
+        let chnks = []
+
+        while (true){
+            const {done,value} =  reader.read()
+            if (done) break
+
+            chunks.push(value)
+            receivedLength += value.length
+            console.log(`Received ${receivedLength} of ${contlength}`)
+
+        }
+
+        let chunksAll = new Uint8Array(receivedLength)
+        let position = 0
+        for(let chunk of chunks){
+            chunksAll.set(chunk,position)
+            position += chunk.length
+        }
+        let result = new TextDecoder('utf-8').decode(chunksAll)
+        let commits = JSON.parse(result)
+        alert(commits[0].author.login)
+    </script>
+       
+</body>
+</html>

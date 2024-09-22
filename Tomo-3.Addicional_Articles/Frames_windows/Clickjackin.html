@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="X-Frame-Options:SAMEORIGIN">
+    <title>El ataque clickjacking</title>
+    <style>
+        iframe {
+            width: 400px;
+            height: 100px;
+            position: absolute;
+            top: 0; left: -20px;
+            opacity: 0.5; /* en la realidad es 0*/
+            z-index: 1;
+        }
+        #protector {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 99999999;
+        }
+        
+    </style>
+</head>
+<body>
+    <!--
+        El ataque clickjacking  
+
+        Permite a una pagina maliciosa hacer un click sobre un sitio victima a nombre del visitante
+
+        La idea:
+
+        -> Un visitante es atraido por una pagina maliciosa. No import como 
+        -> La pagina tiene un link agradable a la vista 
+        -> Sobre ese link la pagina se posiciona transparente mente (<iframe>) con un enlace a facebook.com
+            de tal forma que parece un boton que esta justo debajo del link, usualmente hecho con la propiedad
+            z-index
+        -> Un intento de click en el link, el visitante de hecho click  el boton
+    -->
+
+    <!--Ejemplo de ataque-->
+    <div>
+        Click to get rich now:
+    </div>
+    <iframe src="facebooClickjacking.html" frameborder="0"></iframe>
+     <button>Click here!</button>
+
+     <div>...And you're cool (I'm a cool hacker actually)!</div>
+
+     <!--
+         Defensa de la vieja escuela (debil)
+
+         La vieja defensa usa un poco de js el cual prohibe la apertura de la pina en el iframe
+         Ejemplo:
+         if (top != window){
+             top.location = window.location
+         }
+         Si la ventana ecuentra que no es la mas arriba entonces automaticamente se convierte en la mas 
+         arriba
+
+         Protecciones
+
+         Blocking top-navigation
+
+         Se puede bloquer la transicion causada por el cambio top.location con el evento beforeeunload
+         la pagina del hacker establece una alerta para prevenir esto, como sigue:
+         window.onbeforeunload = () => return false
+
+         Cuando el iframe intenta cambiar top.location, el visitor obtiene un mensaje preguntandole si 
+         quiere abandonar la web, generalmente el usuario no abandonara la web  por lo que el cambio no 
+         ocurrirá 
+
+         Sandbox attribute
+
+         Se puede adicionar al iframe con sandbox="allow-scripts allow-forms", lo que relajaria las rectricciones
+         permitiendo script y form. Omitimos allow-top-navigation para que el cambio top.location este prohibido
+         <iframe sandbox="allow-scripts allow-forms" src='facebook.html'></iframe>
+
+
+         X-Frame-Options
+
+         Los header del lado del servidor pueden permitir o prohibir el mostrar la pagina dentro del iframe
+         Deben ser enviados como un HTTP-header, el navegador ignorará si encuentra en el HTML <meta>.
+         Entonces <meta http-equiv="X-Frame-Options"...> no hará nada
+
+         Los header tienen 3 opciones:
+
+         -> DENY: nunca muestra una pagina dentro de un iframe
+         -> SAMEORIGIN: permite dentro del iframe si el padre es del mismo origen
+         -> ALLOW-FROM domain: permite dentro del iframe si el padre es del mismo domineo
+     -->
+     <!--Uso con funcionalidades desabilitadas-->
+     <div id="protector">
+         <a href="/" target="_blank">Go to the site</a>
+
+     </div>
+     <script>
+         'use strict'
+         if (top.document.domain == document.domain){
+             protector.remove()
+         }
+     </script>
+     <!--
+         Cookies del mismo sitio (Samesite cookie attribute)
+
+         Este metodo como los anteriores previenen el ataque clickjacking
+         Una cookie con tal atributo es solo enviada al sitio si es abierta directamente
+         no via frame o otra manera.
+         Set-Cookie: authorization=secret;samesite
+     -->
+    
+</body>
+</html>

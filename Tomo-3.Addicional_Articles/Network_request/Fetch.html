@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso de Fetch</title>
+</head>
+<body>
+    <!--
+        Uso de Fetch 
+
+        AJAX: Asynchronous Javascript And XML
+
+        Sintaxis: let promise = fetch(url,[options])
+
+        -> url: la url a acceder
+        -> options: (parametro opcional) metodos,headers,etc
+
+        El navegador arranca con la petision correcta y retorna una promesa,
+        la respuesta es usualmente en 2 pasos. Primero la promesa se resuelve 
+        con un objeto de la clase Response tan pronto como el servidor responda con
+        los cabezales.
+        La promesa es reiyectada si la busqueda no fue satisfactoria,
+        se pueden ver en las propiedades de respuesta:
+        -> ok: boleano, verdadero si el estatus HTTP es 200-299
+        -> status: HTTP status code
+
+        Ejemplo:
+
+        let response = await fetch(url)
+
+        if (response.ok){
+            let json = await response.json()   
+        }
+        else {
+            alert("HTTP-Error: " + response.status)
+        }
+
+        Segundo para obtener el cuerpo de la respuesta usamos metodos adicionales:
+
+        -> response.json(): pasa la respuesta a un objeto json
+        -> response.text(): returna la respuesta como text
+        -> response.formData(): retorna la respuesta como un objeto FormData (form/multipart encoding)
+        -> response.blob(): retorna la respuesta como un Blob (dato binario)
+        -> response.arrayBuffer(): retorna la respuesta como un ArrayBuffer (dato binario puro)
+        -> response.body: es un ReadableStream, permite leer el cuerpo pedaso a pedaso
+    -->
+    <script>
+        /*
+        'use strict'
+        fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits')
+        .then(responses => responses.json())
+        .then(commits => alert(commits[0].author.login))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        // Obteniendo en modo texto
+
+        fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits')
+        .then(response => response.text())
+        .then(commits => alert(commits.slice(0,80)+ '...'))
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        // Obteniendo imagen
+
+        fetch('/article/fetch/logo-fetch.svg')
+        .then(respons => response.blob())
+        .then(result => {
+            let img = document.createElement('img')
+            img.style = 'position:fixed;top:10px;left:10px;width:100px'
+            document.body.append(img)
+            img.src = URL.createObjectURL(result)
+            setTimeout(() => {img.remove();URL.revokeObjectURL(img.src)})
+        })
+        
+        // Si la respuesta se obtuvo con response.text() entonces response.json() no
+        // funcionará porque el contenido del cuerpo ya fue procesado
+        */
+    </script>
+    <!--Headers-->
+    <script>
+        /*
+        'use strict'
+        fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits')
+        .then(response => {
+            for (let [key,value] of response.headers) alert(`${key}=${value}`)
+        })
+        */
+    </script>
+    <!--
+        Estableciendo Headers
+
+        Ejemplo:
+        let response = fetch(url,{
+            headers:{
+                Authentication: 'abcdef'
+            }
+        })
+    
+        Existe una lista de headers prohibidos en los HTTP:
+        -> Accept-Charset,Accept-Encoding
+        -> Access-Control-Request-Headers
+        -> Access-Control-Request-Method
+        -> Connection
+        -> Content-Length
+        -> Cookie,Cookie2
+        -> Date
+        -> DNT
+        -> Expect
+        -> Host
+        -> Keep-Alive
+        -> Origin
+        -> Referer
+        -> TE
+        -> Trailer
+        -> Transfer-Encoding
+        -> Upgrade
+        -> Via 
+        -> Proxy-*
+        -> Sec-*
+    -->
+    <!--
+        Post request
+
+        Cambiando el metodo de peticion en fetch
+        -> method: HTTP-method 
+        -> body: - un string (e.g Json)
+                 - FormData, enviar el dato como form/multipar
+                 - Blob/BufferSource para enivar datos binarios
+                 - URLSearchParams, para enviar el dato en x-www-form-urlencoded, raramente usado
+        
+        Ejemplo:
+        let user = {
+            name: 'John',
+            surname: 'Smith'
+        }
+        let response  = await fetch('/article/fetch/user',{
+            method: 'POST',
+            headers:{
+                'Content-Type':'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(user)
+        })
+        let result = await response.json()
+        alert(result.message)
+    -->
+    <!--Envio de una imagen-->
+    <div>
+        <canvas id="canvasElem" width="100" height="80" style="border: 1px solid;"></canvas>
+        <input type="button" value="Submit" onclick="submit()">
+
+        <script>
+            'use strict'
+            canvasElem.onmousemove = e => {
+                let ctx = canvasElem.getContext('2d')
+                ctx.lineTo(e.clientX,e.clientY)
+                ctx.stroke()
+            }
+
+            async function submit(){
+                let blob = await new Promise(resolve => canvasElem.toBlob(resolve,'image/png'))
+                let response = await fetch('/article/fetch/image',{
+                    method: 'POST',
+                    body: blob
+                })
+                let result = await response.json()
+                alert(result.message)
+            }
+            // La funcion puede ser reescrita sin el uso de async await, usando .then()
+
+        </script>
+    </div>
+   
+
+</body>
+</html>

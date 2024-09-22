@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios de captura de grupos</title>
+</head>
+<body>
+    <script>
+        /*
+        let reg = /[0-9]+(\.)?\d+?/g
+        let str = "1.5 0 -5 12. 123.4." 
+        alert( str.match(reg) ); // 1.5, 12, 123.4
+        */
+    </script>
+    <script>
+        /*
+        let reg = /-?[0-9]+(\.\d+)?/g
+        let str = "-1.5 0 2 -123.4"
+        alert(str.match(reg)) // -1.5, 0, 2, -123.4
+        */
+    </script>
+    <script>
+        function parse(expr) { 
+            let reg = /(-?\d+(?:\.\d+)?)\s*([-+*\/])\s*(-?\d+(?:\.\d+)?)/; 
+            let result = expr.match(reg); 
+            if (!result) return []; 
+            result.shift(); 
+            return result; 
+        }
+        alert( parse("-1.23 * 3.45") ); // -1.23, *, 3.45
+    </script>
+    
+</body>
+</html>

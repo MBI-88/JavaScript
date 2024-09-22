@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamaño de ventana y deslizamiento</title>
+</head>
+<body>
+    <!--
+        Ancho y alto de la ventana
+        -> documentElement.clientHeight (alto)
+        -> documentElement.clientWidth (ancho)
+
+        Nota: Si existe un scrollbar y ocupa algun espacio 
+        clientWidth/clientHeight proveen el ancho y el alto sin
+        sustraerlo, devuelven el ancho y el alto de la parte visible
+        del document provisto para el contenido.
+
+        En HTML modernos debemos siempre escribir la sentencia DOCTYPE,
+        para que las propiedades anteriores funcionen correctamente.
+
+        Los elementos del DOM tienen sus propios estados en elem.scrollLeft/scrollTop
+        El scroll se encuentra en una propiedad epecial window.pageXOffset/pageYOffset
+
+        Para hacer scroll en la pagina desde JS el DOM debe estar completamente lleno.
+        Si se trata de hacer scroll a la pagina desde la etiqueta <head> , este no funcio-
+        nará
+        
+        Scrolling: scrollTo, scrollBy, scrollIntoView
+
+        -> El metodo scrollBy(x,y) pasa la pagina relativa a su posicion actual
+        -> El metodo scrollTo(pagX,pagY) pasan la pagina a coordenadas absolutas, la esquina
+        superior izquierda de la parte visible tiene coordenadas (pagX,pagY) relativas a la esquina
+        superior izquierda del documento. 
+        (estos metodos trabajan de la misma forma para todos los navegadores)
+        
+        ScrollInto View
+
+        La llamada a elem.scrollIntoView(top) pasa la pagina para hacer el elemento visible. 
+        Tiene un solo argumento.
+        -> Si top=true (es por defecto), entonces la pagina sera scrolling
+        -> Si top=flase, entonces la pagina  pasa a hacer el elem que aparece en el bottom
+
+        Forbid the scrolling
+
+        Para hacer el documents unscrollable es suficiente poner:
+        document.body.style.overflow = "hidden"
+
+        
+        
+    -->
+    <script>
+        /*
+        'use strict'
+        alert('Current scroll from the top: ' + window.pageXOffset)
+        alert('Current scroll from the left: ' + window.pageYOffset)
+        */
+    </script>
+    
+</body>
+</html>

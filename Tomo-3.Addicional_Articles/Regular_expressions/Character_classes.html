@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases de caracteres</title>
+</head>
+<body>
+    <!--
+        Character class
+
+        Es una clase especial de notacion que iguala cualquier simbolo de un cierto set.
+
+        Set de caracteres mas usados:
+        -> \d: para digitos
+        -> \s: para espacios
+        -> \w: para palabras
+    -->
+    <script>
+        /*
+        let str = "+7(903)-123-45-67"
+        let reg = /\d/
+        alert(str.match(reg)) // 7
+
+        // adicionando la g flag
+
+        let regg = /\d/g
+        alert(str.match(regg))
+        alert(str.match(regg).join(''))
+
+        // uso de \d\s\w
+        alert("I love HTML5!".match(/\s\w\w\w\w\d/)) // HTML5
+        */
+        
+    </script>
+    <!--
+        Word boundary:\b
+
+        Es una clase especial de caracter. No denota un caracter si no mas una bondaridad entre caracteres.
+
+        Nota: es usalmente usado para encontrar solo palabras, trabaja de la siguiente forma:
+        -> inmediatamente antes de \w ,y inmediatamente despues de no \w o vise versa.
+        -> en el comienzo del string y en el primer caracter string \w
+        -> al final del string y en el ultimo caracter \w
+
+        Nota: word boundary (\b) solo trabaja para alfabeto que no sean  latinos
+    -->
+    <script>
+        /*
+        alert("Hello, Java!".match(/\bJava\b/)) // Java
+        alert("Hello, JavaScript!".match(/\bJava\b/)) /// Null
+        alert("1 23 456 78".match(/\b\d\d\b/g)) // 23, 78
+        */
+    </script>
+    <!--
+        Inverse classes
+
+        Clases inversas, se denotan con la misma letra pero en mayusculas
+        -> \D: cualquier caracter excepto \d
+        -> \S: cualquier caracter excepto \s
+        -> \W: cualquier caracter excepto \w
+        -> \B: cualquier caracter excepto \b
+    -->
+    <script>
+        /*
+        let str = "+7(903)-123-45-78"
+        alert(str.replace(/\D/g,"")) // 79031234578
+        +/
+    </script>
+    <!--Spaces are regular characters-->
+    <script>
+        /*
+        alert("1 - 5".match(/\d - \d/)) // 1 - 5
+        */
+    </script>
+    <!--
+        A dot is any character
+
+        Caracter especial que se iguala a cualquier caracter excepto a una nueva linea (\n)
+    -->
+    <script>
+        /*
+        let reg = /CS.4/
+        alert("CSS4".match(reg))
+        alert("CS-4".match(reg))
+        alert("CS 4".match(reg))
+        alert("CS4".match(reg)) // no funciona
+        // Solo funciona si existe la bondaridad en la posicion dada en el string
+        */
+    </script>
+    <!--
+        The dotall "s" flag
+
+        Es usada para permitir la busqueda incluyendo salto de linea
+    
+    -->
+    <script>
+        /*
+        alert("A\nB".match(/A.B/s)) // A\nB
+        */
+    </script>
+    <!--Ejercicio-->
+    <script>
+        let time = "Breakfast at 09:00 in the room\n123:456"
+        alert(time.match(/\b\d\d.\d\d\b/))
+    </script>
+
+
+
+</body>
+</html>

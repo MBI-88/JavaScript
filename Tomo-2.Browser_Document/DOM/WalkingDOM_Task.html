@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea de DOM </title>
+</head>
+<body>
+    <div>Users:</div>
+    <ul>
+        <li>John</li>
+        <li>Pete</li>
+    </ul>
+    <script>
+        /*
+        'use strict'
+        alert("Accediendo a los elementos de div")
+        alert(document.body.children[0]) // document.body.firstElementChild
+        alert(document.body.children[1]) // document.body.lastElementChild
+        alert(document.body.childNodes[3].childNodes.forEach(item => {
+            if (item.innerHTML == 'Pete') alert(item.innerHTML)
+        })) // document.body.lastElementChild.lastElementChild (sin script)
+        */
+    </script>
+    <div>
+        <table id="table">
+            <tr>
+                <td>1</td><td>2</td><td>A</td><td>C</td><td>D</td><td>F</td>
+            </tr>
+            <tr>
+                <td>3</td><td>4</h3></td><td>B</td><td>C</td><td>D</td><td>F</td>
+            </tr>
+            <tr>
+                <td>5</td><td>6</td><td>C</td><td>C</td><td>D</td><td>F</td>
+            </tr>
+            <tr>
+                <td>7</td><td>8</h3></td><td>D</td><td>C</td><td>D</td><td>F</td>
+            </tr>
+            <tr>
+                <td>9</td><td>10</td><td>E</td><td>C</td><td>D</td><td>F</td>
+            </tr>
+            <tr>
+                <td>11</td><td>12</h3></td><td>F</td><td>C</td><td>D</td><td>F</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        /*
+        'use strict'
+        alert("Coloriando la diagonal de la tabla")
+        
+        let count = 0
+       while(table.rows.length > count){
+           table.rows[count].cells[count].style.backgroundColor = 'red'
+           count += 1
+       }
+        */
+    </script>
+    
+</body>
+</html>

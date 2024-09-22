@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup and windows methods</title>
+</head>
+<body>
+    <!--
+        window.open('https://javascript.info/'): Abre una nueva ventana con la url dada.
+        Su objetivo es mostrar otra ventana sin cerrar la principal, una alternativa es usar
+        fetch y mostrar la informacion generada en un <div>
+        
+        Sintaxis window.open(url,name,params):
+        -> url: direccion a buscar
+        -> name: nombre de la nueva ventana
+        -> params: string de configuracion para la nueva ventana que contiene opciones limitadas
+           por comas no deben haber espacios entre parametros (width:200,height=100)
+           -> Opciones para parametros: -posicion
+                                        -left/top (numerico)
+                                        -width/height (numerico)
+                                        -menubar(yes/no)
+                                        -toolbar(yes,no)
+                                        -location(yes/no)
+                                        -status(yes/no)
+                                        -resizable(yes/no)
+                                        scrollbars(yes/no)
+    -->
+    <div>
+        <button type="button" id="button">Click here</button>
+        <!--Ejemplo de popup blockeado-->
+        <script>
+            /*
+            'use strict'
+            window.open('https://javascript.info')
+            // Firefox no lo bloquea
+            */
+        </script>
+        <!--Ejemplo de popup permitido-->
+        <script>
+            /*
+            'use strict'
+            button.onclick = () => {window.open('https://javascript.info')}
+            */
+        </script>
+    </div>
+    <div>
+        <!--Ejemplo de ventana minimalista-->
+        <script>
+            /*
+            'use strict'
+            let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=0,height=0,
+            left=-1000,top=-1000`
+            open('/','test',params)
+            */
+        </script>
+    </div>
+    <!--
+        Reglas para omitir opciones:
+        -> Si no hay un 3er argumento en la llamada, o esta vacio, entonces los prametros por defecto son los de la 
+        ventana actual.
+        -> Si hay un string de parametros, pero yes/no son omitidos, entonces las variables omitidas se asumen que tienen
+        valor no. Si se especifican parametros, aegurarse de declarar  todo lo requerido
+        -> Si no hay un left/top, entonces el navegador intenta abrir una nueva ventana cercana de la ventana actual.
+        -> Si no hay un width/height, entonces la nueva ventana se abrirá del mismo tamaño de la ya abierta 
+    -->
+    <div>
+        <script>
+            /*
+            'use strict'
+            let newWin = window.open('about:blank','hello',"width=200,height=200")
+            newWin.document.write("Hello, world!")
+            */
+        </script>
+        <script>
+            /*
+            'use strict'
+            let newWin = open('/','example','width=300,height=300')
+            newWin.focus()
+            alert(newWin.location.href)
+            newWin.onload = () => {
+                let html = `<div style="font-size:30px">Welcome!</div>`
+                newWin.document.body.insertAdjacentHTML('afterbegin',html)
+            }
+            */
+        </script>
+    </div>
+    <div>
+        <!--Accediendo a los popup de las ventanas-->
+        <script>
+            /*
+            'use strict'
+            let newWin = window.open('about:blank','hello','width=200,height=200')
+            newWin.document.write(
+                "<script>window.opener.document.body.innerHTML = 'Test'<\/script>"
+            )
+            */
+        </script>
+    </div>
+    <!--
+        Cerrando un popup
+
+        -> cerrar popup:win.close()
+        -> para chequear si la ventana esta cerrada: win.closed
+    -->
+    <div>
+        <script>
+            /*
+            'use strict'
+            let newWin = open('/','example','width=300,height=300')
+            newWin.onload = () => {
+                newWin.close()
+                alert(newWin.closed)
+            }
+            */
+        </script>
+    </div>
+    <!--
+        Scrolling y reajuste de tamaño
+
+        -> win.moveBy(x,y): mueve la ventana a la posicion relativa de x,y pixeles.(valors - sonpermitidos)
+        -> win.moveTo(x,y): mueve la ventana a las coordenadas x,y
+        -> win.resizeBy(width,height): reajusta el tamaño de la ventana por los valores dados.(valors - sonpermitidos)
+        -> win.resizeTo(width,height): reajusta la ventana al valor dado
+        -> win.scrollBy(x,y): scroll la ventana x pixeles a la derecha y y abajo.
+        -> win.scrollTo(x,y): scroll la ventana a las coordenadas x,y
+        -> elem.scrollIntoView(top=true): scroll la ventana para mostrar el elemento en lo mas alto (default) o en lo
+        mas bajo para top=false
+
+        Nota: existe tambien los eventos window.onresize y window.onscroll
+    -->
+    <!--
+        Focus/blur en ventanas
+
+        window.focus()/window.blur(): para poner el foco de atencion en la web o quitarlo
+
+        Tambien existen los eventos focus/blur que permiten enfocar la ventana y capturar el momento 
+        cuando el usuario cambia a algun lugar
+
+        Abuso de focus/blur (uso por criminales)
+        window.onblur = () => window.focus()
+    -->
+
+
+    
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busqueda de elementos</title>
+</head>
+<body>
+    <div id="elem">
+    <div id="elem-content">Element</div>
+    </div>
+    <div>
+        <ul>
+            <li>The</li>
+            <li>test</li>
+        </ul>
+        <ul>
+            <li>has</li>
+            <li>passed</li>
+        </ul>
+    </div>
+    
+    <script>
+        /*
+        'use strict'
+        alert("Uso del método getElementById")
+        alert(elem) // DOM-element with id="elem"
+        alert(window.elem) // accediendo de forma global a la variable this
+
+        alert(window['elem-content'])// accediendo usando corchetes
+        
+        // Este no es el uso recomendado porque si la variable elem es reasignada se pierde el valor global
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        let elem = document.getElementById('elem') // uso recomendado
+        elem.style.background = 'blue'
+        // Nota: El identificador debe ser único
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Uso de querySelectorAll')
+        let elements = document.querySelectorAll('ul > li:last-child')
+        
+        for (let elem of elements){
+            alert(elem.innerHTML)
+        }
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert('Uso de querySelector')
+        let elem = document.querySelector('ul')
+        // Solo busca un elemento que siempre es el primero
+        alert(elem.innerHTML)
+        */
+    </script>
+    
+    <a href="http://example.com/file.zip">ZipFile</a>
+    <a href="http://ya.ru">Yaru</a>
+    
+    
+    <script>
+        /*
+        'use strict'
+        alert("Uso de matches")
+        for (let elem of document.body.children){
+            if (elem.matches('a[href$="zip"]'))alert("The archive reference:" + elem.href)
+            
+        }
+        */
+    </script>
+    <hgroup>
+        <h1>Contents</h1>
+    </hgroup>
+    <div class="contents">
+        <ul class="book">
+            <li class="chapter">Chapter 1</li>
+            <li class="chapter">Chapter 2</li>
+        </ul>
+    </div>
+    <script>
+        /*
+        'use strict'
+        // El metodo closest() busca el ancestro mas cercano que se iguala al CSS-selector
+        alert('Uso de closest')
+        let chapter = document.querySelector('.chapter') // li
+        alert(chapter.closest('.book')) // ul
+        alert(chapter.closest('.contents')) // div
+
+        alert(chapter.closest('h1')) // null porque h1 no es un ancestro
+        */
+    </script>
+    <table id="table">
+        <tr>
+            <td>Your age:</td>
+            <td><label><input type="radio" name="age" value="young" checked>less than 18</label>
+                <label><input type="radio" name="age" value="mature">from 18 to 50</label>
+                <lab><input type="radio" name="age" value="senior"> more than 60</lab>
+            
+            </td>
+        </tr>
+    </table>
+    <script>
+        /*
+        'use strict'
+        /*
+            Today, they are mostly history, as querySelector is more powerful and shorter
+            to write.
+            So here we cover them mainly for completeness, while you can still find them in
+            the old scripts.
+            -> elem.getElementsByTagName(tag) looks for elements with the given tag
+            and returns the collection of them. The tag parameter can also be a star "*"
+            for “any tags”.
+            -> elem.getElementsByClassName(className) returns elements that
+            have the given CSS class.
+            -> document.getElementsByName(name) returns elements with the given
+            name attribute, document-wide. very rarely used.
+        */
+        /*
+       alert('Uso de getElementsBy*')
+
+       let elem = document.getElementsByName('chapter')
+       alert(elem) // HTMLCollection
+
+       let inputs = table.getElementsByTagName('input')
+       for (let input of inputs){
+           alert(input.value + ': ' + input.checked)
+       }
+       
+       */
+    </script>
+
+    <form name="my-form">
+        <div class="article">Article</div>
+        <div class="long article">Long article</div>
+    </form>
+
+    <script>
+        /*
+        'use strict'
+        alert("Ejemplo de uso (getElementsByName,getElementsByClassName)")
+        let form = document.getElementsByName('my-form')[0]
+
+        let article = form.getElementsByClassName('article')
+        alert(article.length)
+        */
+    </script>
+
+    <div>First div</div>
+
+    <script>
+        'use strict'
+        alert("Colecciones vivas")
+        // Este script ve el valor actula de la colección div
+        let divs = document.getElementsByTagName('div')
+        alert(divs.length)
+    </script>
+    <div>Second div</div>
+    <script>
+        'use strict'
+        alert("Colecciones vivas")
+        // Este script ve el aumento de div en el DOM
+        // A diferecia de querySelectorAll este siempre devolverá el primer valor leido en su inicialización
+        // El metodo contains() devulve true si el argumento está contenido en el elemento antes del punto
+     
+        alert(divs.length)
+    </script>
+</body>
+</html>

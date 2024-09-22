@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acciónes por defecto en el navegador</title>
+</head>
+<body>
+    <!--
+        Muchos eventos automaticamente dirigen acciones en el navegador.
+        Por ejemplo:
+        -> Un click sobre un link: inicializa una ida hacia una url
+        -> Un click sobre un boton submit: inicializa un envio al servidor
+        -> Presinar el boton del mouse sobre un texto y moverlo hace una seleccion del texto
+
+        Hay dos formas de decirle al navegador que no actue:
+        -> La principal es usar objeto evento. Existe un metodo event.preventDefault()
+        -> Si el manejador es asignado usando on<event> (no por addEventListener), entonces
+            usamos return false
+        Ejemplo:
+        <a href="/" onclick="return flase">Click here</a>
+        <a href="/" onclick="event.preventDefault()">here</a>
+    -->
+    <div>
+        <ul id="menu" class="menu">
+            <li><a href="/html">Html</a></li>
+            <li><a href="/javascript">Javascript</a></li>
+            <li><a href="/css">CSS</a></li>
+        </ul>
+        <script>
+            'use strict'
+            menu.onclick = function(event){
+                if (event.target.tagName != 'A') return
+
+                let href = event.target.getAttribute('href')
+                alert(href)
+                return false
+            }
+        </script>
+    </div>
+    <!--
+        Previniendo eventos completos
+
+        Ciertos eventos fluyen uno hacia otro. Si prevenimos el primero, no habra un segundo
+
+    -->
+    <div>
+        <input value="Focus Works" name="Focus" id="Focus" onfocus="this.value=''">
+        <input value="Click me" name="noFocus" id="noFocus" onmousedown="return false" onfocus="this.value=''">
+    </div>
+    <!--
+        La opcion de manipulador pasivo
+
+        La señal opcional passive:true de addEventListener hace que el navegador no llame a preventDefault()
+        La opcion passive:true le dice al navegador que el manipulador no esta cancelando el scrolling. Entonces
+        el navegador inmediatamente usa el scroll maximizando la experiencia fluida.
+    -->
+    <!--event.defaultPrevented-->
+    <div>
+        <button>Right-click for browser context menu</button>
+        <button oncontextmenu="alert('Draw our menu'); return false">
+            Right-click for our context menu
+        </button>
+        <p>Right-click here for the document context menu</p>
+        <button id="elem">Right-click here for the button context menu</button> 
+    </div>
+    <script>
+        'use strict'
+        elem.oncontextmenu = function(event){
+
+            event.preventDefault()
+            //event.stopPropagation() // solucion al problema de doble alert pero se pierde las propiedades del evento
+            alert('Button context menu')
+        }
+        document.oncontextmenu = function(event){
+            if (event.defaultPrevented) return // solucion para no perder propiedades del evento
+            event.preventDefault()
+            alert('Document context menu')
+        }
+    </script>
+    <!-- 
+        Sumario de eventos: 
+
+        -> mousedown – starts the selection (move the mouse to select). 
+        -> click on <input type="checkbox"> – checks/unchecks the input . 
+        -> submit – clicking an <input type="submit"> or hitting Enter inside a form field causes this event to happen, 
+        and the browser submits the form after it.
+        -> wheel – rolling a mouse wheel event has scrolling as the default action. 
+        -> keydown – pressing a key may lead to adding a character into a field, or other actions.
+        -> contextmenu – the event happens on a right-click, the action is to show the browser context menu.
+        -> …there are more…
+
+        La accion passive:true de addEventListener le dice al navegador que la accion no va a ser prevenida. 
+        Esto es de utilidad para eventos en dispositivos mobiles como touchstart y touchmove, le dicen al nave
+        gador que no espere por el final del ultimo manipulador
+    -->
+    
+
+
+</body>
+</html>

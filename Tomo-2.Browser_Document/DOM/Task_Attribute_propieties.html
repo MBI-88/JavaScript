@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea de atributos y propiedades</title>
+</head>
+<body>
+    <div data-widget-name="menu">Choose the genre</div>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 1")
+        
+        for (let div of document.querySelectorAll('[data-widget-name]')){
+            let value = div.getAttribute('data-widget-name')
+            alert(value)
+        }
+        */
+    </script>
+    <a name="list">the list</a>
+    <ul>
+        <li><a href="http://google.com">http://google.com</a></li>
+        <li><a href="/tutorial">/tutorial.html</a></li>
+        <li><a href="local/path">local/path</a></li>
+        <li><a href="ftp://ftp.com/my.zip">ftp://ftp.com/my.zip</a></li>
+        <li><a href="http://nodejs.org">http://nodejs.org</a></li>
+        <li><a href="http://internal.com/test">http://internal.com/test</a></li>
+    </ul>
+    <script>
+        'use stirct'
+        alert("Ejercicio 2")
+        let link = document.querySelectorAll('a')
+        
+        const re = new RegExp('://')
+        const internal = new RegExp('internal.com')
+
+        for (let a of link){
+            let ext = a.getAttribute('href')
+            if (ext != null){
+               if (re.exec(ext) && !internal.exec(ext)){
+                   a.style.color = 'orange'
+               }
+            }
+            
+        }
+        /*   Solucion del libro
+            // look for all links that have :// in href
+            // but href doesn't start with http://internal.com
+            let selector = 'a[href*="://"]:not([href^="http://internal.com"])';
+            let links = document.querySelectorAll(selector);
+            links.forEach(link => link.style.color = 'orange');
+        */
+
+    </script>
+</body>
+</html>

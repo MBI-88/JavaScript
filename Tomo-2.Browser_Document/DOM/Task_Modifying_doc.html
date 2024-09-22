@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea modificando el documento</title>
+    <style>
+        span{
+            font-size: x-large;
+            font-family: 'Times New Roman';
+        }
+        table {
+          border-collapse: collapse;
+        }
+    
+        td,
+        th {
+          border: 1px solid black;
+          padding: 3px;
+          text-align: center;
+        }
+    
+        th {
+          font-weight: bold;
+          background-color: #E6E6E6;
+        }
+
+        #hour {
+            color: red;
+        }
+        #min{
+            color:green;
+        }
+        #sec{
+            color:blue;
+        }
+    </style>
+</head>
+<body>
+    <ol id="elem">
+        <li>Hello</li>
+        <li>World</li>
+    </ol>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 1")
+        function clear(elem){
+            elem.remove()
+        }
+        clear(elem)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 2")
+        
+        let cancel = null
+
+        while (cancel == null){
+            let value = prompt('Put content','')
+
+            let li = document.createElement('li')
+            let ul = document.createElement('ul')
+
+            ul.textContent = value
+            li.append(ul)
+            
+            if (value == null){
+                cancel = 'stop'
+                break
+            }
+            document.body.append(li)
+        }
+        */
+    </script>
+    <div id="container"></div>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 3")
+
+        let data = {
+            "Fish":{
+                "trout":{},
+                "salmon":{}
+            },
+            "Tree":{
+                "Huge":{
+                    "sequoia":{},
+                    "oak":{}
+                },
+                "Flowering":{
+                  "apple tree":{},
+                  "magnolia":{}
+                }
+            }
+            
+        }
+        function createTreeTex(data){
+            let li = ''
+            let ul = ''
+
+            for (let key in data){
+                li += '<li>'+ key + createTreeTex(data[key]) + '</li>'
+            }
+            if (li){
+                ul = '<ul>'+ li + '</ul>'
+            }
+            return ul || ''
+        }
+
+        function createTree(container,data){
+            container.innerHTML = createTreeTex(data)
+            //container.append(createTreeDOM(data))
+        }
+        
+        function createTreeDOM(data){
+            if (!Object.keys(data).length) return 
+            
+            let ul = document.createElement('ul')
+            for (let key in data){
+                let li = document.createElement('li')
+                li.innerHTML = key
+
+                let child = createTreeDOM(data[key])
+                if (child){
+                    li.append(child)
+                }
+                ul.append(li)
+            }
+            return ul
+        }
+            
+        let container = document.getElementById('container')
+
+        createTree(container,data)
+        */
+    </script>
+    <ul id="listado">
+        <li>Animals
+        <ul>
+            <li>Mammals
+            <ul>
+                <li>Cows</li>
+                <li>Donkeys</li>
+                <li>Dogs</li>
+                <li>Tigers</li>
+            </ul>
+            </li>
+            <li>Other
+            <ul>
+                <li>Snakes</li>
+                <li>Birds</li>
+                <li>Lizards</li>
+            </ul>
+            </li>
+        </ul>
+        </li>
+        <li>Fishes
+        <ul>
+            <li>Aquarium
+            <ul>
+                <li>Guppy</li>
+                <li>Angelfish</li>
+            </ul>
+            </li>
+            <li>Sea
+            <ul>
+                <li>Sea trout</li>
+            </ul>
+            </li>
+        </ul>
+        </li>
+    </ul>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 4")
+
+        let ul = document.getElementById('listado')
+        let lis = ul.getElementsByTagName('li')
+        
+        for (let k of lis){
+            let descen = k.getElementsByTagName('li').length
+            if (!descen) continue
+            k.firstChild.data += '['+ descen + ']'
+        }
+        
+        */
+    </script>
+    <div id="calendar"></div>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 5")
+
+        let cal = document.getElementById('calendar')
+
+        function createCalendar(elem, year, month) {
+
+            let mon = month - 1; // months in JS are 0..11, not 1..12
+            let d = new Date(year, mon);
+
+            let table = '<table><tr><th>MO</th><th>TU</th><th>WE</th><th>TH</th><th>FR</th><th>SA</th><th>SU</th></tr><tr>';
+
+            for (let i = 0; i < getDay(d); i++) {
+                table += '<td></td>';
+            }
+
+            // <td> with actual dates
+            while (d.getMonth() == mon) {
+                table += '<td>' + d.getDate() + '</td>';
+
+                if (getDay(d) % 7 == 6) { // sunday, last day of week - newline
+                    table += '</tr><tr>';
+                }
+
+                d.setDate(d.getDate() + 1);
+            }
+
+            // add spaces after last days of month for the last row
+            // 29 30 31 * * * *
+            if (getDay(d) != 0) {
+                for (let i = getDay(d); i < 7; i++) {
+                    table += '<td></td>';
+                }
+            }
+
+            // close the table
+            table += '</tr></table>';
+
+            elem.innerHTML = table;
+        }
+        function getDay(date) { // get day number from 0 (monday) to 6 (sunday)
+            let day = date.getDay();
+            if (day == 0) day = 7; // make Sunday (0) the last day
+            return day - 1;
+        }
+
+        createCalendar(cal,2022,1)
+        */
+    </script>
+    
+    <div id='clock'>
+        <span id="hour">hh</span>:<span id='min'>mm</span>:<span id='sec'>ss</span>
+    </div>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 6")
+        let idtime;
+
+        function updateClock(){
+            let clock = document.getElementById('clock')
+            let date = new Date()
+            let hours = date.getHours()
+            if ( hours < 10) hours = '0'+ hours
+            clock.children[0].innerHTML = hours
+
+            let mm = date.getMinutes()
+            if (mm < 10) mm = '0' + mm
+            clock.children[1].innerHTML = mm
+
+            let sec = date.getSeconds()
+            if (sec < 10) sec = '0' + sec
+            clock.children[2].innerHTML = sec
+        }
+
+
+        function clockStart(){
+            idtime = setInterval(updateClock, 1000);
+            updateClock()
+        }
+        function clockStop(){
+            clearInterval(idtime)
+            idtime = null
+        }
+        */
+    </script>
+     <!-- click on this button calls clockStart() -->
+     <input type="button" onclick="clockStart()" value="Start">
+
+     <!-- click on this button calls clockStop() -->
+     <input type="button" onclick="clockStop()" value="Stop">
+
+    <ul id="ul">
+        <li id="one">1</li>
+        <li id="two">4</li>
+    </ul>
+    <script>
+        /*
+        'use strict'
+        alert("Ejercicio 6")
+        let one = document.getElementById('one')
+        one.insertAdjacentHTML('afterend',"<li>2</li>3</li>")
+        */
+    </script>
+    <table id="table">
+        <tr>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Age</th>
+        </tr>
+        <tr>
+          <td>John</td>
+          <td>Smith</td>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td>Pete</td>
+          <td>Brown</td>
+          <td>15</td>
+        </tr>
+        <tr>
+          <td>Ann</td>
+          <td>Lee</td>
+          <td>5</td>
+        </tr>
+      </table>
+    <script>
+        'use strict'
+        alert("Ejercicio 7")
+
+        let sorted = Array.from(table.rows).slice(1).sort((rowsA,rowsB) => rowsA.cells[1].innertHTMl > rowsB.cells[1].innertHTMl ? 1 : -1)
+
+        table.tBodies[0].append(...sorted)
+
+    </script>
+  
+</body>
+</html>

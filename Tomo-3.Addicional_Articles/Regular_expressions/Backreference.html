@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backreference in pattern</title>
+</head>
+<body>
+    <!--
+        Backreference by number: \n
+
+        Un grupo puede ser referenciado en el patron usando \n donde n es el numero del grupo.
+
+        Para completar la buscueda correctamente se situa al final del patron \1, lo que significa
+        encuentra el mismo texto como el que se inició en el comienzo.
+        Si se usa ?:.. no se puede referenciar.
+    -->
+    <script>
+        /*
+        let str = `He said: "She's the one!". `
+        let regno = /['"](.*?)['"]/g
+        alert(str.match(regno)) // no captura correctamente
+
+        let reg = /(['"])(.*?)\1/g
+        alert(str.match(reg)) // "She's the one!"
+        // Nota: el uno significa encuentra las mismas comillas en el primer grupo
+        */
+    </script>
+    <!--
+        Backreference by name:\k<name>
+        
+        Lo mismo ocurre cuando se referencia por grupo.
+    -->
+    <script>
+        /*
+        let str = `He said: "She's the one!". `
+        let reg = /(?<quote>['"])(.*?)\k<quote>/g
+        alert(str.match(reg)) // "She's the one!"
+        */
+    </script>
+    <!--
+        Alterantion (OR)|
+
+        La alternacion es un termindo en regexp que igual a OR.
+        Se denota como |
+
+        A diferencia de [aeo] alternacion permite elegir cualquir expresion.
+        Para separar una parte del patron de alternaicon usualmente se encierra entre parentisis
+
+    -->
+    <script>
+        /*
+        let reg = /html|php|css|java(script)?/gi
+        let str = "First HTML appeared, then CSS, then JavaScript"
+        alert(str.match(reg)) // HTML,CSS,JavaScript
+        */
+    </script>
+    <!--Regexp for time-->
+    <script>
+        let reg = /([01]\d|2[0-3]):[0-5]\d/g
+        alert("00:00 10:10 23:59 25:99 1:2".match(reg)) // 00:00, 10:10, 23:59
+    </script>
+</body>
+</html>

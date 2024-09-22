@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animaciones usando CSS</title>
+    <style>
+        .animated{
+            transition-property: background-color;
+            transition-duration: 3s;
+        }
+        #growing {
+            transition: font-size 3s, color 2s;
+        }
+        @keyframes go-left-right {
+            from {left: 0px;}
+            to {left:calc(100% - 50px);}
+            
+        }
+        .progress {
+            animation: go-left-right 3s infinite alternate;
+            position: relative;
+            border: 2px solid green;
+            width: 50px;
+            height: 20px;
+            background:lime;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated">
+        <button id="color">Click me</button>
+
+    </div>
+    <script>
+        'use strict'
+        let divColorChange = document.getElementsByClassName('animated')[0]
+        color.onclick = () => {
+            divColorChange.style.backgroundColor = 'red'
+        }
+    </script>
+    <!--
+        En CSS transtions existen 4 propiedades:
+        -> transition-property
+        -> transition-duration
+        -> transition-timing-function
+        -> transition-delay
+
+        timing-function delay: tambien anima multiples propiedades al mismo timepo
+    -->
+    <div>
+        <button id="growing">Click me</button>
+    </div>
+    <script>
+        'use strict'
+        growing.onclick = () => {
+            growing.style.fontSize = '36px'
+            growing.style.color = 'red'
+        }
+
+    </script>
+    <!--
+        transition-property
+
+        En transition-property se escribe una lista de propiedades para animar. Ejemplo:
+        left,margin-left,heigt,color. No todas las propiedades pueden ser animadas.
+
+        transition-duration
+
+        En transition-duration se epecifica cuanto tiempo durara la animacion. El formato es en s o ms
+
+        transition-delay
+
+        En transition-delay se especifica la demora antes de empezar la animacion. Valores negativos son po
+        sibles, si la transition-duration es 2s y la demora es -1s entonces la animacion toma 1s y comienza en 
+        el medio. Valores negativos indican el comienzo de la transicion
+    -->
+    <!--
+        transition-timing-function
+
+        Describe como el proceso de animacion esta distribuido en el tiempo. Acepta 2 tipos de valores
+        una Beizer curve o steps.
+
+        Bezier curve
+
+        La transition-timing-function puede ser establecida usando Beizer curve con 4 puntos de control que sati
+        facen las cordinadas:
+        -> Primer punto (0,0)
+        -> Ultimo punto (1,1)
+        -> Para puntos intemedios de valores de (x), deben estar en el intervalo 0...1 y (y) puede ser cualquiera
+
+        La sintaxis es en CSS: cubic-bezier(x2,y2,x3,y3). Se necesita especificar el segundo y tercer punto de control
+        porque el primero es (0,0) y el cuarto (1,1). La timing function describe que tan rapido o lento se comporta la 
+        transicion.
+        Ejemplo
+        .train {
+            left:0;
+            transition: left 5s cubic-bezier(0,0,1,1)
+        }
+        
+        Nota: Usando js se establece el limite, en este caso se usó 450px usando on<> en una etiqueta imagen
+
+
+        Steps
+
+        steps(number of steps[,start/end]). Permite separar la animacion en pasos
+        Tambien hay formas cortas como:
+        -> step-start: es igual a steps(1,start)
+        -> step-end: es igual a steps(1,end)
+    -->
+    <!--
+        Event transitionend
+
+        El evento transitionend tiene algunas propiedades epecificas.
+
+        -> event.propertyName: La prooiedad que ha finalizado la animacion. Puede ser de utilidada
+        si estamos animando multiples propiedad al mismo tiempo.
+        -> event.elapsedTime: El tiempo en segundos que la animacion tomó sin demoras
+
+    -->
+    <!--
+        Keyframes
+
+        Se pueden juntar multiples animacines simples usando @keyframes en CSS.
+
+    -->
+    <!--Ejemplo-->
+    <div class="progress"></div>
+</body>
+</html>

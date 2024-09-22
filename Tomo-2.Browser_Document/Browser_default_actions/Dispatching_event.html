@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Despachando eventos personalizados</title>
+</head>
+<body>
+    <!--
+        Constructor de eventos
+
+        Los eventos tienen un jerarquita al igual que el DOM, se pueden crear eventos
+        de la siguiente manera: let event = new Event(event type[,options])
+        Argumentos:
+        -> event type: un string como "click" o el nuestro como "hey-ho!"
+        -> options: El objeto con 2 propiedades opcionales:
+            -> bubbles: true/false, si es true el evento bulbujeará
+            -> cancelable: true/false,si es true entonces las acciones por defecto se cancelaran
+
+        Nota: Por defecto son falsas: {bubbles:false,cancelable:false}
+
+        DispatchEvent
+
+        Despues de que un evento es creado deberiamos arrancarlo sobre un elemento usando la llamada
+        elem.dispatchEvent(event)
+
+    -->
+    <div>
+        <button id="elem" onclick="alert('click')">Autoclick</button>
+        <script>let event = new Event("click");elem.dispatchEvent(event)</script>
+    </div>
+    <!--
+        event.isTrusted
+
+        La propiedad event.isTrusted es true para eventos que vienen de aciones de un usuario real
+        y falso para los que son generados por un script
+    -->
+    <div>
+        <h1 id="elem">Hello from the script</h1>
+        <script>
+            document.addEventListener('hello',function(event){
+                alert('Hello from '+ event.target.tagName)
+            })
+            let e = new Event('hello',{bubbles:true})
+            elem.dispatchEvent(e)
+        </script>
+        <!--
+            Notas: -> Usamos addEventListener para eventos personalizados, porque on<event> solo existe para
+                      eventos predefinidos, document.onhello no funcionará
+                   -> Establecemos bubbles:true, de otra forma el evento no bulbujeará
+        -->
+    </div>
+    <!--
+        MouseEvent,KeyboardEvent y otros
+        . UIEvent
+        . FocusEvent
+        . MouseEvent
+        . WheelEvent
+        . KeyboardEvent
+        . ...
+
+        Podriamos usarlos en lugar de new Event si quisieramos crear tales eventos. Ejemplo new MouseEvent("click")
+    -->
+    <script>
+        'use strict'
+        let newevent = new MouseEvent('click',{
+            bubbles:true,
+            cancelable:true,
+            clientX:100,
+            clientY:100
+        })
+        alert(newevent.clientX)// 100
+        // Nota: El constructor generico Event no permite esto
+    </script>
+    <!--
+        CustomEvent
+
+        Para eventos personalizados como "hello" pudieramos usar CustomEvent en lugar de Event,
+        tecnicamente son iguales pero con una excepción. En el segundo argumeto podemos adicionar la 
+        propiedad detail para personalizar la informacion que queremos pasar con el evento
+    -->
+    <div>
+        <h1 id="elem2">Hello for John</h1>
+        <script>
+            'use strict'
+            elem2.addEventListener('hello2',function(event){
+                alert(event.detail.name)
+            })
+            elem2.dispatchEvent(new CustomEvent('hello',{
+
+                detail: {name:'John'}
+            }))
+        </script>
+    </div>
+    <!--
+        event.preventDefault
+
+        Podemos llamar a event.preventDefault() sobre un evento generado por un script si la bandera
+        cancelable: true es especificada.
+        Por supesto que si el evento no tiene un nombre estandar entonces el navegador no lo conce y no
+        habrá acciones por defecto para el.
+
+        Pero los codigos de eventos generados plantean algunas acciones para dispatchEvent.
+        La llamada de event.preventDefault() es un via para que el manipulador envie una señal,estas acciones 
+        no deberian se elegidas.
+
+        En ese caso la llamada a elem.dispatchEvent(event) retornará false. El evento generado no deberia seguir
+        procesandose.
+
+    -->
+    <div>
+        <pre id="rabbit">
+            |\   /|
+             \|_|/
+             /. .\
+            =\_Y_/=
+             {>0<}
+        </pre>
+        <script>
+            'use strict'
+            function hide(){
+                let event = new CustomEvent('hide',{
+                    cancelable:true
+                })
+                if (!rabbit.dispatchEvent(event)) alert('The action was prevented by a handler')
+                else {
+                    rabbit.hidden = true
+                }
+            } 
+             rabbit.addEventListener('hide',function(event){
+                 if (confirm("Call preventDefault ?")) event.preventDefault()
+             })
+             setTimeout(hide,2000)
+        </script>
+    </div>
+    <!--
+        Eventos en eventos son asincronicos
+
+        Usualmente los eventos son procesados de forma asincronica. Esto es is el navegador esta procesando
+        un onclick y en el proceso ocurre otro evento, este espera hasta que finalice onclick para ser procesado.
+
+        La exepcion es cuando un evento es inicializado desde dentro de otro. El control salta al manipulador de eventos
+        interno y de ahi va hacia a fuera.
+    -->
+    <div>
+        <button id="menu">Menu (click)</button>
+        <script>
+            'use strict'
+            menu.onclick = function(){
+                alert(1)
+                // Usando la forma asincronica de eventos
+                setTimeout(()=> menu.dispatchEvent(new CustomEvent("menu-open",{
+                    bubbles:true
+                })))
+                //menu.dispatchEvent(new CustomEvent("menu-open",{
+                  //  bubbles:true
+                //}))
+                alert(2)
+            }
+            document.addEventListener('menu-open',()=>alert('nested'))
+        </script>
+    </div>
+</body>
+</html>

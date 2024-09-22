@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="gallery.css">
+    <style>
+        #contents {
+          padding: 5px;
+          border: 1px green solid;
+        }
+      </style>
+    <title>Ejercicio de acciones por defecto</title>
+</head>
+<body>
+    <!--
+        Ejercicio 1
+
+        Nota: Cuando el navegador lee un on* crea automaticamente un manipulador
+        el cual contiene en su interior la funcion asignada a on* por lo que lo que
+        sea que devuelva esta funcion no llegara al elemento 
+    -->
+    <script>
+        'use strict'
+        function handler(event){
+            alert('Evneto frenado')
+            event.preventDefault()
+        }
+    </script>
+    <div>
+        <a href="http://w3.org" onclick="handler(event)">the browser will go to w3.org</a>
+    </div>
+    <!--Ejercicio 2-->
+    <div>
+        <fieldset id="contents">
+            <legend>#contents</legend>
+            <p>
+              How about to read <a href="http://wikipedia.org">Wikipedia</a> 
+              or visit <a href="http://w3.org"><i>W3.org</i></a> and learn about modern standards?
+            </p>
+          </fieldset>
+    </div>
+    <script>
+        'use strict'
+        contents.addEventListener('click',function(evnet){
+            let target = evnet.target.closest('a')
+            if (target && contents.contains(target)){
+                let leave = confirm(`Leave for ${target} ?`)
+                if (!leave) evnet.preventDefault()
+            }
+        })
+    </script>
+    <!--Ejercicio 3-->
+    <div>
+        <p><img id="largeImg" src="https://en.js.cx/gallery/img1-lg.jpg" alt="Large image"></p>
+
+        <ul id="thumbs">
+          <li>
+            <a href="https://en.js.cx/gallery/img2-lg.jpg" title="Image 2"><img src="https://en.js.cx/gallery/img2-thumb.jpg"></a>
+          </li>
+          <li>
+            <a href="https://en.js.cx/gallery/img3-lg.jpg" title="Image 3"><img src="https://en.js.cx/gallery/img3-thumb.jpg"></a>
+          </li>
+          <li>
+            <a href="https://en.js.cx/gallery/img4-lg.jpg" title="Image 4"><img src="https://en.js.cx/gallery/img4-thumb.jpg"></a>
+          </li>
+          <li>
+            <a href="https://en.js.cx/gallery/img5-lg.jpg" title="Image 5"><img src="https://en.js.cx/gallery/img5-thumb.jpg"></a>
+          </li>
+          <li>
+            <a href="https://en.js.cx/gallery/img6-lg.jpg" title="Image 6"><img src="https://en.js.cx/gallery/img6-thumb.jpg"></a>
+          </li>
+        </ul>
+        <script>
+            'use strict'
+            thumbs.onclick = function(event){
+                let target = event.target.closest('a')
+                if (target && thumbs.contains(target)){
+                    event.preventDefault()
+                    largeImg.src = target.href
+                    largeImg.alt = target.title
+                }
+            }
+        </script>
+    </div>
+    
+</body>
+</html>

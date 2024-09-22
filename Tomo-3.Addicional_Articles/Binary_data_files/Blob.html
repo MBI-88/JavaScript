@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blob</title>
+</head>
+<body>
+    <!--
+        Blob
+
+        Consiste de un tipo de string optimo (usualmente un MIME-type), mas blobParts
+        una secuencia de otros Blob objects.
+
+        Sintaxis: new Blob(blobParts,options)
+        -> blobParts: es un array de valores Blob/BufferSource/String
+        -> options: un objeto opcional: -> type: tipo de blob, usualmente MIME-type 
+                                        -> endings: hace el blob corresponder con el 
+                                        final de linea de los OS, por defecto transparent (no hace nada)
+                                        pero puede ser native (transforma)
+        
+        Se puede separar blob con slice blob.slice([byteStart],[byteEnd],[contentType])   
+        -> byteStart: byte de comienzo defecto 0
+        -> byteEnd: el ultimo byte defecto el final
+        -> contentType: el tipo del nuevo blob defecto el mismo de la fuente
+        
+        Nota: los blob son inmutables, pero se pueden separar y crear uno que una las partes 
+        seleccionadas
+    -->
+    <script>
+        /*
+        'use strict'
+
+        let blob = new Blob(["<html>...</html>"],{type:'text/html'})
+        let hello = new Uint8Array([72,101,108,108,111])
+        let blob1 = new Blob([hello,' ','world'],{type:'text/plain'}) 
+        alert(blob.type)
+        alert(blob1.type)
+        */
+    </script>
+    <!--
+        Bob como URL
+
+        Es facilmente usado como un <a>,<img> o otras tags para mostrar contenido.
+        Gracias a type podemos tambien descargar y subir blobs, lo que naturalmente 
+        se vuelve Content-Type en las peticiones de red.
+
+        URl.revokeObjectURL(url): remueve la referencia interna del objeto Blob, permite que el
+        blob sea borrado y la memoria limpiada
+
+    -->
+    <a download="hello.txt" href="#" id="link">Download</a>
+    <script>
+        /*
+        'use strict'
+        let blob = new Blob(["Hello, world!"],{type:'text/plain'})
+        link.href = URL.createObjectURL(blob)
+        */
+    </script>
+    <script>
+        /*
+        'use strict'
+
+        let link = document.createElement('a')
+        link.download = 'hello2.txt'
+        let blob = new Blob(['Hello, world 2'],{type:'text/plain'})
+        link.href = URL.createObjectURL(blob)
+        link.click()
+        URL.revokeObjectURL(link.href)
+        */  
+    </script>
+    <!--
+        Blob to base64
+
+        Una alternativa a URL.createObjectURL es convertir un blob a un string codificado en base64
+        Este codificador binario representa el dato como string con una ultra seguridad, y podemos usar 
+        el dato codificado como data-url.
+
+        Data-url tiene la forma: data:[<mediatype>][;base64],<data>, puede ser usada como culaquier url
+        o sobre una parte de una url regular.
+
+        Ejemplo:
+        <img src="data:image/png;base64,R0lGODlhDAAMAKIFAF5LAP/zxAAAANyuAP/gaP///wAAAAAAACH">
+        
+        El navegador decodificará el string y mostrará el mensaje.
+
+        URL.createObjectURL(blob):
+        -> necesita revocarse si cuida de la memoria
+        -> acceso directo al blob, no encoder/decorer
+
+        Blob to data URl
+        -> no necesita revocar nada
+        -> perdida de rendimiento y memoria en grandes blob
+
+    -->
+    <script>
+        /*
+        'use strict'
+        let link = document.createElement('a')
+        link.download = 'Hello3.txt'
+        let blob = new Blob(['Hola, mundo!'],{type:'text/plain'})
+        let reader = new FileReader()
+        reader.readAsDataURL(blob)
+        reader.onload = () => {
+            link.href = reader.result
+            link.click()
+        }
+        */
+    </script>
+    <!--
+        Image to blob
+
+        Se puede hacer un blob de una imagen o hacer un screenshot de una pgina, esto ayuda al envio del dato
+
+        Las operaciones con imagenes son hechas via <canvas>:
+        -> Dibujar imagen, usando canvas.drawImage
+        -> Llamar al metodo toBlob(callback,quality) que crea un blob y corre la llamada
+    -->
+    <script>
+        /*
+        'use strict'
+        let img = document.createElement('img')
+        let canvas = document.createElement('canvas')
+        canvas.width = img.clientWidth
+        canvas.height = img.clientHeight
+
+        let context = canvas.getContext('2d')
+        context.drawImage(img,0,0)
+
+        canvas.toBlob(function(blob){
+            let link = document.createElement('a')
+            link.download = 'example.png'
+
+            link.href = URL.createObjectURL(blob)
+            link.click()
+
+            URL.revokeObjectURL(link.href)
+
+        },'image/png')
+        
+        // Si se prefiere async/await en lugar de callback
+        //let blob = await new Promise(resolve => canvasElem.toBlob(resolve,'image/png'))
+        */
+    </script>
+    <!--
+        From Blob to ArrayBuffer
+
+        Para elegir un procesamiento de bajo nivel se puede usar ArrayBuffer de un FileReader
+    -->
+    <script>
+        /*
+        'use strict'
+        let fileReader = new FileReader()
+        fileReader.readAsArrayBuffer(blob)
+        fileReader.onload = event => {let arrayBuffer = fileReader.result}
+        */
+    </script>
+</body>
+</html>

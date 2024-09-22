@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos drap drop</title>
+    <link rel="stylesheet" href="styleDragDrop.css">
+</head>
+<body>
+    <!--
+        Algoritmo drag y drop
+
+        1. Capturar la presion del boton del raton sobre un elemento arrastrable.}
+        2. Preparar el elemento para moverlo.
+        3. Entonces sobre mousemove event lo mueve cambiando su posision left/top, position:absolute
+        4. Sobre mouseup (soltar el boton) se elige todas las acciones relacionadas al drag-drop
+
+        Establecer un capturador de eventos sobre un elemento para capturar objetos cuando el puntero 
+        del raton pase y aparesca sobre este, no funcionará porque mientras que se está arrastrando un objeto
+        el elemento arrastrado siempre esta sobre otros elementos y los eventos del raton solo pasan sobre 
+        los elementos mas externos no sobre los internos.
+
+        Nota: event.clientX es igual a event.pageX
+    -->
+    <p>Drag the ball.</p>
+
+    <img src="https://en.js.cx/clipart/soccer-gate.svg" id="gate" class="droppable">
+  
+    <img src="https://en.js.cx/clipart/ball.svg" id="ball">
+    
+    <script>
+        let currentDroppable = null;
+    
+        ball.onmousedown = function(event) {
+    
+          let shiftX = event.clientX - ball.getBoundingClientRect().left;
+          let shiftY = event.clientY - ball.getBoundingClientRect().top;
+    
+          ball.style.position = 'absolute';
+          ball.style.zIndex = 1000;
+          document.body.append(ball);
+    
+          moveAt(event.pageX, event.pageY);
+    
+          function moveAt(pageX, pageY) {
+            ball.style.left = pageX - shiftX + 'px';
+            ball.style.top = pageY - shiftY + 'px';
+          }
+    
+          function onMouseMove(event) {
+            moveAt(event.pageX, event.pageY);
+    
+            ball.hidden = true;
+            let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+            ball.hidden = false;
+    
+            if (!elemBelow) return;
+    
+            let droppableBelow = elemBelow.closest('.droppable');
+
+            if (currentDroppable != droppableBelow) {
+              if (currentDroppable) { // null when we were not over a droppable before this event
+                leaveDroppable(currentDroppable);
+              }
+              currentDroppable = droppableBelow;
+              if (currentDroppable) { // null if we're not coming over a droppable now
+                // (maybe just left the droppable)
+                enterDroppable(currentDroppable);
+              }
+            }
+          }
+    
+          document.addEventListener('mousemove', onMouseMove);
+    
+          ball.onmouseup = function() {
+            document.removeEventListener('mousemove', onMouseMove);
+            ball.onmouseup = null;
+          };
+    
+        };
+    
+        function enterDroppable(elem) {
+          elem.style.background = 'pink';
+        }
+    
+        function leaveDroppable(elem) {
+          elem.style.background = '';
+        }
+    
+        ball.ondragstart = function() {
+          return false;
+        };
+      </script>
+      <!--Ejemplo de eventos en elementos padres e hijos-->
+      <div style="width: 50px;height:50px;position:absolute;top:0;background:blue" onmouseover="alert('never works')">
+      </div>
+      <div style="width: 50px;height:50px;position:absolute;top:0;background:red" onmouseover="alert('over red!')"></div>
+</body>
+</html>

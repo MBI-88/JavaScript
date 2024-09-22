@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross window communication</title>
+</head>
+<body>
+    <!--
+        Las politicas de CORS (Mismo sitio o origen ) limitan el acceso de ventanas,frames ir de un lado a otro.
+        El objetivo de los CORS es proteger al usuario de la perdida de informacion.
+
+        El mismo Origen (concepto)
+
+        Dos url se dicen que son del mismo origen si comparten el mismo protocolo,domineo y puerto
+
+        iframe en accion
+
+        Un <iframe> es una ventana embebida separada con su propio DOM y Window object.
+        Se puede acceder a ellas usando lo siguiente:
+        -> iframe.contentWindow par obtener la ventana dentro del iframe
+        -> iframe.contentDocument para obtener el documento dentro del iframe
+
+        iframe.onload vs iframe.contentWindow.onload (son lo mismo, pero no se puede acceder al contenido de  
+                                                      iframe.contentWindow.onload de otro iframe de origen diferente)
+
+    -->
+    <div>
+        <!--<iframe src="https://example.com" id="iframe" frameborder="0"></iframe>-->
+        <script>
+            /*
+            'use strict'
+            iframe.onload = () => {
+                let iframeWindow = iframe.contentWindow
+                try{
+                    let doc = iframe.contentDocument
+                }catch(e){
+
+                    alert(e)
+                }
+                try{
+                    let href = iframe.contentWindow.location.href
+                }catch(e){
+                    alert(e)
+                }
+                iframe.contentWindow.location = '/'
+                iframe.onload = null
+            }
+            */
+        </script>
+       <!--<iframe src="/" id="iframe" frameborder="0"></iframe>-->
+        <script>
+            /*
+            'use strict'
+            iframe.onload = () =>{
+                iframe.contentDocument.body.prepend('Hello world!')
+            }
+            */
+        </script>
+    </div>
+    <!--
+        Ventanas sobre subdomineos (docuent.domain)
+
+        Que pasa cuando las url comparten un subdomineo, se puede hacer que el navegador no mire esta diferencia,
+        entonces pueden ser tratadas como del mismo origen. Para que esto trabaje debe cada ventana correr el si
+        guiente codigo: 
+
+        -> docuement.domain = 'site.com'
+
+
+        Errores en documentos erroneos
+
+        Cuando se lleva a cabo la creacion de un iframe inmediatamente se crea su documento, pero ese documento 
+        difiere del que ses carga dentro de el.
+        Si queremos hacer algo inmediato con el docuemto probablemente se pierda
+    -->
+    <div>
+        <iframe src="/" id="iframe2" frameborder="3px"></iframe>
+        <script>
+            /*
+            'use strict'
+            let oldDoc = iframe2.contentDocument
+            let timer = setTimeout(() => {
+                let newDoc = iframe2.contentDocument
+                if (newDoc == oldDoc) return
+                alert("New document is here!")
+                clearInterval(timer)
+            },100)
+            */
+        </script>
+    </div>
+    <!--
+        Colecciones:window.frames
+
+        Para obtener los iframe de una colección
+        -> Por numero: window.frames[0]
+        -> Por nombre: window.frames.iframeName
+
+        Un iframe puede contener otros iframes dentro, la jerarquita es la siguiente:
+        -> window.frames: la colección de "children" windows
+        -> window.parent: la referencia al "parent" windows
+        -> window.top: la referencia a la ventana padre mas ancestral
+    -->
+    <div>
+        <iframe src="/" frameborder="0" name="win" id="iframe3" style="height: 80px;"></iframe>
+        <script>
+            /*
+            'use strict'
+            alert(iframe3.contentWindow == frames[3])
+            alert(iframe3.contentWindow == frames.win)
+            */
+        </script>
+    </div>
+    <!--
+        El atributo sandbox de iframe
+
+        Permite la exclusión de ciertas acciones dentro de un iframe para poder prevenir la ejecucion 
+        de condigo no provado
+
+        Lista de limitaciones
+
+        -> allow-same-origin: por defecto sandbox fuerza la politica de origen diferente, fuerza al navegador 
+        a bloquear codigo de origen diferente
+        -> allow-top-navigation: permite el cambio de locacion
+        -> allow-form: permite el envio de formularios
+        -> allow-scripts: permite lanzar el script
+        -> allow-popus: permite a una ventana usar popus
+
+    -->
+    <!--
+        Mensajes a traves de ventanas (Cross-window messaging)
+
+        -> postMessage: envia un mensaje a la ventana receptora, llamndo al metodo postMessage de la 
+        ventana receptora (win.postMessage(data,targetOrigin))
+
+        Argumentos: -> data: el dato a enviar, puede ser un objeto 
+                    -> targetOrigin: especifica el origen para la ventana destino
+        
+        Nota: Si la ventana objetivo no es del mismo origen, no podemos leer su location en la ventana 
+        tranasmisora. No podemos estar segura cual sitio esta abierto en la ventana 
+
+        onmessage: para recibir un mensaje, la ventana objetivo deberia tener un capturador sobre el 
+        evento mensaje. Lanzarlo cuando postMessage es llamdo
+
+        Porpiedade del evento onmessage:
+
+        -> data: el dato del postMessage
+        -> origin: el origen del emisor
+        -> source: la referencia del emisor
+
+        Nota: Para asignar un manipulador se debe usar addEventListener, no funciona onmessage
+
+        Ejemplo:
+        window.addEventListener("message", function(event) { if (event.origin != 'http://javascript.info') { 
+            // something from an unknown domain, 
+            let's ignore it return; }alert( "received: " + event.data ); // can message back using event.source.postMessage(...) });
+
+        
+    -->
+    <div>
+        <iframe src="http://example.com" frameborder="0" name="example"></iframe>
+        <script>
+            'use strict'
+            let win = window.frames.example
+            win.postMessage("message","http:example.com")
+        </script>
+    </div>
+
+
+</body>
+</html>

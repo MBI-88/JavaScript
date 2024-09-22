@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimientos del raton</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <!--
+        Mouseover/mouseout, relatedTarget
+
+        El evento mouseover ocurre cuando el puntero del raton pasa sobre un elemento,
+        y el mouseout cuando sale del elemento
+
+        Para mouseover:
+        -> event.target: es el elemento donde el raton se aceró
+        -> event.relatedTarget: es el elemento desde donde vino el raton (relatedTarget -> target)
+
+        Para mouseout:
+        -> event.target: es el elemento que el raton abandonó
+        -> event.relatedTarget: es el nuevo elemento que el raton va a abandonar (target -> relatedTarget) 
+    -->
+    <div class="blue" onmouseover="mouselog(event)" onmouseout="mouselog(event)">
+        <div class="red"></div>
+    </div>
+    
+    <textarea id="text"></textarea>
+    <input type="button" onclick="text.value=''" value="Clear">
+    <!--
+        Eventos mouseenter y mouseleave
+
+        Son iguales a mouseover y mouseout.
+
+        Diferencias:
+        1. Las transiciones dentro del elemento no son contadas
+        2. Los eventos mouseenter/mouseleave no bulbujean
+
+        Ejemplo usando mouseenter/mouseout
+    -->
+    <div class="blue" onmouseenter="mouselog2(event)" onmouseleave="mouselog2(event)">
+        <div class="red"></div>
+    </div>
+    
+    <textarea id="text2"></textarea>
+    <input type="button" onclick="text.value=''" value="Clear">
+    <!--
+        Delegacion de Eventos
+    -->
+    <div>
+        <table id="table">
+            <tr>
+              <th colspan="3"><em>Bagua</em> Chart: Direction, Element, Color, Meaning</th>
+            </tr>
+            <tr>
+              <td class="nw"><strong>Northwest</strong>
+                <br>Metal
+                <br>Silver
+                <br>Elders
+              </td>
+              <td class="n"><strong>North</strong>
+                <br>Water
+                <br>Blue
+                <br>Change
+              </td>
+              <td class="ne"><strong>Northeast</strong>
+                <br>Earth
+                <br>Yellow
+                <br>Direction
+              </td>
+            </tr>
+            <tr>
+              <td class="w"><strong>West</strong>
+                <br>Metal
+                <br>Gold
+                <br>Youth
+              </td>
+              <td class="c"><strong>Center</strong>
+                <br>All
+                <br>Purple
+                <br>Harmony
+              </td>
+              <td class="e"><strong>East</strong>
+                <br>Wood
+                <br>Blue
+                <br>Future
+              </td>
+            </tr>
+            <tr>
+              <td class="sw"><strong>Southwest</strong>
+                <br>Earth
+                <br>Brown
+                <br>Tranquility
+              </td>
+              <td class="s"><strong>South</strong>
+                <br>Fire
+                <br>Orange
+                <br>Fame
+              </td>
+              <td class="se"><strong>Southeast</strong>
+                <br>Wood
+                <br>Green
+                <br>Romance
+              </td>
+            </tr>
+          </table>
+          <script src="script2.js"></script>
+    </div>
+    <!--
+        Notas:
+        -> Movimeintos rapidos pueden hacerse con mouseover, mousemove, mouseout saltaran el evento
+           inmediatamente.
+        -> Eventos mouseover/out y mouseenter/leave tienen u objetivo adicional (relatedTarget)
+        -> Evenos mouseover/out se lanzaran aun cuando regresemos del elemento padre a uno hijo.
+        -> Eventos mouseenter/leave no burbujean y no se lanzaran cuando el raton pase a un elemento hijo.
+    -->
+</body>
+</html>

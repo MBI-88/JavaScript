@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivos y lectores de archivos</title>
+</head>
+<body>
+    <!--
+        File 
+
+        Es un objeto heredado de Blob y es extendido con las capacidades del sistema
+
+        Dos formas de usarlo:
+        1. Usando el constructor: new File(fileParts,fileName,[options])
+        -> fileParts: es un array de Blob/BufferSource/String
+        -> fileName: el nombre (string)
+        -> options: objeto opcional: -> lastModified: el timepo pasado de la ultima modificacion
+
+        2. El mas usado a menudo: <input type="file"> o arrastrar el archivo, en esta forma el archivo
+        toma la informacion del sistema operativo
+        -> name: el nombre de archivo
+        -> lastModified: tiempo de la ultima modificacion
+    -->
+    <input type="file" onchange="showFile(this)">
+    <script>
+        /*
+        'use strict'
+        function showFile(input){
+
+            let file  = input.files[0]
+            alert(`File name: ${file.name}`)
+            alert(` Last modified: ${file.lastModified}`)
+        }
+        */
+    </script>
+    <!--
+        FileReader
+
+        Es un objeto con el unico proposito de leer datos de un Blob y de un File
+
+        Sintaxis: let reader = new FileReader() no lleva argumentos
+
+        Metodos principales:
+        -> readAsArrayBuffer(blob): lee el dato en formato binario de ArrayBuffer
+        -> readAdText(blob,[encoding]): lee el dato como texto string con un formato dado (default utf-8)
+        -> readAsDataURL(blob): lee el dato binario y lo codifica a base64 como url
+        -> abort(): cancela la operacion
+
+        Eventos en el proceso de lectura:
+        -> loadstart
+        -> progress
+        -> load: lectura completada sin errores
+        -> abort
+        -> error 
+        -> loadend: lectura finalizada entre completada o fallas
+
+        Cuando la lectura finalizó se puede acceder a los datos por:
+        -> reader.result: es el resultado (succesful)
+        -> reader.error: es el error
+    -->
+    <script>
+        'use strict'
+        function showFile(input){
+            let file = input.files[0]
+            let reader = new FileReader()
+
+            reader.readAsText(file)
+            reader.onload = () => console.log(reader.result)
+
+            reader.onerror = () => console.log(reader.error)
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccion y rango</title>
+</head>
+
+<body>
+    <!--
+        Range
+
+        El concepto basico de seleccion es Range. Basicamente un par de puntos (start,end)
+
+        -> range.setStart(node,0): establece el comienzo en el node 
+        -> range.setEnd(p,2): expande el rango hasta el segundo hijo del nodo pero el final no está incluido
+    -->
+    <div>
+        <p id="p">Example: <i>italic</i> and <b>bold</b></p>
+        From <input type="number" name="" id="start" value="1"> - To
+        <input type="number" name="" id="end" value="4">
+        <button id="button">Click to select</button>
+        <script>
+            'use strict'
+            button.onclick = () => {
+                let range = new Range()
+                range.setStart(p, start.value)
+                range.setEnd(p, end.value)
+                document.getSelection().removeAllRanges()
+                document.getSelection().addRange(range)
+            }
+        </script>
+    </div>
+    <script>
+        'use strict'
+        let range2 = new Range()
+        range2.setStart(p.firstChild, 2)
+        range2.setEnd(p.querySelector('b').firstChild, 3)
+        alert(range2)
+        window.getSelection().addRange(range2)
+    </script>
+    <!--
+        Propiedades del objeto range:
+
+        -> startContainer,startOffset: nodo y offset del comienzo
+        -> endContainer,endOffset: nodo y offset del final
+        -> collapsed: booleano, verdadero si el rango termina en donde comienza
+        -> commonAncestorContainer: el ancestro mas cercano de todos los nodos dentro del rango
+
+        Metodos de Range
+
+        -> setStart(node,offsset): establece el start en la posicion del offset
+        -> setStartBefore(node): establece el start en el nodo anterior
+        -> setStartAfter(node): establece el start en el node siguiente
+        -> setEnd(node,offset): similar
+        -> setEndBefore(node): similar
+        -> setEndAfter(node): similar
+        -> selectNode(node): establece el rango en todo el nodo
+        -> selectNodeContents(node): establece el rango para seleccionar todo el contenido del nodo
+        -> collapse(toStart): si es toStart=true se establece end=start, de lo contrario start=end
+        -> cloneRange(): crea un nuevo rango con el mismo start/end
+        -> deleteContents()
+        -> extractContents()
+        -> cloneContents()
+        -> insertNode(node): inserta el nodo en el comienzo del rango
+        -> surroundContents(node): captura el nodo alrededor de su rango de contenido. Para este trabajo el 
+        rango debe contener ambas etiquetas de comienzo y final para todos los elementos dentro del rango
+
+
+        Selection
+
+        La seleccion del documento es representada por el objeto Selection que puede ser obtenida por como
+        window.getSelection() o document.getSelection()
+
+        La propiedades mas importante:
+        -> anchorNode: el nodo donde la seleccion comienza
+        -> anchorOffset: el corrimiento en el anchorNode donde la selección comienza
+        -> focusNonde: el nodo donde la seleccion finaliza
+        -> focusOffset: el corrimiento en el focusNode donde la seleccion finaliza
+        -> iscollapsed: verdadero si la seleccion es vacia o no existe
+        -> rangeCount: cantidad de rango en la seleccion, maximo 1 en todos los navegadores excepto en firefox
+
+        Evento Selection
+
+        -> elem.onselectstart: cuando la seleccion comienza (es lanzado en cualquier elemento)
+        -> document.onselectionchange: cuando la seleccion cambia (se lanza solo en el documento)
+
+        Para obtener todo la seleccion
+
+        .Como texto usar document.getSelection().toString()
+        .Como DOM node, usar el metodo cloneContents()
+    -->
+    <div>
+        <p id="ps">Select me: <i>italic</i> and <b>bold</b></p>
+        From <input type="text" name="" id="from" disabled> -To <input id="to" disbled></input>
+        <script>
+            'use strict'
+            document.onselectionchange = () => {
+                let { anchorNode, anchorOffset, focusNode, focusOffset } = document.getSelection()
+                from.value = `${anchorNode && anchorNode.data}: ${anchorOffset}`
+                to.value = `${focusNode && focusNode.data}: ${focusOffset}`
+            }
+        </script>
+    </div>
+    <!--Ejemplo para obtener toda la seleccion-->
+    <div>
+        <p id="pse">Select me: <i>italic</i> and <b>bold</b></p>
+        Cloned: <span id="cloned"></span>
+        <br>
+        As text: <span id="astext"></span>
+        <script>
+            'use strict'
+            document.onselectionchange = () => {
+                let seleccion = document.getSelection()
+
+                cloned.innerHTML = astext.innerHTML = ''
+                for (let i = 0; i < seleccion; i++) {
+                    cloned.append(seleccion.getRangeAt(i).cloneContents())
+                }
+                astext.innerHTML += seleccion
+            }
+        </script>
+    </div>
+    <!--
+        Metodos de Selection
+
+        -> getRangeAt(i): obtiene el enecimo rango, comientza en 0. En todos los navegadores excepto en firefox
+        solo 0 es usado
+        -> addRange(range): adiciona un rango a la seleccion. Todos los navegadores excepto firefox ignoran la llamada
+        -> removeRange(range): remueve el rango de la seleccion
+        -> removeAllRanges(): remueve todos los rangos
+        -> empty(): es un alias a removeAllRanges()
+        -> collapse(node,offset): remplasa el rango de seleccion con uno nuevo que comineza y termina en el nodo dado, en
+        la posicion del corrimiento
+        -> setPosition(node,offset): alias de collapse
+        -> collapseToStart(): colapsa la seleccion del comienzo
+        -> collapseToEnd(): colapsa la seleccion del final
+        -> extend(node,offset): mueve el foco de la seleccion al nodo dado
+        -> setBaseAndExtent(anchorNode,anchorOffset,focusNode,focusOffset): remplaza el rango de seleccion con un anchor y 
+        focus dado. Todo los elemento dentro son seleccionado
+        -> selectAllChildren(node): selecciona todos los hijos del nodo
+        -> deleteFromDocument(): remueve el contenido seleccionado del documento
+        -> caontainsNode(node,allowPartialcontainment=false): chequea si la seleccion contiene nodos (particularmente
+        si el segundo argumeto es true)
+    -->
+    <div>
+        <p id="Ps">Select me: <i>italic</i> and <b>bold</b></p>
+        <script>
+            'use strict'
+            document.getSelection().setBaseAndExtent(Ps, 0, Ps, Ps.childNodes.length)
+
+        </script>
+    </div>
+    <!--
+        Seleccion en control de formularios
+
+        -> input.select(): selecciona todo en el contexto de control
+        -> input.selectionStart: posicion del comienzo de la seleccion
+        -> input.selectionEnd: posicion del final
+        -> input.selectionDirection: direccion de la seleccion
+        -> input.setSelectionRange(start,end,[direccion]): cambia la seleccion para expandirse desde
+        start hasta el end en la direccion dada
+        -> input.setRangeText(replacemen,[start],[end],[selectionMode]): remplaza el rango de texto con el nuevo 
+        texto, si no existe start ni end se asume que el rango esta en la seleccion
+
+        selectionMode: determina como la seleccion será despues del texto remplazado 
+        los posibles valores son:
+        .select: el nuevo texto insertado que será seleccionado
+        .start: el rango de seleccion colapsado justo antes del texto insertado
+        .end: el rango de seleccion colapsa justo despues del texto insertado
+        .preserve: intenta preservar la seleccion. Es por defecto.
+    -->
+    <div>
+        <textarea id="area" style="width: 80%;height: 60px;">
+            Select this text
+        </textarea>
+        <br>
+        <button id="button">Insert</button>
+        From <input type="text" id="From" disabled> - To <input type="text" id="To" disabled>
+        <script>
+            'use strict'
+            let area = document.getElementById('area')
+            area.onselect = () => {
+                From.value = area.selectionStart
+                To.value = area.selectionEnd
+            } 
+            /*area.onfocus = () => {
+                setTimeout( () => {area.selectionStart = area.selectionEnd = 10})
+            }*/
+
+            button.onclick = () => {
+                area.setRangeText("TEXT",area.selectionStart,area.selectionEnd, 'end')
+            }
+        </script>
+        <!--
+            Haciendo no seleccionable
+
+            1. Usando CSS (user-select: none), el elemento será seleccionado pero su 
+            contenido usalmente es ignorado en copy-paste
+            2. Usando preventDefault en onselectstart o mousedown
+        -->
+</body>
+
+</html>

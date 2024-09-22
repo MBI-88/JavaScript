@@ -1,0 +1,124 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos y recursos de carga</title>
+</head>
+<body>
+    <!--
+        El ciclo de vida de una pagina HTML tiene 3 importantes eventos:
+        -> DOMContentLoaded: carga completa del HTML y el DOM tree es creado pero recursos externos
+        como imagenes y estilos no son cargados todavia
+        -> load: no solo el HTML es cargado,tambien todos los recursos externos 
+        -> beforeunload/unload: el usuario esta abandonando la pagina
+    -->
+    <!--
+        DOMContentLoaded
+
+        En el ejemplo el DOM se carga sin esperar por la imagen por lo 
+        que sus dimensiones son 0
+    -->
+    <div>
+        <script>
+            /*
+            'use strict'
+            function ready(){
+                alert('DOM is ready')
+                alert(`Image size: ${img.offsetWidth}x ${img.offsetHeight}`)
+            }
+            document.addEventListener("DOMContentLoaded",ready)
+            */
+        </script>
+        <img src="https://en.js.cx/clipart/train.gif?speed=1&cache=0" alt="" id="img">
+    </div>
+    <!--
+        DOMContentLoaded y scripts 
+
+        Cuando un navegador procesa un HTML-document que viene a traves de un script,
+        necesita ejecutarlo antes de continuar la construcción del DOM, es una precaucion ya 
+        que los script pueden modificar el DOM
+
+        Ejemplo:
+        <script> 
+            document.addEventListener("DOMContentLoaded", () => { alert("DOM ready!"); });
+         </script> 
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"></script>
+          <script> alert("Library loaded, inline script executed"); </script>
+    -->
+    <!--
+        DOMContentLoaded y styles
+
+        Estilos externos no afectan al DOM, DOMContentLoaded no espera por ellos
+        Pero hay una excepcion en la regla. Si se tiene un script despues de un style 
+        entonces el script espera hasta la carga del style
+    -->
+    <!--
+        window.onload
+
+        El evento load sobre la ventana captura toda la pagina incluyendo styles,images y otros
+        Ejemplo:
+
+        <script> window.onload = function() { alert('Page loaded'); // image is loaded at this time 
+            alert(`Image size: ${img.offsetWidth}x${img.offsetHeight}`); }; </script> 
+        <img id="img" src="https://en.js.cx/clipart/train.gif?speed=1&cache=0">
+
+    -->
+    <!--
+        window.onunload
+
+        Es usado para recuperar datos de uso de la pagina antes de que el ususrio la abandone
+        el uso del mismo no debe contener demoras, generalmete usado para hacer post al servidor
+        Existe un metodo especial navigator.sendBeacon(url,data), este envia en background datos 
+        al servidor
+
+        Ejemplo:
+
+        let analyticsData = { /* object with gathered data */ }; 
+        window.addEventListener("unload", function() { navigator.sendBeacon("/analytics", JSON.stringify(analyticsData)); };
+    -->
+    <!--
+        window.onbeforeunload
+
+        Si el usuario espera por la pagina o intenta cerrar la ventana, el evento beforeunload le 
+        preguntará por confimacion adicional
+    -->
+    <script>
+        'use strict'
+        window.onbeforeunload = function(){return false}
+    </script>
+    <!--
+        readyState
+
+        La propiedad readyState no dice cual es el estado de carga del DOM
+        Hay 3 posibles valores:
+        -> loading: el documento esta cargandose
+        -> interactive: el documento fue cargado
+        -> complete: el documento fue leido con todos sus recursos
+
+        Ejemplo:
+        function work() { /*...*/ } if (document.readyState == 'loading') { 
+            // loading yet, wait for the event document.addEventListener('DOMContentLoaded', work);
+         } else { // DOM is ready! work(); 
+        }
+        console.log(document.readyState)
+        docuemt.addEventListener('readystatechange',() => console.log(document.readyState))
+    -->
+    <div>
+        <script>
+            'use strict'
+            console.log('initial readyState: '+ document.readyState)
+            document.addEventListener('readystatchange', () => console.log('readyState: '+ document.readyState))
+            document.addEventListener('DOMContentLoaded',() => console.log('DOMContentLoaded'))
+            window.onload = () => console.log('window onload')
+        </script>
+        <iframe src="iframe.html" frameborder="0" onload="console.log('iframe onload')"></iframe>
+        <img src="http://en.js.cx/clipart/train.gif" alt="" id="img">
+        <script>
+            'use strict'
+            img.onload = () => console.log('img onload')
+        </script>
+    </div>
+</body>
+</html>

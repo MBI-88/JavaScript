@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codificar y decodificar texto</title>
+</head>
+<body>
+    <!--
+        TextDecoder and TextEncoder
+
+        Permite recibir archivos strig con datos textuales
+
+        Sintaxis: let decoder = new TextDecoder([label],[options])
+
+        -> label: el encoding, utf-8 por defecto, pero big5,windows-1251 y otros son posibles
+        -> options: objetos opcionales:
+            -> fatal: boleano, si es true entonces lanza una excepcion para caracteres invalidos, de otra manera
+            los remplaza con caracteres \uFFFD
+            -> ingnoreBOM: boleano, si es true entonces ingora BOM,raramente usado
+        
+        let str = decoder.decode([input],[options])
+        
+        -> input: Buffer fuente para decodificar
+        -> options:
+            -> stream: si es true para decodificar steams, caundo decoder es llamado repetidamente con pedados de 
+            datos de entrada, en ese caso multples byte pueden ser separados en pedados.
+    -->
+    <script>
+        /*
+        'use strict'
+        let uint8array = new Uint8Array([72,101,108,108,111])
+        alert(new TextDecoder().decode(uint8array))
+        let uint8array2 = new Uint8Array([228,189,160,229,165,189])
+        alert(new TextDecoder().decode(uint8array2))
+
+        // Decodificando parte del buffer
+        let uint8array3 = new Uint8Array([0,72,101,108,108,111,0])
+        let binaryString = uint8array3.subarray(1,-1)
+        alert(new TextDecoder().decode(binaryString))
+        */
+    </script>
+    <!--
+        TextEncoder
+
+        Sintaxis: let encoder = new TextEncoder()
+        -> encode(str): retorna un Uint8Array de un string
+        -> encodeInto(str,destination): codifica un str hacia un destino que es debe ser un Uint8Array
+    -->
+    <script>
+        'use strict'
+        let encoder = new TextEncoder()
+        let uint8array = encoder.encode('Hello world!')
+        alert(uint8array)
+    </script>
+</body>
+</html>

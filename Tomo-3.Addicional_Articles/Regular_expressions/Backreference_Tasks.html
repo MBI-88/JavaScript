@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio de Backreference</title>
+</head>
+<body>
+    <script>
+        //let reg = /Java[a-zA-Z]*|PHP|C[+]*/g
+        //alert("Java JavaScript PHP C++ C".match(reg)) // Java JavaScript PHP C++ C
+    </script>
+    <script>
+        /*
+        let reg = /\[(b|url|quote)\].*?\[\/\1\]/gs; 
+        let str = ` [b]hello![/b] [quote] [url]http://google.com[/url] [/quote] `
+        alert( str.match(reg) )
+        */
+    </script>
+    <script>
+        let reg = /<style(>|\s.*?>)/g; 
+        alert( '<style> <styler> <style test="...">'.match(reg) );
+    </script>
+    
+</body>
+</html>

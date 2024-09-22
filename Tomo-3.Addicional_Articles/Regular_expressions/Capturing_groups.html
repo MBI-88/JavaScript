@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capturando grupos</title>
+</head>
+<body>
+    <!--
+        Capturing groups
+
+        Una parte del patron puede ser encerrada entre parentisis, esto es llamado capturando grupos
+    -->
+    <!--Ejemplo encontrando mas (go)+-->
+    <script>
+        /*
+        // Si los parentisis seria go ó goooo....
+        alert('Gogogo now!'.match(/(go)+/i)) // Gogogo
+
+        // encontrando todos los email en un string
+        let reg = /[-.\w]+@([\w-]+\.)+[\w-]{2,20}/g
+        alert("my@mail.com @ his@site.com.uk".match(reg)) // my@mail.com, his@site.com.uk
+
+        // Contenido de los parentisis
+        let str = '<h1>Hello, world!</h1>'
+        let reg2 = /<(.*?)>/
+        alert(str.match(reg2)) // ['<h1>','h1']
+        // Para buscar todas las igualdades usar .matchAll ó regexp.exec con la bandera g
+
+        let reg3 = /<(.*?)>/g
+        let matches = Array.from(str.matchAll(reg3))
+        alert(matches[0]) // ["h1>","h1"]
+        alert(matches[1]) // ["</h1>","/h1"]
+        */
+    </script>
+    <!--
+        Nested groups
+        
+        Los parentisis son comprobados. En este caso son numerados de izquierda a derecha.
+        En el indice 0 el resultado es toda la ingualdad
+        En el indice 1 da el primer grupo de igualdad
+        En el indice 2 da el segundo grupo de igualdad
+
+        Si un grupo es optimo y no aparece en la igualdad, su correspondiente indice de resultado
+        esta presente con undefined
+    
+    -->
+    <script>
+        /*
+        let str = '<span class="my">'
+        let reg = /<(([a-z]+)\s*([^>]*))>/
+        let result = str.match(reg)
+        alert(result) // <span class="my">, span class="my", span, class="my"
+
+        // Ejemplo de fallo en indices
+        let match = 'a'.match(/a(z)?(c)?/)
+        alert(match.length) // 3
+        alert(match[0]) // el string igualado
+        alert(match[1]) // undefined
+        alert(match[2]) // undefined
+
+        let match2 = 'ack'.match(/a(z)?(c)?/)
+        alert(match2.length) // 3
+        alert(match2[0]) // todo el string igualado
+        alert(match2[1]) // undefined
+        alert(match2[2]) // c
+        */
+    </script>
+    <!--
+        Named groups
+        
+        Para patrones complejos se utiliza el nombrado de grupos
+    -->
+    <script>
+        /*
+        let dateRegexp = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/
+        let str = "2019-04-30"
+        let groups = str.match(dateRegexp).groups
+        alert(groups.year) // 2019
+        alert(groups.month) // 04
+        alert(groups.day) // 30
+
+        // Reformando la fecha
+
+        let rearranged = str.replace(dateRegexp,(str,year,month,day,offset,input,groups) => 
+            `${groups.day}.${groups.month}.${groups.year}`     
+        )
+        alert(rearranged) // 30.04.2019
+
+        // Forma abreviada
+        let rearranged2 = str.replace(dateRegexp,(str,...args) => {
+            let {year,month,day} = args.pop()
+            alert(str)
+            alert(year)
+            alert(month)
+            alert(day)
+        })
+        */
+    </script>
+    <!--
+        Non-capturing groups with ?
+    
+        Cuando no se quiere el contenido del resultado. Un grupo puede ser excluido por la incorporacion de
+        ?:.. en el comienzo.
+    -->
+    <script>
+        let str = "Gogo John!"
+        let reg = /(?:go)+ (\w+)/i
+        let result = str.match(reg)
+        alert(result.length) // 2
+        alert(result[1]) // John
+    </script>
+</body>
+</html>

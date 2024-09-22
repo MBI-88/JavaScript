@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long polling</title>
+</head>
+<body>
+    <!--
+        Long polling es la forma mas simple de mantener una persistencia en la coneccion con el servidor
+        que no usa un protocolo especifico como WebSocket o Server Side Events
+
+        Nota: Este acercamiento recarga el servidor por hacer peticiones cada un tiempo prefijado. Si la carga
+        del servicio es pequeña, puede ser conciderado.
+    -->
+    <!-- Ejemplo en el lado del servidor-->
+    <div>
+        <script>
+            'use strict'
+            async function subscribe(){
+                let response = await fetch('/subscribe')
+                if (response.status == 502){
+                    await subscribe()
+                }else if (response.status != 200){
+                    showMessage(response.statusText)
+                    await new Promise(resolve => setTimeout(resolve,1000))
+                    await subscribe()
+                }else {
+                    let message = await respose.text()
+                    showMessage(message)
+                    await subscribe()
+                }
+            }
+            subscribe() // definir  funcion showMessage()
+        </script>
+    </div>
+</body>
+</html>

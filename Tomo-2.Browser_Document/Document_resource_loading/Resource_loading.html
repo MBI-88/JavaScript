@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carga de recursos: onload and onerror</title>
+</head>
+<body>
+    <!--
+        El navegador permite pistear la carga de recursos externos como script, iframes, pictures, etc
+
+        Existen 2 eventos para esto:
+        -> onload: carga completa
+        -> onerror: error ocurrido
+
+        script.load
+
+        La ayuda principal es usar el evento load. Se lanzara un evento despues de cargado y ejecutado el script
+        Ejemplo:
+        let script = document.createElement('script')
+        script.src = '...'
+        document.head.append(script)
+        script.onload = () => alert(...)
+
+        Cuando se usa el evento onload, se pueden acceder a las variables,funciones del script
+
+        script.onerror
+
+        El evento ocurre durante la carga del script.
+
+        Nota: onload y onerror solo pueden pistear los eventos ocurridos en la carga del script.
+        Trabajan con cualquier etiqueta que tenga un atributo src
+
+        Muchos recursos comienzan la carga cuando son adicionados al DOM, pero img es una ecepción, comienza
+        a cargar cuando obtiene una src. Para el caso de iframe, el evento onlaad es lanzado cuando el iframe
+        concluyó su carga.
+    -->
+    <div>
+        <script>
+            'use strict'
+            let script = document.createElement('script')
+            script.src = 'https://errorScript.js'
+            document.head.append(script)
+            script.onerror = () => alert('Error '+ this.src)
+        </script>
+    </div>
+    <!--
+        Crossorigin policy
+
+        Existe una regla: los script de un sitio no pueden tener acceso al contenido de otro sitio.
+        Para precisar: un origen no puede tener acceso al contenido de otro origen.
+
+        Para permitir CORS (cross-origin access) el script necesita tener el atributo crossorigin establecido mas
+        que el servidor remoto permita el intercambio.
+
+        Hay tres niveles de CORS:
+
+        1. No crossorigin attibute: acceso restringido
+        2. crossorigin="anonymous": acceso permitido si el servidor responde con el header Access-Control-Allow-Origin con 
+        * o nuestro domineo. Los navegadores no envian informacion autorizada ni cookies al servidor remoto
+        3. crossorigin="use-credentials": acceso permitido si el server envia el Access-Control-Origin con nuestro origen y 
+        Access-Control-Allow-Credentials: true.
+
+        Nota: con anonymous no se envian cookies , con use-credentials se envian cookies
+    -->
+    
+</body>
+</html>

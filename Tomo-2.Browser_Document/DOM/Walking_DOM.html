@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caminando por el DOM</title>
+</head>
+<body>
+    <div style="background-color:aquamarine;margin-left: 15px;">
+        <hgruop style="font-family: 'Courier New', Courier, monospace;">
+        <span style="color: black;"><h2>Relación de DOM con los elemetos de html</h2></span>
+        <h3 style="margin-left: 10px;">->html = document.documentElement</h3>
+        <h3 style="margin-left: 10px;">->body = document.body</h3>
+        <h3 style="margin-left: 10px;">->head = document.head</h3>
+        <p style="margin-left: 10px;">
+            <h3>
+                Un script no puede tener acceso a un elemento que no existe todavia
+                en el momento de la ejecucion del documento. Ejemplo un script en la 
+                definicion de head que intente aceder a informacion del body no podrá
+                obtenerla. En el ambiente de DOM un null significa no existe
+            </h3>
+        </p>
+        </hgruop>
+    </div>
+    <div style="margin-left: 15px;background-color: burlywood;">
+        <hgroup style="font-family: 'Courier New', Courier, monospace;">
+            <span style="color: black;"><h2>Children: childNodes, firstChild, lastChild</h2></span>
+            <p style="margin-left: 10px;">
+                <h3>-> Child nodes (or children):
+                    Son elementos que son hijos directos, en otras palabras nacen en el asignado.
+                    Ejemplo head y body son hijos de html
+                </h3>
+                <h3>-> Descendants: 
+                    Son todos los elementos que nacen en el asingnado, incluyendo hijos y los hijos de sus hijos.
+                    Ejemplo body tiene como hijos a div y ul.
+                </h3>
+            </p>
+        </hgroup>
+    </div>
+    <script>
+        /*
+        'use strict'
+        for (let i=0;i < document.body.childNodes.length;i++){
+            alert(document.body.childNodes[i])
+        }
+        */
+    </script>
+    <div style="margin-left: 15px;background-color: rgb(213, 222, 135);">
+        <hgruop style="font-family: 'Courier New', Courier, monospace;">
+            <span style="color: black;"><h2>Las propiedades firstChild y lastChild dan acceso directo al primer
+                y último hijo.
+            </h2></span>
+            <span style="color: black;"><h2>Hay una funcion especial elem.hasChildNodes para chequear
+                si existen nodos hijos.
+            </h2></span>
+        </hgruop>
+    </div>
+    <script>
+        /*
+        'use strict'
+        alert("Usando for..of para iterar sobre document.body.childNodes")
+        for (let node of document.body.childNodes){
+            alert(node)
+        }
+        // Los metodos Array no funcionan con document.body.childNodes porque necesitan un Symbol.iterator
+        // Para que funcione se procede como:
+        alert("Usando metodos de Array")
+        Array.from(document.body.childNodes).filter(nodes => alert(nodes))
+        */
+    </script>
+    <div  style="margin-left: 15px;background-color: rgb(135, 222, 135);">
+        <hgroup style="font-family: 'Courier New', Courier, monospace;">
+            <p style="color: black; font-size:large;">
+                <h3>Las colecciónes DOM y todas las propiedades de navegación listadas hasta ahora 
+                son de solo lectura. No se pueden remplazar ni reasignar. No usar for..in con colecciones
+                DOM.</h3> 
+            </p>
+        </hgroup>
+    </div>
+    <div style="margin-left: 15px;background-color: rgb(205, 135, 222);">
+        <hgroup style="font-family: 'Courier New', Courier, monospace;">
+            <span style="color: black; font-size: medium;"><h2>Sibling and the parent</h2></span>
+            <p style="font-size:large;"><h3> Sibling son nodos que son hijos del mismo padre,
+                ejemplo: head y body son Siblings.</h3> 
+                <h3>Los padres son accequibles como parentNode.</h3>
+                <h3>Los siguientes metodos solo toman en cuenta nodos elementos:</h3>
+                <h3>-> parentElement</h3>
+                <h3>-> previousElementSibling</h3>
+                <h3>-> nextElementSibling</h3>
+                <h3>-> firstElementChild</h3>
+                <h3>-> lastElementChild</h3>
+                <h3>>-> children</h3>
+            </p>
+            <script>
+                /*
+                'use strict'
+                alert(document.body.parentNode === document.documentElement)// true
+                alert(document.head.nextSibling) // HTMLBodyElement
+                alert(document.body.previousSibling) // HTMLHeadElement
+                */
+            </script>
+        </hgroup>
+    </div>
+    <h2>Ejemplo de lazo sobre document.body.children</h2>
+    <div>Begin</div>
+    <ul>
+        <li>Information</li>
+    </ul>
+    <div>End</div>
+    <script>
+        /*
+        // Listar todos los elementos children de document.body
+        'use strict'
+        for (let elem of document.body.children){
+            alert(elem) // DIV,UL,DIV,SCRIPT
+        }
+        */
+    </script>
+    <div style="margin-left: 15px;background-color: rgb(135, 222, 218);">
+        <hgroup style="font-family: 'Courier New', Courier, monospace;">
+            <span style="color: black; font-size: medium;"><h2>Tablas</h2></span>
+            <p>
+                -> table.rows: colección de elementos tr de la tabla
+                -> table.caption/tHead/tFoot: referencia a elementos caption,thead,
+                -> table.tbodies: colección de elementos 
+                -> thead,tfoot,tbody: elementos que dan propiedades a rows 
+                tr:
+                -> tbody.rows: la colección de elementos dentro de tr 
+                -> tr.cells: la colección de td y th dentro de tr 
+                -> tr.sectionRowIndex: la posición de tr en la tabla como un todo 
+                td y th:
+                -> td.rowIndex: el número de celdas dentro de tr
+            </p>
+            <h2>Ejemplo de uso de tabla</h2>
+        </hgroup>
+    </div>
+    <div>
+        <table id="table" style="margin-left: 20px;color: rebeccapurple;background-color:coral;">
+            <tr>
+                <td><h3>One</h3></td><td><h3>Two</h3></td>
+            </tr>
+            <tr>
+                <td><h3>Three</h3></td><td><h3>Four</h3></td>
+            </tr>
+        </table>
+        <script>
+            'use strict'
+            alert(table.rows[0].cells[1].innerHTML)
+        </script>
+    </div>
+    
+</body>
+</html>
