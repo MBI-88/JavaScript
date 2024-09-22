@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuantificadores</title>
+</head>
+<body>
+    <!--
+        Quantity {n}
+
+        Es un simple numero en [..], puede ser agregado a cualqueir caracter o [...].
+        Ejemplo: \d{5} es equivalente a \d\d\d\d\d
+        Nota: se puede agregar \b para evitar numeros largos
+    -->
+    <script>
+        /*
+        alert("I'm 12345 years old".match(/\d{5}/)) // 12345
+
+        // El rango {3,5} se iguala de 3-5 veces
+        // para encontrar numeros del 3 al 5
+        alert("I'm not 12, but 1234 years old".match(/\d{3,5}/)) // 1234
+
+        // Anulando un extremo se busca para ese extremo o mas/menos
+        alert("I'm not 12, but 345678 years old".match(/\d{3,}/)) // 345678
+
+        alert("+7(903)-123-45-67".match(/\d{1,}/g)) // 7,903,123,45,67
+        */
+    </script>
+    <!--Shorthands-->
+    <script>
+        
+        // usando el operador +
+        //let str = "+7(903)-123-45-67"
+        //alert(str.match(/\d+/g))// 7,903,123,45,67
+
+        // ? significa 0 o 1 es igual a {0,1}
+        //let string = "Should I write color or colour?"
+        //alert(string.match(/colou?r/g)) // color,colour busca a "o" seguido de 0 o una "u" y despues r
+
+        // * significa 0 o mas es similar a {0,}, el caracter puede estar repetido muchas veces o no aparecer.
+        //alert("100 10 1".match(/\d0*/g)) // 100,10,1
+
+        // usando +
+        //alert("100 10 1".match(/\d0+/g)) // 100,10
+
+        // More examples
+
+        //alert("0 1 12.345 7890".match(/\d+\.\d+/g)) // 12.345
+         
+    </script>
+    <!--Ejercicios-->
+    <script>
+        /*
+        let reg = /\.{3,}/g
+        alert("Hello!... How goes?.....".match(reg)) // ...,.....
+        */
+    </script>
+    <script>
+        let reg = /#[0-9a-fA-F]{6}\b/g
+        let str = "color:#121212 background-color:#AA00ef bad-color:f#fddee #fd2 #12345678"
+        alert(str.match(reg))
+    </script>
+    
+</body>
+</html>

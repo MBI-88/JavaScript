@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicode flag u</title>
+</head>
+<body>
+    <!--
+        La bandera unicode u habilita el correcto soporte para partes contiguas.
+        Todos los caracteres son codificados con 2 bytes, que dan 65536 caracters maximos.
+        Caracteres raros como: 𝒳 (mathematical X) or 😄 son codificados con 4 bytes
+
+        [𝒳-𝒴] es como [<55349><56499>-<55349><56500>]
+    -->
+    <script>
+        alert('𝒳'.match(/[𝒳𝒴]/u) ); // 𝒳
+    </script>
+</body>
+</html>

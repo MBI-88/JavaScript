@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow DOM styling</title>
+</head>
+<body>
+    <!--
+        :host
+
+        El selector :host permite seleccionar el host shadow (elemto contenido en el shadow tree).
+        Como regla general estilos locales solo trabajan dentro del shadow tree, estilos de docuemto
+        fuera de el.
+    -->
+    <!--Ejemplo de custom-dialog-->
+    <template id="tmpl">
+        <style>
+            :host([centered]) {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                display: inline-block;
+                border: 1px solid red;
+                padding: 10px;
+            }
+            :host {
+                display: inline-block;
+                border: 1px solid red;
+                padding: 10px;
+            }
+        </style>
+        <slot></slot>
+    </template>
+    <script>
+        customElements.define('custom-dialog',class extends HTMLElement{
+            connectedCallback(){
+                this.attachShadow({mode:"open"}).append(tmpl.content.cloneNode(true))
+
+            }
+        })
+    </script>
+    <custom-dialog centered>
+        Centered!
+    </custom-dialog>
+    <custom-dialog>
+        Not centered
+    </custom-dialog>
+    
+
+    <!--
+        Styling slotted content
+
+        Para estilizar elementos slotted existen dos formas:
+
+        -> Se puede estilizar el slot propio y dejar la herencia a CSS
+        -> Usar ::slotted(selector) (pseudo-class), iguala elementos basados en 2 condiciones:
+            -> El elemento del light DOM insertado en el slot . Entonces el nombre del slot no importa
+            . Cualquier elemento slotted, pero solo el propio elemento no sus hijos.
+        -> El elemento se iguala al selector.
+
+        Nota: ::slotted(tag) no puede decender.
+    -->
+    <!--Ejemplo ::slotted-->
+    <user-card>
+        <div slot="username">
+            <div>John Smith</div>
+        </div>
+    </user-card>
+    <script>
+        customElements.define('user-card',class extends HTMLElement{
+            connectedCallback(){
+                this.attachShadow({mode:'open'})
+                this.shadowRoot.innerHTML = `<style>::slotted(div){border:1px solid red;}</style>
+                Name:<slot name="username"></slot>`
+            }
+        })
+    </script>
+    <!--CSS hooks with custom properties-->
+    <style>
+        user-card2 {
+            --user-card-field-color:rgb(115, 128, 0);
+        }
+    </style>
+    <template id="temp">
+        <style>
+            .field {
+                color: var(--user-card-field-color,black);
+            }
+        </style>
+        <div class="field">Name: <slot name="username"></slot></div>
+        <div class="field">Birthday: <slot name="birthday"></slot></div>
+    </template>
+    <script>
+        customElements.define('user-card2',class extends HTMLElement{
+            connectedCallback(){
+                this.attachShadow({mode:"open"})
+                this.shadowRoot.append(document.getElementById('temp').content.cloneNode(true))
+                
+            }
+        })
+    </script>
+    <user-card2>
+        <span slot="username">John Smith</span>
+        <span slot="birthday">01.01.2001</span>
+    </user-card2>
+    
+</body>
+</html>

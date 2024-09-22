@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La bandera y</title>
+</head>
+<body>
+    <!--
+        Como se puede buscar una igualdad en una posicion dada ?
+        Usando la bandera y, hace que la busqueda comience en la posicion dada
+        Permite evaluar expresines regulares en una posicion exacta. Es muy util para los parser
+    -->
+    <script>
+        let str = "(text before) function ..."
+        let reg = /function/y
+        reg.lastIndex = 5
+        alert(reg.exec(str)) // null
+
+        reg.lastIndex = 14
+        alert(reg.exec(str)) // function
+    </script>
+</body>
+</html>

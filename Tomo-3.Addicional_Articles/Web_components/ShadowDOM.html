@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow DOM</title>
+</head>
+<body>
+     <!--
+         Shadow DOM
+
+         Sirve como encapsulacion. Permite que un componente tenga su propio "shadow" en el arbol del DOM,
+         no puede ser accedido desde el documento principal.
+
+         Shadow tree
+
+         El DOM puede tener 2 tipos de sub-arboles:
+         -> Light tree: es un DOM sub-arbol regular hecho de hijos de HTML
+         -> Shadow tree: un DOM sub-arbol oculto, no reflejado en el HTML
+
+         Si un elemento tiene ambos, entonces el navegador renderiza solo el shadow tree.
+
+         Existen 2 limitaciones:
+         -> Se puede crear solo un shadow root por elemento
+         -> El elemento debe estar entre uno personalizado o uno de: article,aside,blockquote,
+         body,div,footer,h1...h6,header,main,nav,p,section o span. Otros como img pueden tener shadow
+
+         La opcion mode establece el nivel de encapsulacio. Estos son:
+         -> open: el shadow root es accequible como elem.shadowRoot
+         -> closed: elem.shadowRoot es siempre null
+     -->
+     <!--Ejemplo en elementos personalizados-->
+     <script>
+         'use strict'
+         customElements.define('show-hello',class extends HTMLElement{
+             connectedCallback(){
+                 const shadow = this.attachShadow({mode:'open'})
+                 shadow.innerHTML = `<p>Hello, ${this.getAttribute('name')}</p>`
+             }
+         })
+     </script>
+     <show-hello name="John"></show-hello>
+     <!--
+         Encapsulation
+
+         1. Shadow DOM no es visible para un querySelector desde el light DOM. 
+         2. Shadow DOM tiene sus propios estilos. Las reglas de estilos desde el DOM externo no
+         se aplican a interno.
+
+         Nota: Para obtener elementos dentro de un shadow DOM hay que hacer la peticion desde 
+         dentro del shadow DOM.
+     -->
+     <!--Ejemplo-->
+     <style>
+         p { color: red;}
+     </style>
+     <div id="elem"></div>
+     <script>
+         'use strict'
+         elem.attachShadow({mode:'open'})
+         elem.shadowRoot.innerHTML = `<style>p{font-weigth:bold;}</style>
+         <p>Hello, John!</p>`
+
+         alert(document.querySelectorAll('p').length) // 0
+         alert(elem.shadowRoot.querySelectorAll('p').length) // 1
+     </script>
+     
+</body>
+</html>

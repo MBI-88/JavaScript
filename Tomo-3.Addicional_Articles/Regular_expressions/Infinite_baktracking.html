@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problema del seguimiento infinito</title>
+</head>
+<body>
+    <!--
+        Consiste en el uso excesivo de recursos de la CPU por parte de una busqueda de expresiones
+        regulares complejas.
+    -->
+    <script>
+        /*
+        // solucion simple para el enfoque
+        let reg = /\w+(\s*\w+="[^"]*"\s*)*>/g
+        let str = '...<a test="<>" href="#">... <b>...';
+        alert(str.match(reg)) // <a test="<>" href="">,<b>
+
+        // busqueda compleja
+        let str2 =  `<tag a="b" a="b" a="b" a="b" a="b" 
+        a="b" a="b" a="b" a="b" a="b" a="b" a="b" a="b" a="b" a="b" a="b" a="b" a="b" a="b" a="b">`
+        alert(str2.match(reg)) 
+        */
+    </script>
+    <!--
+        How to fix?
+
+        Se resuleve prhibiendo el retroceso de la greedy, usando lookahead.
+        Sintaxis: (?=(a+))\1
+    
+    -->
+    <script>
+        let attrReg = /(\s*\w+=(\w+|"[^"]*")\s*)/
+        let fixedReg = new RegExp(`<\\w+(?=(${attrReg.source}*))\\1>`, 'g')
+        let badInput = `<tag a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b a=b`
+        let goodInput =  '...<a test="<>" href="#">... <b>...'
+        
+        alert(goodInput.match(fixedReg)) // <a test="<>" href="#">, <b>
+        alert(badInput.match(fixedReg)) // null
+    </script>
+
+    
+</body>
+</html>

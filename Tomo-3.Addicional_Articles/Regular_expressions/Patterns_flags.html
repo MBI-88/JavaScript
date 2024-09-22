@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expresiones regulares</title>
+</head>
+<body>
+    <!--
+        Patterns and flags
+
+        Sintaxis larga: let regexp = new RegExp("pattern","flags")
+        Sintaxis corta: let regexp = /pattern/ //sin flags
+                        let regexp = /pattern/gmi // con flags g,m y i 
+        
+        Nota: Los "/" le dicen a JS que se trata de una expresion regular
+
+        Normalmente se usa la sintaxis conrta, pero esta no soporta la insercion de variables.
+        Por otro lado new RegExp permite la construcion de patrones dinamicos del string, es mas flexible.
+    -->
+    <!--Usos-->
+    <script>
+        /*
+        // Busqueda en strings
+        let str = "I love JavaScript!"
+        let regexp = /love/
+        alert(str.search(regexp)) // 2 / busca el patron en el string y devuelve su posicion
+
+        // esto es igual
+        let subtring = 'love'
+        alert(str.search(subtring))//2
+
+        // ejemplo de uso dinamico con RegExp
+        let tag = prompt("Which tag you want to search?","h2")
+        let reg = new RegExp(`<${tag}>`)
+        alert("<h1> <h2> <h3>".search(reg))
+        */
+    </script>
+    <!--
+        Flags
+
+        Las expresiones regulares pueden tener flags que afecten la busqueda.
+        Existen 6 en jS:
+        -> i: con esta la busqueda usa case-insensitive (no diferencia entre A y a)
+        -> g: con esta la busqueda busca todas las ocurrencias que se igualen al patron
+        -> m: modo multiple
+        -> s: modo "Dotall" permite . para igualar a nuevas lineas
+        -> u: Habilita el soporte completo de unicode.
+        -> y: modo "Stcky" 
+
+        Nota: Sin el uso de flags la busqueda es igual que usar substring
+    -->
+    
+</body>
+</html>

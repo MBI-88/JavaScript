@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantilla de elementos</title>
+</head>
+<body>
+    <!--
+        Template element
+
+        Sirve como almacenamiento para los plantillas de marcas HTML. El navegador ignora su contenido,
+        solo valida la sintaxis, puede ser usada para crear otros elementos.
+        El navegador no considera a  <template>...</template> como parte del DOM.
+    -->
+    <template>
+        <style>
+            p {font-weight: bold;}
+        </style>
+        <script>
+            alert('Hello!')
+        </script>
+    </template>
+
+    <template id="tmpl">
+        <style>p{font-weight: bold;}</style>
+        <p id="message"></p>
+    </template>
+    <div id="elem">Click me</div>
+    <script>
+        elem.onclick = ()=>{
+            elem.attachShadow({mode:'open'})
+            elem.shadowRoot.append(tmpl.content.cloneNode(true))
+            elem.shadowRoot.getElementById('message').innerHTML = "Hello from the shadow!"
+        }
+    </script>
+    
+</body>
+</html>

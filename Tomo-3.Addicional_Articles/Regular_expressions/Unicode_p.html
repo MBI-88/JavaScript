@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicode character properties \p</title>
+</head>
+<body>
+    <!--
+        Es el foramto de codificacion usado por JS, tiene muchas propiedades para diferentes caracteres.
+        En una expresion regular se establese por \p{},y debe estar una flag u.
+        Algunos alias para usar:
+        -> Letter: L -> lowercase Ll , modifier Lm , titlecase Lt , uppercase Lu , other Lo
+        -> Number: N -> decimal digit Nd , letter number Nl , other No
+        -> Punctuation: P -> connector Pc , dash Pd , initial quote Pi , final quote Pf , open Ps , close
+                             Pe , other Po
+        -> Mark: M -> spacing combining Mc , enclosing Me , non-spacing Mn
+        -> Symbol: S -> currency Sc , modifier Sk , math Sm , other So
+        -> Separator: Z -> line Zl , paragraph Zp , space Zs
+        -> Other: C -> control Cc , format Cf , not assigned Cn , private use Co , surrogate Cs
+    -->
+    <script>
+        /*
+        let reg = /\p{Hex_Digit}{6}/u; // flag 'u' is required 
+        alert("color: #123ABC".match(reg)); // 123ABC
+
+        let regexp = /\p{sc=Han}+/gu; // get chinese words 
+        let str = `Hello Привет 你好 123_456`; 
+        alert( str.match(regexp) ); // 你好
+        */
+    </script>
+    <!--Building multi-languaje \w-->
+    <script>
+        /*
+        let regexp = /([\p{Alpha}\p{M}\p{Nd}\p{Pc}\p{Join_C}]+)/gu; 
+        let str = `Hello Привет 你好 123_456`; 
+        alert( str.match(regexp) ); // Hello,Привет,你好,123_456
+        */
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estableciendo un rango</title>
+</head>
+<body>
+    <!--
+        Sets and ranges [..]
+
+        Significa buscar en el rango dado dentro del [...]
+        Ejemplo [eao] significa igualdad para uno de los 3 
+    -->
+    <script>
+        /*
+        alert("Mop top".match(/[tm]op/gi)) // Mop, top
+        alert("Voila".match(/V[oi]la/)) // null, se busca una igualdad Vola o Vila
+        */
+    </script>
+    <!--
+        Ranges
+
+        Ejemplo [a-z] son caracteres de "a" a la "z" y tambien [0-5] como digitos del 0 al 5
+
+        Asociaciones:
+        -> \d -> [0-9]
+        -> \w -> [a-z]
+        -> \s -> [\t\n\v\f\r]
+
+        Para encontrar caracteres con - , no se pueden hacer con \w+ o \w si no con \w-
+    
+    -->
+    <script>
+        /*
+        alert("Exception 0xAF".match(/x[0-9A-F][0-9A-F]/g)) // xAF
+        */
+    </script>
+    <!--
+        Excluding ranges
+
+        Para excluir rangos se utiliza [^...]
+        Ejemplo:
+        [^aeyo]: ningun caracter a,e,y,o
+        [^0-9]: ningun numero del 0 al 9
+        [^\s]: ningun espacio basio es igual a \S
+    
+    -->
+    <script>
+        /*
+        alert("alice15@gmail.com".match(/[^\d\sA-Z]/gi)) // @ and .
+        */
+    </script>
+    <!--
+        No escaping in [...]
+
+        Caracteres especiales que pueden ser obtenidos dentro de [...] sin escapar:
+        -> '.' 
+        -> '+'
+        -> '()'
+        -> '-' en el principio o el final (donde no se defina rango)
+        -> '^' si no esta en el comienzo (donde significa exclusion)
+        -> '['
+        
+        Nota: Todo caracter dentro de [..] tiene el propio significado del caracter a menos que represente algo 
+        para la regexp
+    -->
+    <script>
+        /*
+        let reg = /[\-\(\)\.\^\+]/g
+        alert("1 + 2 - 3".match(reg)) // +,-
+        alert("1 + 2 - 3".match(/[-().^+]/g)) // +,-
+        */
+    </script>
+    <!--Ejercicio-->
+    <script>
+        /*
+        let string = "JavaScript"
+        alert(string.match(/Java[^script]/)) // JavaS
+        */
+    </script>
+    <script>
+        let reg = /\d\d[-:]\d\d/g
+        alert("Breackfast at 09:00. Dinner 21-30".match(reg))
+    </script>
+    
+</body>
+</html>

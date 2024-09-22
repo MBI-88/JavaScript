@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lookahead and lookbehind</title>
+</head>
+<body>
+    <!--
+        Lookahead
+        
+        La sintaxis: X(?=Y), signifia buscar X pero iguala solo si es seguida por Y.
+        La sintaxis contraria seria X(?!Y) busca X que no sea seguido por Y
+    -->
+    <script>
+        /*
+        let str = "1 turkey costs 30€"
+        alert(str.match(/\d+(?=€)/)) // 30
+        // Lo contrario
+        alert(str.match(/\d+(?!€)/)) // 2
+        */
+    </script>
+    <!--
+        Lookbehind
+
+        Permite evaluar solo si paso antes, es lo contrario de Lookahead.
+        Sintaxis: (?=Y)X busca X pero solo si esta despeus de Y
+        Sintaxis: (?<!Y)X busca X si solo si no esta Y delante
+        Nota: el orden del resultado es en sentido inverso al de los otros
+    -->
+    <script>
+        let str = "1 turkey costs £30€"
+        alert(str.match(/(?<=\$)\d+/)) // 30
+
+        // Buscando un numero que no lo preceda el $
+        alert(str.match(/(?<!\$)\d+/)) // 1
+
+        // Capturando los alrededores de la expresion
+        alert(str.match(/\d+(?=(€|kr))/)) // 30,€
+        alert(str.match(/(?<=(\$|£))\d+/))
+    </script>
+</body>
+</html>

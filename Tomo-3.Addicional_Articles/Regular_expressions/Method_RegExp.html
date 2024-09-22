@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodos de RegExp</title>
+</head>
+<body>
+    <!--
+        Recipes
+
+        Para buscar todas las ocurrencia, usar g y:
+        -> Obtenre el array de igualdades str.match(reg)
+        -> Obtener el array o igualdad con detalles str.matchAll(reg)
+
+        Para buscar la primera igualdad solamente:
+        -> Obtener la primera igualdad completa str.match(reg), sin la flag g
+        -> Obtener la posicion del string de la primera igualdad str.search(reg)
+        -> Chequear si existe igualdad regexp.test(str)
+        -> Encontrar la igualdad de la posicion dada regexp.exec(str)
+
+        Para remplazar todas las igualdades:
+        -> Remplazar con otro string o un resultado de funcion  str.replace(reg,str|func)
+
+        Para separa el string por un separador:
+        -> str.split(str|reg)
+ 
+    -->
+
+    <!--str.search(reg)-->
+    <script>
+        /*
+        let str = "A drop of ink may make a million think"
+        alert(str.search(/a/i)) // 0 (solo puede encontrar la primera igualdad)
+        */
+    </script>
+    <!--str.match(reg),no "g" flag-->
+    <script>
+        /*
+        let str2 = "Fame is the thirst of youth"
+        let result = str2.match(/fame/i)
+        alert(result[0]) // Fame (la igualdad)
+        alert(result.index) // 0 (en la posicion 0)
+        alert(result.input) // "Fame is the thirst of youth" (el string)
+
+        // Usado e parentisis
+        let str3 = "JavaScript is a programing languaje"
+        let result2 = str3.match(/JAVA(SCRIPT)/i)
+        alert(result2[0]) // JavaScript (toda la igualdad)
+        alert(result2[1]) // script (la parte de la igualdad que corresponde al parentisis)
+        alert(result2.index) // 0
+        alert(result2.input) // todo el string
+        */
+    </script>
+    <!--str.match(reg) with "g" flag-->
+    <script>
+        /*
+        // Cuando se usa g flag se retornan todas la igualdades. 
+        // No existen propiedades adicionales en este array, y el parentisis no crea ningun elemento
+
+        let str = "HO-Ho-ho!"
+        let result = str.match(/ho/ig)
+        alert(result) // HO,Ho,ho (array de 3 elementos, case-insensitive)
+
+        // el uso del parentisis no cambia nada
+        let result2 = str.match(/h(o)/ig)
+        alert(result2)// HO,Ho,ho
+
+        // Nota: con g flag se retorna un simple array sin detalles
+
+        // caso en que no hay igualdades
+        alert(str.match(/Z/g).length) // Error, aqui se retorna null y null no tiene tamaño
+        */
+    </script>
+    <!--str.matchAll(regexp)-->
+    <script>
+        /*
+        // este metodo es usado para encontrar todas las igualdade
+        let str = "Javascript or JavaScript? Should we uppercase 'S'?"
+
+        let result = str.matchAll(/java(script)/ig)
+        let [match1,match2] = result
+
+        alert(match1[0]) // Javascript (todo la igualdad)
+        alert(match1[1]) // script (la paarte que corresponde al parentisis)
+        alert(match1.index) // 0
+        alert(match1.input) // = string
+
+        alert(match2[0]) // Javascript (toda la igualdad)
+        alert(match2[1]) // Script (parte del parentisis)
+        alert(match2.index) // 14
+        alert(match2.input) // = string
+
+        // Nota: retorna un iterable no un array
+        // En la practica para obtener todas la igualdade se puede usar Array.from(result) o for...of
+        // Para obtener una sola igualdad let [firstMatch] = str.matchAll(/javascrip/ig)
+        */
+    </script>
+    <!--str.split(regexp|substr,limit)-->
+    <script>
+        /*
+        // lo ya visto
+        alert("12-34--56".split('-')) // array de [12,34,56]
+
+        // usando regexg
+        alert("12-34-56".split(/-/)) // [12,34,56]
+        */
+    </script>
+    <!--
+        str.replace(str|reg,str|func)
+
+        El segundo argumento es el string que remplaza, puede ser un caracter especial 
+        $$ -> Inserta "$"
+        $& -> Inserta toda la igualdad
+        $` -> Inserta una parte del string antes de la igualdad
+        $' -> Insserta una parte del string despues de la igualdad
+        $n -> Si n es un numero del 1-2, entonces signifiaca el contenido del n-th parentisis contantdo de la 
+        izquierda a la derecha. De otra forma significa un parentisis con su nombre dado
+
+        El tercer argumento (func) argumentos de la funcion:
+        -> str: la igualdad
+        -> p1,p2,..pn: el contenido de los parentisis 
+        -> offset: la posicion donde ocurre la igualda
+        -> input: el string fuente
+        -> groups: un objeto con grupos nombrados
+
+    
+    -->
+    <script>
+        /*
+        // remplazando - por :
+        alert("12-34-56".replace('-',':')) // 12:34-56
+        // Cuando el primer argumento de replace es string, el solo busca la primera igualda
+
+        // Para encontrar todas las igualdades 
+        alert("12-34-56".replace(/-/g,':')) // 12-34-56
+
+        // uso de $
+        let str = "John Doe, John Smith and John Bull"
+        alert(str.replace(/John/g,'Mr.$&')) // Mr.John Doe, Mr.John Smith y Mr.John Bull
+
+        let str2 = "John Smith"
+        alert(str2.replace(/(john) (smith)/i,'$2, $1')) // Smith, John
+
+        // Para situaciones de busqueda inteligente
+        let i = 0
+        alert("HO-Ho-ho".replace(/ho/gi,() => {
+            return ++i
+        })) // 1-2-3
+        
+        // Usando argumentos en la funcion
+
+        function replacer(str,offset,input){
+            alert(`Found ${str} at position ${offset} in string ${input}`)
+            return str.toLowerCase()
+        }
+        let result3 = "HO-Ho-ho".replace(/ho/gi,replacer)
+        alert('Result: ' + result3)
+
+        // Uso con parentisis
+
+        function replacer2(str,name,surname,offset,input){
+            return surname + ", " + name
+        }
+        let string = "John Smith"
+        alert(string.replace(/(Jonhn) (Smith)/,replacer2)) // Smith, John
+        */
+    </script>
+    <!--
+        regexp.exec(str)
+
+        Es el metodo mas flexible de busqueda de todos. Puede ser llamado sobre una regexp mas que sobre un string
+        Si no tiene flag g entonces solo iguala una sola vez.
+        Si tiene flag g entonces:
+        -> regexp.exec(str) retorna la primera igualdad y recuerda la posicion despues del regexp.lastIndex
+        -> La siguiente llamada busca en la reqexp.lastIndex y retorna la siguiente igualdad
+        -> Si no hay mas igualdades entonces regexp.exec retorna null y regexp.lastIndex se establece a 0
+    
+    -->
+    <script>
+        /*
+        let str = "A lot about JavaScript at https://javascript.info"
+        let reqexp = /javascript/ig
+        // buscando dando una posicion
+        reqexp.lastIndex = 13
+        let result;
+        while (result = reqexp.exec(str)){
+            alert(`Found ${result[0]} at ${result.index}`)
+        }
+        */
+    </script>
+    <!--
+        regexp.test(str)
+
+        Este metodo busca igualdades y devuelve true o false en su retorno
+
+        Nota: Si se aplica la misma expresion global varias veces al mismo string fallará porque 
+        test hace llamada regexp.lastIndex para que avance
+    -->
+    <script>
+        let str = "I love JavaScript"
+
+        alert(/love/i.test(str)) // true
+        alert(str.search(/love/i) != -1) // true
+
+        // Ejemplo con respuesta negativa
+
+        let str2 = "Bla-bla-bla"
+
+        alert(/love/i.test(str)) // false
+        alert(str2.search(/love/i) != -1) // false
+
+        // usando flag g
+
+        let regexp = /love/gi
+        let str3 = "I love JavaScript"
+
+        regexp.lastIndex = 10
+        alert(regexp.test(str)) // false no hay igualdad
+        
+    </script>
+
+
+
+    
+</body>
+</html>

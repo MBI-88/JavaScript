@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comienzo y fin de string</title>
+</head>
+<body>
+    <!--
+        String start '^' and finish $
+
+        Los caracteres ^ y $ son usados para iniciar y finalizar strings.
+        ^: iguala al comienzo del string
+        $: iguala al final del string
+    -->
+    <script>
+        /*
+        let str1 = "Mary had a little lamb, it's fleece was white as snow"
+        let str2 = 'Everywhere Mary went, the lamp was sure to go'
+
+        alert(/^Mary/.test(str1)) // true
+        alert(/^Mary/.test(str2)) // false
+
+        // Comprobando que termina en email.
+
+        let str3 = "My email is mail@site.com"
+        let reg = /[-.\w]+@([\w-]+\.)+[\w-]{2,20}$/g
+
+        alert(reg.test(str3)) // ture
+        alert(reg.test(str2)) // false
+        */
+    </script>
+    <script>
+        let reg = /^[0-9]{2}\:[0-9]{2}\:[0-9]{2}\:[0-9a-f]{2}\:[0-9a-f]{2}\:[0-9a-f]{2}$/i
+        let reg2 = /^[0-9]{2}(:[0-9a-fA-F]{2}){5}$/i
+        alert(reg2.test('01:32:54:67:89:AB')) // true
+        alert(reg2.test('0132546789AB')) // false
+        alert(reg2.test('01:32:54:67:89')) // false
+        alert(reg2.test('01:32:54:67:89:ZZ')) // false
+    </script>
+</body>
+</html>

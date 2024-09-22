@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow DOM and Event</title>
+</head>
+<body>
+    <!--
+        Eventos que pasan en el shadow DOM tienen el elemento host como objetivo, cuando la captura esta fuera
+        del componente
+
+        El retargeting (retrazo del evento) no ocurre si el evento ocurre sobre un elemento slotted, viven fisicamente en el light DOM
+
+    -->
+    <!--Ejemplo-->
+    <user-card></user-card>
+    <script>
+        customElements.define('user-card',class extends HTMLElement{
+            connectedCallback(){
+                this.attachShadow({mode:"open"})
+                this.shadowRoot.innerHTML = `
+                <p><button>Click me</button></p>`
+                this.shadowRoot.firstElementChild.onclick = event => alert("Inner Target: " + event.target.tagName)
+            }
+        })
+        document.onclick = e => alert("Outer target: " + e.target.tagName) 
+        // 1. BUTTON
+        // 2. USER-CARD
+    </script>
+    <user-card1 id="userCard">
+        <span slot="username">John Smith</span>
+    </user-card1>
+    <script>
+        customElements.define('user-card1',class extends HTMLElement{
+            connectedCallback(){
+                this.attachShadow({mode:"open"})
+                this.shadowRoot.innerHTML = `
+                <div><b>Name:</b><slot name="username"></slot></div>`
+                this.shadowRoot.firstElementChild.onclick = event => alert("Inner target: " + event.target.tagName)
+            }
+        })
+        userCard.onclick = e => alert(`Outer target: ${e.target.tagName}`)
+    </script>
+    <!--
+        Bubbling, event.composedPath()
+
+        Retorna la direccion completa de donde ocurrió el evento, ademas de todos los elementos a partir de donce
+        ocurrió el evento.
+
+
+        event.compoded
+
+        La malloria de eventos burbugea a traves del shadow DOM. Pero hay eventos que no.
+        Esto es gobernado por el objeto propiedad evento composed. Si es true, entonces el evento crusa las
+        bondaridades.
+
+        Eventos que tienen composed true: blur,focus,focusin,focusout,click,dbclick,mousedown,mouseup,mousemove,
+        mouseout,mouseover,wheel,beforeinput,input,keydown,keyup
+
+        Eventos que tiennen composed false: mouseenter,mouseleave(no burbugea en lo absoluto),load,unload,abort,error,
+        select,slotchange
+
+        Nota: Estos eventos pueden ser capturados solo sobre el elemento dentro del mismo DOM, donde reside
+        el mismo evento objetivo
+
+
+        Custom events
+
+        Cuando se despachan eventos personalizados, se necesita establecer ambos bubbles y la propidad composed
+        para que burbugeen hacia arriba y fuera del componente.
+    -->
+    <!--Ejemplo-->
+    <div id="outer"></div>
+    <script>
+        outer.attachShadow({mode:'open'})
+        let inner = document.createElement('div')
+        outer.shadowRoot.append(inner)
+
+        document.addEventListener('test',event => alert(event.detail))
+
+        inner.dispatchEvent(new CustomEvent('test',{
+            detail:'not composed',
+            bubbles:true,
+            composed:false,
+        }))
+        inner.dispatchEvent(new CustomEvent('test',{
+            bubbles:true,
+            composed:true,
+            detail:'composed'
+        }))
+    </script>
+    
+</body>
+</html>

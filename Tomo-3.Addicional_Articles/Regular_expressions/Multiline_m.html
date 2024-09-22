@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimodo flag m</title>
+</head>
+<body>
+    <!--
+        Multiline mode, flag "m"
+
+        Es habilitado con la bandera m, y solo afecta e comportameinto de ^,$
+        En este modo no solo se iguala en el comienzo y el final si no tambien en los comienzo y final
+        de lineas. Si la bandera m solo se busca en la primera linea. En el caso de $ solo encontrará igualdad
+        en la ultima linea del string
+    -->
+    <!--Line start '^'-->
+    <script>
+        /*
+        let str = `1st place: Winnie\n2nd place: Piglet\n33rd place: Eeyore`; 
+        alert( str.match(/^\d+/gm) ); // 1, 2, 33
+        */
+    </script>
+    <!--Line end $-->
+    <script>
+        /*
+        let str = `1st place: Winnie\n2nd place: Piglet\n33rd place: Eeyore`
+        alert( str.match(/\w+$/gim) ); // Winnie,Piglet Eeyore
+        */
+    </script>
+    <!--
+        Anchors ^$ versus \n
+
+        Para encontrar una nueva linea se usa ^ y $ pero tambien el salto de linea \n
+    
+    -->
+    <script>
+        let str = `1st place: Winnie\n2nd place: Piglet\n33rd place: Eeyore`
+        alert( str.match(/\w+\n/gim) ); //  Winnie\n,Piglet\n
+        // La nueva linea no se iguala al final del string porque Eeyore no se encontró 
+    </script>
+
+
+</body>
+</html>
